@@ -10,7 +10,8 @@ function fmt(s: number) {
 }
 
 export default function DiscussionScreen() {
-  const { selectedCase, assignments, revealedClues, revealNextClue, goVote } = useGame();
+  const { selectedCase, clues: allClues, assignments, revealedClues, revealNextClue, goVote } =
+    useGame();
   const [seconds, setSeconds] = useState(120);
   const [running, setRunning] = useState(false);
   const [showSuspects, setShowSuspects] = useState(false);
@@ -28,8 +29,8 @@ export default function DiscussionScreen() {
 
   if (!selectedCase) return null;
 
-  const clues = selectedCase.clues.slice(0, revealedClues);
-  const hasMore = revealedClues < selectedCase.clues.length;
+  const clues = allClues.slice(0, revealedClues);
+  const hasMore = revealedClues < allClues.length;
   const canVote = revealedClues > 0;
 
   return (
@@ -37,7 +38,7 @@ export default function DiscussionScreen() {
       <div className="mb-4 flex items-center justify-between">
         <Eyebrow>لوحة التحقيق</Eyebrow>
         <span className="text-xs text-muted">
-          أدلة {revealedClues}/{selectedCase.clues.length}
+          أدلة {revealedClues}/{allClues.length}
         </span>
       </div>
 

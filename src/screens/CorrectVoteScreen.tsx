@@ -3,10 +3,10 @@ import { useGame } from '../game/GameContext';
 import { Button, ScreenShell } from '../components/ui';
 
 export default function CorrectVoteScreen() {
-  const { selectedCase, assignments, revealTruth, wrongAttempts } = useGame();
+  const { selectedCase, criminalId, assignments, revealTruth, wrongAttempts } = useGame();
   if (!selectedCase) return null;
 
-  const criminal = selectedCase.characters.find((c) => c.id === selectedCase.criminalId);
+  const criminal = selectedCase.characters.find((c) => c.id === criminalId);
   if (!criminal) return null;
   const criminalPlayer = assignments.find((a) => a.character.id === criminal.id)?.player;
 

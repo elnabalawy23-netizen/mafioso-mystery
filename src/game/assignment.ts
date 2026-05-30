@@ -14,11 +14,18 @@ function shuffle<T>(input: T[]): T[] {
  * - When players < available characters: a random subset is chosen,
  *   but the criminal is ALWAYS included so the mystery stays solvable.
  * - When players == available characters: all characters are used.
+ *
+ * The culprit is decided by the caller (chosen randomly each playthrough)
+ * and passed in, so the same case can have a different criminal every round.
  */
-export function assignCharacters(mystery: MysteryCase, players: string[]): Assignment[] {
+export function assignCharacters(
+  mystery: MysteryCase,
+  players: string[],
+  culpritId: string,
+): Assignment[] {
   const count = players.length;
-  const criminal = mystery.characters.find((c) => c.id === mystery.criminalId);
-  const innocents = mystery.characters.filter((c) => c.id !== mystery.criminalId);
+  const criminal = mystery.characters.find((c) => c.id === culpritId);
+  const innocents = mystery.characters.filter((c) => c.id !== culpritId);
 
   let chosen: Character[];
   if (criminal) {

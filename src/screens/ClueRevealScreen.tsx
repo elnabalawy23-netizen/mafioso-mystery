@@ -3,10 +3,10 @@ import { useGame } from '../game/GameContext';
 import { Button, Eyebrow, ScreenShell } from '../components/ui';
 
 export default function ClueRevealScreen() {
-  const { selectedCase, revealedClues, go } = useGame();
+  const { selectedCase, clues, revealedClues, go } = useGame();
   if (!selectedCase) return null;
 
-  const clue = selectedCase.clues[revealedClues - 1];
+  const clue = clues[revealedClues - 1];
   if (!clue) return null;
 
   return (
@@ -35,7 +35,7 @@ export default function ClueRevealScreen() {
           </div>
           <div>
             <p className="text-xs text-muted">
-              الدليل رقم {revealedClues} من {selectedCase.clues.length}
+              الدليل رقم {revealedClues} من {clues.length}
             </p>
             <h2 className="text-xl font-bold text-brass-300">{clue.title}</h2>
           </div>

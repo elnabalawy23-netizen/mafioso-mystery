@@ -1,12 +1,15 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
-import type { Assignment, MysteryCase, Phase } from '../types';
+import type { Assignment, Clue, MysteryCase, Phase } from '../types';
 import { assignCharacters } from './assignment';
+import { cluesFor, explanationFor, pickCulprit } from '../data/cases';
 
 interface GameState {
   phase: Phase;
   selectedCase: MysteryCase | null;
   players: string[];
   assignments: Assignment[];
+  /** The culprit chosen for THIS playthrough (random each round). */
+  criminalId: string;
   revealIndex: number;
   revealedClues: number;
   lastAccusedId: string | null;
@@ -14,6 +17,10 @@ interface GameState {
 }
 
 interface GameContextValue extends GameState {
+  /** Active clues for the current culprit. */
+  clues: Clue[];
+  /** Active final explanation for the current culprit. */
+  finalExplanation: string;
   go: (phase: Phase) => void;
   chooseCase: (mystery: MysteryCase) => void;
   setPlayers: (players: string[]) => void;
@@ -36,6 +43,7 @@ const INITIAL: GameState = {
   selectedCase: null,
   players: [],
   assignments: [],
+  criminalId: '',
   revealIndex: 0,
   revealedClues: 0,
   lastAccusedId: null,
@@ -60,10 +68,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const startGame = useCallback(() => {
     setState((s) => {
       if (!s.selectedCase) return s;
-      const assignments = assignCharacters(s.selectedCase, s.players);
+      const criminalId = pickCulprit(s.selectedCase);
+      const assignments = assignCharacters(s.selectedCase, s.players, criminalId);
       return {
         ...s,
         assignments,
+        criminalId,
         revealIndex: 0,
         revealedClues: 0,
         lastAccusedId: null,
@@ -90,7 +100,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const revealNextClue = useCallback(() => {
     setState((s) => {
       if (!s.selectedCase) return s;
-      if (s.revealedClues >= s.selectedCase.clues.length) return s;
+      const total = cluesFor(s.selectedCase, s.criminalId).length;
+      if (s.revealedClues >= total) return s;
       return { ...s, revealedClues: s.revealedClues + 1, phase: 'clue' };
     });
   }, []);
@@ -103,7 +114,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     let correct = false;
     setState((s) => {
       if (!s.selectedCase) return s;
-      correct = characterId === s.selectedCase.criminalId;
+      correct = characterId === s.criminalId;
       return {
         ...s,
         lastAccusedId: characterId,
@@ -117,7 +128,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const continueAfterWrong = useCallback(() => {
     setState((s) => {
       if (!s.selectedCase) return s;
-      const hasMore = s.revealedClues < s.selectedCase.clues.length;
+      const total = cluesFor(s.selectedCase, s.criminalId).length;
+      const hasMore = s.revealedClues < total;
       if (hasMore) {
         return { ...s, revealedClues: s.revealedClues + 1, phase: 'clue' };
       }
@@ -132,10 +144,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const playAgainSameCase = useCallback(() => {
     setState((s) => {
       if (!s.selectedCase) return s;
-      const assignments = assignCharacters(s.selectedCase, s.players);
+      const criminalId = pickCulprit(s.selectedCase);
+      const assignments = assignCharacters(s.selectedCase, s.players, criminalId);
       return {
         ...s,
         assignments,
+        criminalId,
         revealIndex: 0,
         revealedClues: 0,
         lastAccusedId: null,
@@ -149,9 +163,20 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState({ ...INITIAL, phase: 'home' });
   }, []);
 
+  const clues = useMemo<Clue[]>(
+    () => (state.selectedCase ? cluesFor(state.selectedCase, state.criminalId) : []),
+    [state.selectedCase, state.criminalId],
+  );
+  const finalExplanation = useMemo<string>(
+    () => (state.selectedCase ? explanationFor(state.selectedCase, state.criminalId) : ''),
+    [state.selectedCase, state.criminalId],
+  );
+
   const value = useMemo<GameContextValue>(
     () => ({
       ...state,
+      clues,
+      finalExplanation,
       go,
       chooseCase,
       setPlayers,
@@ -168,6 +193,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
     }),
     [
       state,
+      clues,
+      finalExplanation,
       go,
       chooseCase,
       setPlayers,

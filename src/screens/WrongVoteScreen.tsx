@@ -3,14 +3,14 @@ import { useGame } from '../game/GameContext';
 import { Button, ScreenShell } from '../components/ui';
 
 export default function WrongVoteScreen() {
-  const { selectedCase, assignments, lastAccusedId, revealedClues, wrongAttempts, continueAfterWrong } =
+  const { selectedCase, clues, assignments, lastAccusedId, revealedClues, wrongAttempts, continueAfterWrong } =
     useGame();
   if (!selectedCase) return null;
 
   const accusedAssignment = assignments.find((a) => a.character.id === lastAccusedId);
   const accused = accusedAssignment?.character;
   const accusedPlayer = accusedAssignment?.player;
-  const hasMore = revealedClues < selectedCase.clues.length;
+  const hasMore = revealedClues < clues.length;
 
   return (
     <ScreenShell center>

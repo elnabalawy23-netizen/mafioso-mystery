@@ -3,10 +3,10 @@ import { useGame } from '../game/GameContext';
 import { Button, Eyebrow, ScreenShell } from '../components/ui';
 
 export default function FinalExplanationScreen() {
-  const { selectedCase, assignments, go } = useGame();
+  const { selectedCase, criminalId, finalExplanation, assignments, go } = useGame();
   if (!selectedCase) return null;
 
-  const criminal = selectedCase.characters.find((c) => c.id === selectedCase.criminalId);
+  const criminal = selectedCase.characters.find((c) => c.id === criminalId);
   const playerByCharacter = new Map(assignments.map((a) => [a.character.id, a.player]));
 
   return (
@@ -25,7 +25,7 @@ export default function FinalExplanationScreen() {
           <p className="mb-2 flex items-center gap-2 text-sm font-bold text-blood-400">
             <span className="text-lg">🔪</span> المجرم: {criminal?.name}
           </p>
-          <p className="text-[15px] leading-loose text-parchment/95">{selectedCase.finalExplanation}</p>
+          <p className="text-[15px] leading-loose text-parchment/95">{finalExplanation}</p>
         </motion.div>
 
         <motion.div
@@ -40,7 +40,7 @@ export default function FinalExplanationScreen() {
               <div
                 key={c.id}
                 className={`rounded-xl border p-3 ${
-                  c.isCriminal
+                  c.id === criminalId
                     ? 'border-blood-500/40 bg-blood-500/8'
                     : 'border-white/8 bg-ink-800/50'
                 }`}
@@ -54,7 +54,7 @@ export default function FinalExplanationScreen() {
                       </span>
                     )}
                   </p>
-                  {c.isCriminal ? (
+                  {c.id === criminalId ? (
                     <span className="rounded-full bg-blood-500/25 px-2 py-0.5 text-[10px] font-bold text-blood-400">
                       المجرم
                     </span>

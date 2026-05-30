@@ -4,7 +4,7 @@ import { useGame } from '../game/GameContext';
 import { Button, Field, ScreenShell, Stepper } from '../components/ui';
 
 export default function CharacterRevealScreen() {
-  const { assignments, revealIndex, nextReveal } = useGame();
+  const { assignments, criminalId, revealIndex, nextReveal } = useGame();
   const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function CharacterRevealScreen() {
             transition={{ duration: 0.55, ease: 'easeOut' }}
             className="panel flex-1 overflow-y-auto scroll-thin p-5"
           >
-            {character.isCriminal && (
+            {character.id === criminalId && (
               <div className="mb-4 rounded-xl border border-blood-500/50 bg-blood-500/12 p-3 text-center shadow-bloodglow">
                 <p className="text-sm font-bold text-blood-400">أنت المجرم</p>
                 <p className="mt-1 text-xs leading-relaxed text-parchment/85">
