@@ -11,7 +11,14 @@
       "Bash(echo \"exit: $?\")",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git -c user.email=onabalawy@gmail.com -c user.name=elnabalawy23 commit -q -m ' *)"
+      "Bash(git -c user.email=onabalawy@gmail.com -c user.name=elnabalawy23 commit -q -m ' *)",
+      "Bash(gh repo *)",
+      "Bash(vercel link *)",
+      "Bash(vercel --prod --yes)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" https://mafioso-mystery.vercel.app)",
+      "Bash(curl -s https://mafioso-mystery.vercel.app)",
+      "Bash(git -c user.email=\"onabalawy@gmail.com\" -c user.name=\"elnabalawy23\" commit -q -m \"Show supported player range \\(4–8\\) on case cards instead of raw character count\")",
+      "Bash(git push *)"
     ]
   }
 }

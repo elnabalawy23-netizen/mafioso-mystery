@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
-import { CASES } from '../data/cases';
+import { CASES, MIN_PLAYERS } from '../data/cases';
 import { Button, Eyebrow, ScreenShell } from '../components/ui';
 
 export default function SelectCaseScreen() {
@@ -41,12 +41,12 @@ export default function SelectCaseScreen() {
                 <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted">
                   {c.description}
                 </p>
-                <div className="mt-3 flex gap-2 text-[11px]">
-                  <span className="rounded-full bg-white/5 px-2.5 py-1 text-parchment/80">
-                    {c.characters.length} شخصيات
+                <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
+                  <span className="rounded-full border border-brass-500/30 bg-brass-500/10 px-2.5 py-1 font-semibold text-brass-300">
+                    👥 {MIN_PLAYERS}–{c.characters.length} لاعبين
                   </span>
                   <span className="rounded-full bg-white/5 px-2.5 py-1 text-parchment/80">
-                    {c.clues.length} أدلة
+                    🔍 {c.clues.length} أدلة
                   </span>
                 </div>
               </div>
