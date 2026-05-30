@@ -1,6 +1,49 @@
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
 import { Button, ScreenShell } from '../components/ui';
+
+const CONFETTI_COLORS = ['#e7b54a', '#f5c542', '#f4e9d0', '#3ddc84', '#e74c3c'];
+
+/** A one-shot burst of falling confetti to celebrate catching the culprit. */
+function Confetti() {
+  const pieces = useMemo(
+    () =>
+      Array.from({ length: 48 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 0.9,
+        duration: 2.4 + Math.random() * 1.6,
+        rotate: (Math.random() - 0.5) * 720,
+        drift: (Math.random() - 0.5) * 90,
+        color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+        size: 7 + Math.random() * 7,
+      })),
+    [],
+  );
+
+  return (
+    <div className="pointer-events-none fixed inset-0 z-30 overflow-hidden">
+      {pieces.map((p) => (
+        <motion.span
+          key={p.id}
+          initial={{ y: '-12vh', x: 0, opacity: 0, rotate: 0 }}
+          animate={{ y: '112vh', x: p.drift, opacity: [0, 1, 1, 0.85], rotate: p.rotate }}
+          transition={{ duration: p.duration, delay: p.delay, ease: 'linear' }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: `${p.left}%`,
+            width: p.size,
+            height: p.size * 0.45,
+            backgroundColor: p.color,
+            borderRadius: 1,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function CorrectVoteScreen() {
   const { selectedCase, criminalId, assignments, revealTruth, wrongAttempts } = useGame();
@@ -12,6 +55,8 @@ export default function CorrectVoteScreen() {
 
   return (
     <ScreenShell center>
+      <Confetti />
+
       {/* red flash burst */}
       <motion.div
         initial={{ opacity: 0.7, scale: 0 }}
@@ -33,8 +78,20 @@ export default function CorrectVoteScreen() {
         initial={{ scale: 0.6, opacity: 0, rotateY: 90 }}
         animate={{ scale: 1, opacity: 1, rotateY: 0 }}
         transition={{ type: 'spring', stiffness: 120, damping: 13, delay: 0.2 }}
-        className="panel mt-5 w-full border-blood-500/50 p-6 text-center shadow-bloodglow"
+        className="panel relative mt-5 w-full border-blood-500/50 p-6 text-center shadow-bloodglow"
+        style={{ overflow: 'visible' }}
       >
+        {/* slamming rubber stamp */}
+        <motion.div
+          initial={{ scale: 2.6, opacity: 0, rotate: -26 }}
+          animate={{ scale: 1, opacity: 1, rotate: -12 }}
+          transition={{ type: 'spring', stiffness: 280, damping: 11, delay: 0.55 }}
+          className="pointer-events-none absolute -top-4 right-5 z-10 select-none rounded-lg border-[3px] border-blood-500/80 px-3 py-0.5 font-display text-2xl font-black tracking-wider text-blood-400"
+          style={{ textShadow: '0 0 10px rgba(231,76,60,0.55)' }}
+        >
+          اتمسك!
+        </motion.div>
+
         <motion.div
           animate={{ boxShadow: ['0 0 0 rgba(231,76,60,0)', '0 0 40px rgba(231,76,60,0.6)', '0 0 0 rgba(231,76,60,0)'] }}
           transition={{ duration: 2, repeat: Infinity }}
