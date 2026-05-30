@@ -1,4 +1,4 @@
-import type { Clue, MysteryCase } from '../types';
+import type { Clue, Difficulty, MysteryCase } from '../types';
 import casesJson from './cases.json';
 
 export const CASES: MysteryCase[] = casesJson as MysteryCase[];
@@ -8,6 +8,21 @@ export function getCaseById(id: string): MysteryCase | undefined {
 }
 
 export const MIN_PLAYERS = 4;
+
+/** Difficulty tiers in ascending order, with their Arabic labels. */
+export const DIFFICULTIES: { key: Difficulty; label: string }[] = [
+  { key: 'easy', label: 'سهل' },
+  { key: 'medium', label: 'متوسط' },
+  { key: 'hard', label: 'صعب' },
+];
+
+export function difficultyLabel(d: Difficulty): string {
+  return DIFFICULTIES.find((x) => x.key === d)?.label ?? d;
+}
+
+export function casesByDifficulty(d: Difficulty): MysteryCase[] {
+  return CASES.filter((c) => c.difficulty === d);
+}
 
 export function maxPlayersFor(c: MysteryCase): number {
   return c.characters.length;

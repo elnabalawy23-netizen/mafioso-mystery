@@ -32,10 +32,14 @@ export interface Clue {
   text: string;
 }
 
+export type Difficulty = 'easy' | 'medium' | 'hard';
+
 export interface MysteryCase {
   id: string;
   title: string;
   theme: string;
+  /** Difficulty tier used to group cases on the selection screen. */
+  difficulty: Difficulty;
   description: string;
   victim: string;
   characters: Character[];
