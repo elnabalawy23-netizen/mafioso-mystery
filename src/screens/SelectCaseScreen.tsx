@@ -29,6 +29,12 @@ export default function SelectCaseScreen() {
 
   const cases = casesByDifficulty(active);
 
+  const surpriseMe = () => {
+    if (cases.length === 0) return;
+    const pick = cases[Math.floor(Math.random() * cases.length)];
+    chooseCase(pick);
+  };
+
   return (
     <ScreenShell>
       <div className="mb-5 flex items-center justify-between">
@@ -64,6 +70,16 @@ export default function SelectCaseScreen() {
           );
         })}
       </div>
+
+      <motion.button
+        onClick={surpriseMe}
+        disabled={cases.length === 0}
+        whileTap={{ scale: 0.97 }}
+        className="btn-press group mb-4 flex w-full items-center justify-center gap-2.5 rounded-2xl border border-brass-500/40 bg-gradient-to-r from-brass-500/15 via-brass-500/10 to-brass-500/15 px-4 py-3 text-sm font-bold text-brass-300 shadow-glow transition hover:from-brass-500/25 hover:to-brass-500/25 disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        <span className="text-lg transition-transform group-hover:rotate-[20deg]">🎲</span>
+        فاجئني — قضية عشوائية
+      </motion.button>
 
       <div className="flex-1 space-y-4 overflow-y-auto scroll-thin pb-2">
         {cases.length === 0 && (
