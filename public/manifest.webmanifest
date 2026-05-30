@@ -1,0 +1,21 @@
+{
+  "name": "مفيوزو — لعبة الجريمة الغامضة",
+  "short_name": "مفيوزو",
+  "description": "لعبة استنتاج جماعية على هاتف واحد: من منكم هو المجرم؟",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "ar",
+  "dir": "rtl",
+  "background_color": "#070910",
+  "theme_color": "#0b0e16",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
