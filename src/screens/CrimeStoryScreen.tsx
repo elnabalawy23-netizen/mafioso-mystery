@@ -40,7 +40,7 @@ export default function CrimeStoryScreen() {
           className="panel p-5"
         >
           <p className="mb-2 flex items-center gap-2 text-sm font-bold text-brass-300">
-            <span className="text-lg">📖</span> ملابسات الجريمة
+            <span className="text-lg">📖</span> تفاصيل الجريمة
           </p>
           <p className="text-[15px] leading-relaxed text-parchment/95">{selectedCase.description}</p>
         </motion.div>
@@ -51,12 +51,12 @@ export default function CrimeStoryScreen() {
           transition={{ delay: 0.5 }}
           className="mt-5 text-center font-serif text-base italic text-muted"
         >
-          القاتل بينكم الآن… ابحثوا عن الحقيقة.
+          القاتل وسطيكم دلوقتي… دوّروا على الحقيقة.
         </motion.p>
       </div>
 
       <Button full onClick={beginInvestigation}>
-        ابدأ التحقيق والنقاش
+        يلا نبدأ التحقيق والنقاش
       </Button>
     </ScreenShell>
   );

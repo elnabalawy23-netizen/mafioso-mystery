@@ -44,7 +44,7 @@ export default function SplashScreen() {
           transition={{ delay: 0.8, duration: 0.8 }}
           className="mt-3 font-serif text-lg text-muted"
         >
-          لعبة الجريمة والاستنتاج الغامضة
+          لعبة جريمة وغموض وتحقيق
         </motion.p>
 
         <motion.p
@@ -53,7 +53,7 @@ export default function SplashScreen() {
           transition={{ delay: 1.6, duration: 2, repeat: Infinity }}
           className="mt-12 text-xs tracking-widest text-brass-300/70"
         >
-          اضغط للمتابعة
+          دوس عشان تكمّل
         </motion.p>
       </button>
     </ScreenShell>

@@ -58,10 +58,10 @@ export default function ClueRevealScreen() {
         className="mt-8"
       >
         <Button full onClick={() => go('discussion')}>
-          أضِف الدليل إلى اللوحة
+          حُط الدليل على اللوحة
         </Button>
         <p className="mt-3 text-center text-xs text-muted">
-          ناقشوا ما يعنيه هذا الدليل قبل التصويت
+          اتناقشوا الدليل ده معناه إيه قبل ما تصوّتوا
         </p>
       </motion.div>
     </ScreenShell>

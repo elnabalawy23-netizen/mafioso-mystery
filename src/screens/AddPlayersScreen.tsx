@@ -33,12 +33,12 @@ export default function AddPlayersScreen() {
         <Button variant="ghost" onClick={() => go('selectCase')} className="px-4 py-2 text-sm">
           رجوع
         </Button>
-        <Eyebrow>اللاعبون</Eyebrow>
+        <Eyebrow>اللاعبين</Eyebrow>
       </div>
 
-      <h1 className="mb-1 text-2xl font-bold text-parchment">من المحقّقون؟</h1>
+      <h1 className="mb-1 text-2xl font-bold text-parchment">مين المحققين؟</h1>
       <p className="mb-5 text-sm text-muted">
-        أدخلوا أسماء اللاعبين — من {MIN_PLAYERS} إلى {max} لاعبين لهذه القضية.
+        اكتبوا أسامي اللاعبين — من {MIN_PLAYERS} لـ {max} لاعبين للقضية دي.
       </p>
 
       <div className="flex-1 space-y-3 overflow-y-auto scroll-thin pb-2">
@@ -58,7 +58,7 @@ export default function AddPlayersScreen() {
               <input
                 value={name}
                 onChange={(e) => update(i, e.target.value)}
-                placeholder={`اسم اللاعب ${i + 1}`}
+                placeholder={`اسم اللاعب رقم ${i + 1}`}
                 className="h-12 flex-1 rounded-xl border border-white/10 bg-ink-800/80 px-4 text-parchment outline-none transition focus:border-brass-500/60 focus:bg-ink-700/80"
               />
               {names.length > MIN_PLAYERS && (
@@ -79,18 +79,18 @@ export default function AddPlayersScreen() {
             onClick={addSlot}
             className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-brass-500/40 py-3 text-sm text-brass-300 transition hover:bg-brass-500/5"
           >
-            <span className="text-lg">＋</span> إضافة لاعب
+            <span className="text-lg">＋</span> زوّد لاعب
           </button>
         )}
       </div>
 
       <div className="mt-5 space-y-2">
         <Button full onClick={onStart} disabled={!ready}>
-          توزيع الشخصيات
+          وزّع الشخصيات
         </Button>
         {!ready && (
           <p className="text-center text-xs text-muted">
-            املأ جميع الأسماء (٤ على الأقل) للمتابعة
+            اكتب كل الأسامي (٤ على الأقل) عشان تكمّل
           </p>
         )}
       </div>

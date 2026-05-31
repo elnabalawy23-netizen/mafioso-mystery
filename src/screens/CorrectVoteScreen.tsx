@@ -70,8 +70,8 @@ export default function CorrectVoteScreen() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-2 text-center"
       >
-        <p className="text-sm tracking-[0.3em] text-brass-300">القضية حُلّت</p>
-        <h1 className="mt-1 font-display text-4xl gold-text">أُمسك المجرم</h1>
+        <p className="text-sm tracking-[0.3em] text-brass-300">القضية اتحلّت</p>
+        <h1 className="mt-1 font-display text-4xl gold-text">اتمسك المجرم</h1>
       </motion.div>
 
       <motion.div
@@ -119,11 +119,11 @@ export default function CorrectVoteScreen() {
       >
         <p className="mb-3 text-center text-sm text-muted">
           {wrongAttempts === 0
-            ? 'أداء مذهل! حللتم القضية من أول محاولة.'
-            : `حللتم القضية بعد ${wrongAttempts} اتهام خاطئ.`}
+            ? 'أداء جامد! حليتوا القضية من أول محاولة.'
+            : `حليتوا القضية بعد ${wrongAttempts} اتهام غلط.`}
         </p>
         <Button full onClick={revealTruth}>
-          اعرفوا الحقيقة كاملة
+          اعرفوا الحقيقة كلها
         </Button>
       </motion.div>
     </ScreenShell>

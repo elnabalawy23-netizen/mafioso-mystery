@@ -12,7 +12,7 @@ export default function FinalExplanationScreen() {
   return (
     <ScreenShell>
       <div className="mb-4 text-center">
-        <Eyebrow>الحل الكامل</Eyebrow>
+        <Eyebrow>الحقيقة كلها</Eyebrow>
         <h1 className="mt-3 font-display text-3xl gold-text leading-tight">{selectedCase.title}</h1>
       </div>
 
@@ -34,7 +34,7 @@ export default function FinalExplanationScreen() {
           transition={{ delay: 0.15 }}
           className="panel p-5"
         >
-          <p className="mb-3 text-sm font-bold text-brass-300">أسرار جميع الشخصيات</p>
+          <p className="mb-3 text-sm font-bold text-brass-300">أسرار كل الشخصيات</p>
           <div className="space-y-3">
             {selectedCase.characters.map((c) => (
               <div
@@ -73,7 +73,7 @@ export default function FinalExplanationScreen() {
 
       <div className="mt-4">
         <Button full onClick={() => go('again')}>
-          إنهاء القضية
+          اقفل القضية
         </Button>
       </div>
     </ScreenShell>

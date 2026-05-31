@@ -3,11 +3,11 @@ import { useGame } from '../game/GameContext';
 import { Button, ScreenShell } from '../components/ui';
 
 const howTo = [
-  'اختاروا قضية، ثم أدخلوا أسماء اللاعبين (٤ إلى ٨ لاعبين).',
-  'يوزّع الهاتف على كل لاعب ليرى شخصيته السرّية بمفرده.',
-  'أحدكم هو المجرم… والبقية أبرياء لا يعرفون سوى قصصهم.',
-  'تُكشف الأدلة تدريجيًّا، ناقشوا ثم صوّتوا على المتّهم.',
-  'إن أخطأتم يُكشف دليل جديد، وإن أصبتم تُروى الحقيقة كاملة.',
+  'اختاروا القضية، وبعدين اكتبوا أسامي اللاعبين (من ٤ لـ ٨ لاعبين).',
+  'مرّروا الموبايل لكل لاعب لوحده عشان يشوف شخصيته السرية.',
+  'واحد فيكم هو المجرم… والباقي كلهم أبرياء وكل واحد عارف قصته بس.',
+  'الأدلة بتظهر واحد ورا التاني، اتناقشوا وبعدين صوّتوا على المتهم.',
+  'لو غلطتوا يظهر دليل جديد، ولو صحّ تطلع الحقيقة كلها.',
 ];
 
 export default function HomeScreen() {
@@ -22,7 +22,7 @@ export default function HomeScreen() {
           className="mb-2 text-center"
         >
           <h1 className="font-display text-6xl gold-text leading-none">مفيوزو</h1>
-          <p className="mt-2 font-serif text-base text-muted">من منكم يخفي الحقيقة؟</p>
+          <p className="mt-2 font-serif text-base text-muted">مين فيكم بيخبّي الحقيقة؟</p>
         </motion.div>
 
         <motion.div
@@ -32,7 +32,7 @@ export default function HomeScreen() {
           className="panel mt-6 p-5"
         >
           <h2 className="mb-3 flex items-center gap-2 text-sm font-bold text-brass-300">
-            <span className="text-lg">◆</span> كيف تُلعب؟
+            <span className="text-lg">◆</span> بتتلعب إزاي؟
           </h2>
           <ol className="space-y-2.5">
             {howTo.map((line, i) => (
@@ -53,10 +53,10 @@ export default function HomeScreen() {
           className="mt-7 space-y-3"
         >
           <Button full onClick={() => go('selectCase')}>
-            ابدأ التحقيق
+            يلا نبدأ التحقيق
           </Button>
           <p className="text-center text-xs text-muted">
-            لعبة استنتاج جماعية على هاتف واحد — بلا إنترنت
+            لعبة تحقيق جماعية على موبايل واحد — من غير إنترنت
           </p>
         </motion.div>
       </div>

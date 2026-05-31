@@ -45,7 +45,7 @@ export default function DiscussionScreen() {
       {/* Discussion timer */}
       <div className="panel mb-4 flex items-center justify-between p-4">
         <div>
-          <p className="text-xs text-muted">مؤقّت النقاش</p>
+          <p className="text-xs text-muted">وقت النقاش</p>
           <p className={`font-display text-3xl ${seconds <= 10 ? 'text-blood-400' : 'gold-text'}`}>
             {fmt(seconds)}
           </p>
@@ -55,7 +55,7 @@ export default function DiscussionScreen() {
             onClick={() => setRunning((r) => !r)}
             className="rounded-xl border border-brass-500/40 px-4 py-2 text-sm text-brass-300 transition hover:bg-brass-500/10"
           >
-            {running ? 'إيقاف' : 'تشغيل'}
+            {running ? 'وقف' : 'شغّل'}
           </button>
           <button
             onClick={() => {
@@ -64,7 +64,7 @@ export default function DiscussionScreen() {
             }}
             className="rounded-xl border border-white/10 px-4 py-2 text-sm text-muted transition hover:bg-white/5"
           >
-            تصفير
+            من الأول
           </button>
         </div>
       </div>
@@ -74,7 +74,7 @@ export default function DiscussionScreen() {
         onClick={() => setShowSuspects((v) => !v)}
         className="mb-3 flex w-full items-center justify-between rounded-xl border border-white/10 bg-ink-800/60 px-4 py-3 text-sm text-parchment"
       >
-        <span>المشتبه بهم ({assignments.length})</span>
+        <span>المشتبه فيهم ({assignments.length})</span>
         <span className={`transition ${showSuspects ? 'rotate-180' : ''}`}>▾</span>
       </button>
       {showSuspects && (
@@ -95,10 +95,10 @@ export default function DiscussionScreen() {
 
       {/* Clue board */}
       <div className="flex-1 overflow-y-auto scroll-thin">
-        <p className="mb-2 text-sm font-bold text-brass-300">الأدلة المكتشَفة</p>
+        <p className="mb-2 text-sm font-bold text-brass-300">الأدلة اللي طلعت</p>
         {clues.length === 0 ? (
           <div className="rounded-xl border border-dashed border-white/15 p-6 text-center text-sm text-muted">
-            لم يُكشف أي دليل بعد. ناقشوا القضية ثم اكشفوا الدليل الأول.
+            لسه مفيش أي دليل طلع. اتناقشوا في القضية وبعدين اكشفوا أول دليل.
           </div>
         ) : (
           <div className="space-y-3">
@@ -121,14 +121,14 @@ export default function DiscussionScreen() {
       <div className="mt-4 space-y-2.5">
         {hasMore && (
           <Button variant="outline" full onClick={revealNextClue}>
-            🔍 اكشف الدليل {revealedClues === 0 ? 'الأول' : 'التالي'}
+            🔍 اكشف الدليل {revealedClues === 0 ? 'الأول' : 'اللي بعده'}
           </Button>
         )}
         <Button variant={canVote ? 'primary' : 'ghost'} full disabled={!canVote} onClick={goVote}>
-          انتقلوا إلى التصويت
+          يلا نصوّت
         </Button>
         {!canVote && (
-          <p className="text-center text-xs text-muted">اكشفوا دليلًا واحدًا على الأقل قبل التصويت</p>
+          <p className="text-center text-xs text-muted">اكشفوا دليل واحد على الأقل قبل ما تصوّتوا</p>
         )}
       </div>
     </ScreenShell>

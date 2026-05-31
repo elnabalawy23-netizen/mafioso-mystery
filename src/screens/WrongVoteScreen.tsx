@@ -23,15 +23,15 @@ export default function WrongVoteScreen() {
         <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full border-2 border-blood-500/50 bg-blood-500/10 text-5xl text-blood-400">
           ✕
         </div>
-        <p className="text-sm tracking-widest text-muted">اتهام خاطئ</p>
+        <p className="text-sm tracking-widest text-muted">اتهام غلط</p>
         <h1 className="my-2 text-3xl font-bold text-parchment">
-          {accusedPlayer ? `${accusedPlayer} بريء` : 'لقد أخطأتم'}
+          {accusedPlayer ? `${accusedPlayer} بريء` : 'غلطتوا'}
         </h1>
         {accused && (
-          <p className="-mt-1 mb-2 text-sm text-brass-300">لعب دور: {accused.name}</p>
+          <p className="-mt-1 mb-2 text-sm text-brass-300">كان بيلعب دور: {accused.name}</p>
         )}
         <p className="max-w-xs text-sm leading-relaxed text-muted">
-          المجرم الحقيقي ما زال طليقًا بينكم… وقد أفلت من العدالة هذه المرة.
+          المجرم الحقيقي لسه بينكم… وفلت من العقاب المرة دي.
         </p>
       </motion.div>
 
@@ -42,10 +42,10 @@ export default function WrongVoteScreen() {
           transition={{ delay: 0.4 }}
           className="panel mt-6 w-full p-4"
         >
-          <p className="mb-1 text-xs font-bold text-brass-300">لماذا بدا {accused.name} مريبًا؟</p>
+          <p className="mb-1 text-xs font-bold text-brass-300">ليه {accused.name} كان شكله مريب؟</p>
           <p className="text-[14px] leading-relaxed text-parchment/90">{accused.secret}</p>
           <p className="mt-2 text-[13px] italic text-muted">
-            سرٌّ حقيقي… لكنه ليس دافعًا للقتل. الخيوط أحيانًا تخدع.
+            سر حقيقي… بس مش دافع للقتل. الخيوط ساعات بتضحك عليك.
           </p>
         </motion.div>
       )}
@@ -57,11 +57,11 @@ export default function WrongVoteScreen() {
         className="mt-8 w-full space-y-2"
       >
         <Button full onClick={continueAfterWrong}>
-          {hasMore ? '🔍 اكشفوا دليلًا جديدًا' : 'عودوا للنقاش وصوّتوا مجددًا'}
+          {hasMore ? '🔍 اكشفوا دليل جديد' : 'ارجعوا للنقاش وصوّتوا تاني'}
         </Button>
         <p className="text-center text-xs text-muted">
-          محاولات خاطئة: {wrongAttempts}
-          {!hasMore && ' — نفدت الأدلة، اعتمدوا على فطنتكم'}
+          محاولات غلط: {wrongAttempts}
+          {!hasMore && ' — الأدلة خلصت، اعتمدوا على ذكاؤكم'}
         </p>
       </motion.div>
     </ScreenShell>

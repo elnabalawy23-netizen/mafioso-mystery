@@ -41,11 +41,11 @@ export default function SelectCaseScreen() {
         <Button variant="ghost" onClick={() => go('home')} className="px-4 py-2 text-sm">
           رجوع
         </Button>
-        <Eyebrow>اختر القضية</Eyebrow>
+        <Eyebrow>اختار القضية</Eyebrow>
       </div>
 
       <h1 className="mb-1 text-2xl font-bold text-parchment">ملفات القضايا</h1>
-      <p className="mb-4 text-sm text-muted">اختر مستوى الصعوبة، ثم القضية التي تريد حلّها.</p>
+      <p className="mb-4 text-sm text-muted">اختار مستوى الصعوبة، وبعدين القضية اللي عايز تحلّها.</p>
 
       <div className="mb-4 grid grid-cols-3 gap-2">
         {DIFFICULTIES.map(({ key, label }) => {
@@ -83,7 +83,7 @@ export default function SelectCaseScreen() {
 
       <div className="flex-1 space-y-4 overflow-y-auto scroll-thin pb-2">
         {cases.length === 0 && (
-          <p className="mt-10 text-center text-sm text-muted">لا توجد قضايا في هذا المستوى بعد.</p>
+          <p className="mt-10 text-center text-sm text-muted">مفيش قضايا في المستوى ده لسه.</p>
         )}
         {cases.map((c, i) => (
           <motion.button

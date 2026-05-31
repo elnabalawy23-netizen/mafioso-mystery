@@ -32,10 +32,10 @@ export default function CharacterRevealScreen() {
           <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-brass-500/30 bg-brass-500/10 text-4xl">
             🤫
           </div>
-          <p className="text-sm text-muted">سلّم الهاتف إلى</p>
+          <p className="text-sm text-muted">سلّم الموبايل لـ</p>
           <h2 className="my-2 text-3xl font-bold gold-text">{player}</h2>
           <p className="max-w-xs text-sm leading-relaxed text-muted">
-            تأكّد أن لا أحد غيرك يرى الشاشة. هذه شخصيتك السرّية وحدك.
+            اتأكد إن مفيش حد تاني شايف الشاشة. دي شخصيتك السرية إنت بس.
           </p>
           <div className="mt-8 w-full">
             <Button full onClick={() => setRevealed(true)}>
@@ -53,9 +53,9 @@ export default function CharacterRevealScreen() {
           >
             {character.id === criminalId && (
               <div className="mb-4 rounded-xl border border-blood-500/50 bg-blood-500/12 p-3 text-center shadow-bloodglow">
-                <p className="text-sm font-bold text-blood-400">أنت المجرم</p>
+                <p className="text-sm font-bold text-blood-400">إنت المجرم</p>
                 <p className="mt-1 text-xs leading-relaxed text-parchment/85">
-                  أنت من ارتكب الجريمة. تصرّف كبريء، أنكر بذكاء، ولا تدع أحدًا يكتشفك حتى آخر تصويت.
+                  إنت اللي عملت الجريمة. اتصرّف كأنك بريء، أنكر بذكا، وما تخليش حد يكتشفك لحد آخر تصويت.
                 </p>
               </div>
             )}
@@ -70,9 +70,9 @@ export default function CharacterRevealScreen() {
               <Field label="علاقتك بالضحية">{character.relationship}</Field>
               <Field label="شخصيتك">{character.personality}</Field>
               <Field label="قصتك">{character.story}</Field>
-              <Field label="تصريحك العلني">«{character.statement}»</Field>
+              <Field label="كلامك قدام الكل">«{character.statement}»</Field>
               <div className="rounded-xl border border-brass-500/25 bg-ink-900/60 p-3">
-                <p className="mb-1 text-xs font-bold text-brass-300">سرّك (لا تُفصح عنه)</p>
+                <p className="mb-1 text-xs font-bold text-brass-300">سرّك (ما تقولهوش لحد)</p>
                 <p className="text-[15px] leading-relaxed text-parchment">{character.secret}</p>
               </div>
             </div>
@@ -80,7 +80,7 @@ export default function CharacterRevealScreen() {
 
           <div className="mt-4">
             <Button variant="danger" full onClick={nextReveal}>
-              {isLast ? 'أخفِ الشخصية — ابدأ القضية' : 'أخفِ وسلّم للاعب التالي'}
+              {isLast ? 'اقفل وابدأ القضية' : 'اقفل وسلّم للي بعده'}
             </Button>
           </div>
         </div>

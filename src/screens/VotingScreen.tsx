@@ -24,8 +24,8 @@ export default function VotingScreen() {
         <span className="text-xs text-muted">بعد {revealedClues} أدلة</span>
       </div>
 
-      <h1 className="mb-1 text-2xl font-bold text-parchment">من هو المجرم؟</h1>
-      <p className="mb-4 text-sm text-muted">اتفقوا على لاعب واحد ثم وجّهوا إليه الاتهام.</p>
+      <h1 className="mb-1 text-2xl font-bold text-parchment">مين المجرم؟</h1>
+      <p className="mb-4 text-sm text-muted">اتفقوا على لاعب واحد وبعدين اتهموه.</p>
 
       <div className="flex-1 overflow-y-auto scroll-thin">
         <div className="grid grid-cols-2 gap-3">
@@ -67,7 +67,7 @@ export default function VotingScreen() {
 
       <div className="mt-4">
         <Button variant="danger" full disabled={!selected} onClick={submit}>
-          {selected ? `وجّهوا الاتهام إلى ${selected.player}` : 'اختاروا متّهمًا'}
+          {selected ? `اتهموا ${selected.player}` : 'اختاروا المتهم'}
         </Button>
       </div>
 
@@ -88,7 +88,7 @@ export default function VotingScreen() {
             >
               🕵
             </motion.div>
-            <p className="text-sm tracking-widest text-muted">القرار النهائي للمجموعة</p>
+            <p className="text-sm tracking-widest text-muted">قرار المجموعة النهائي</p>
             <motion.h2
               initial={{ y: 14, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -104,7 +104,7 @@ export default function VotingScreen() {
               transition={{ delay: 0.5, duration: 1, repeat: Infinity }}
               className="mt-3 text-sm text-parchment/80"
             >
-              جارٍ كشف الحقيقة…
+  بنكشف الحقيقة…
             </motion.p>
           </motion.div>
         )}

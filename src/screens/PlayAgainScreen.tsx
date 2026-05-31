@@ -15,9 +15,9 @@ export default function PlayAgainScreen() {
         <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-brass-500/30 bg-brass-500/10 text-4xl">
           🎩
         </div>
-        <h1 className="font-display text-4xl gold-text">انتهت القضية</h1>
+        <h1 className="font-display text-4xl gold-text">خلصت القضية</h1>
         <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted">
-          أحسنتم أيها المحقّقون. هل أنتم مستعدّون لجريمة أخرى؟
+          برافو يا محققين. مستعدين لجريمة تانية؟
         </p>
       </motion.div>
 
@@ -29,14 +29,14 @@ export default function PlayAgainScreen() {
       >
         {selectedCase && players.length > 0 && (
           <Button full onClick={playAgainSameCase}>
-            إعادة نفس القضية (توزيع جديد)
+            نفس القضية تاني (توزيع جديد)
           </Button>
         )}
         <Button variant="outline" full onClick={() => go('selectCase')}>
-          اختاروا قضية أخرى
+          اختاروا قضية تانية
         </Button>
         <Button variant="ghost" full onClick={resetAll}>
-          العودة للرئيسية
+          ارجعوا للرئيسية
         </Button>
       </motion.div>
     </ScreenShell>
