@@ -10,10 +10,14 @@ export interface GuiltDossier {
   explanation: string;
 }
 
+export type Gender = 'male' | 'female';
+
 export interface Character {
   id: string;
   name: string;
   age: number;
+  /** Character's gender, used to match players to same-gender characters. */
+  gender: Gender;
   occupation: string;
   personality: string;
   relationship: string;
@@ -49,6 +53,12 @@ export interface MysteryCase {
   criminalId: string;
   /** Final explanation for the canonical culprit. */
   finalExplanation: string;
+}
+
+/** A player as entered on the setup screen: a name and a chosen gender. */
+export interface Player {
+  name: string;
+  gender: Gender;
 }
 
 export interface Assignment {

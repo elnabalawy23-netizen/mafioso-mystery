@@ -1,12 +1,12 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
-import type { Assignment, Clue, MysteryCase, Phase } from '../types';
+import type { Assignment, Clue, MysteryCase, Phase, Player } from '../types';
 import { assignCharacters } from './assignment';
 import { cluesFor, explanationFor, pickCulprit } from '../data/cases';
 
 interface GameState {
   phase: Phase;
   selectedCase: MysteryCase | null;
-  players: string[];
+  players: Player[];
   assignments: Assignment[];
   /** The culprit chosen for THIS playthrough (random each round). */
   criminalId: string;
@@ -23,7 +23,7 @@ interface GameContextValue extends GameState {
   finalExplanation: string;
   go: (phase: Phase) => void;
   chooseCase: (mystery: MysteryCase) => void;
-  setPlayers: (players: string[]) => void;
+  setPlayers: (players: Player[]) => void;
   startGame: () => void;
   nextReveal: () => void;
   beginInvestigation: () => void;
@@ -61,14 +61,15 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState((s) => ({ ...s, selectedCase: mystery, players: [], phase: 'addPlayers' }));
   }, []);
 
-  const setPlayers = useCallback((players: string[]) => {
+  const setPlayers = useCallback((players: Player[]) => {
     setState((s) => ({ ...s, players }));
   }, []);
 
   const startGame = useCallback(() => {
     setState((s) => {
       if (!s.selectedCase) return s;
-      const criminalId = pickCulprit(s.selectedCase);
+      const genders = new Set(s.players.map((p) => p.gender));
+      const criminalId = pickCulprit(s.selectedCase, genders);
       const assignments = assignCharacters(s.selectedCase, s.players, criminalId);
       return {
         ...s,
@@ -144,7 +145,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const playAgainSameCase = useCallback(() => {
     setState((s) => {
       if (!s.selectedCase) return s;
-      const criminalId = pickCulprit(s.selectedCase);
+      const genders = new Set(s.players.map((p) => p.gender));
+      const criminalId = pickCulprit(s.selectedCase, genders);
       const assignments = assignCharacters(s.selectedCase, s.players, criminalId);
       return {
         ...s,

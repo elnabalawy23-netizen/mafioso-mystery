@@ -1,4 +1,4 @@
-import type { Assignment, Character, MysteryCase } from '../types';
+import type { Assignment, Character, Gender, MysteryCase, Player } from '../types';
 
 function shuffle<T>(input: T[]): T[] {
   const arr = [...input];
@@ -10,35 +10,50 @@ function shuffle<T>(input: T[]): T[] {
 }
 
 /**
- * Assigns one character to each player.
- * - When players < available characters: a random subset is chosen,
- *   but the criminal is ALWAYS included so the mystery stays solvable.
- * - When players == available characters: all characters are used.
+ * Assigns one character to each player, matching the player's chosen gender to
+ * a same-gender character whenever possible.
  *
- * The culprit is decided by the caller (chosen randomly each playthrough)
- * and passed in, so the same case can have a different criminal every round.
+ * - The culprit (decided by the caller) is placed at the front of its gender
+ *   pool, so a random same-gender player receives it and the mystery stays
+ *   solvable. The caller picks the culprit from a gender that has a player.
+ * - If a gender runs short of characters (a mix the setup screen didn't allow),
+ *   we fall back to any unused character so the game never breaks.
  */
 export function assignCharacters(
   mystery: MysteryCase,
-  players: string[],
+  players: Player[],
   culpritId: string,
 ): Assignment[] {
-  const count = players.length;
-  const criminal = mystery.characters.find((c) => c.id === culpritId);
-  const innocents = mystery.characters.filter((c) => c.id !== culpritId);
+  const culprit = mystery.characters.find((c) => c.id === culpritId);
 
-  let chosen: Character[];
-  if (criminal) {
-    const neededInnocents = Math.max(0, count - 1);
-    const pickedInnocents = shuffle(innocents).slice(0, neededInnocents);
-    chosen = shuffle([criminal, ...pickedInnocents]);
-  } else {
-    chosen = shuffle(mystery.characters).slice(0, count);
+  const pools: Record<Gender, Character[]> = {
+    male: shuffle(mystery.characters.filter((c) => c.gender === 'male' && c.id !== culpritId)),
+    female: shuffle(mystery.characters.filter((c) => c.gender === 'female' && c.id !== culpritId)),
+  };
+  // Front-load the culprit into its gender pool so a same-gender player gets it.
+  if (culprit) pools[culprit.gender].unshift(culprit);
+
+  const used = new Set<string>();
+  const take = (gender: Gender): Character => {
+    const next = pools[gender].shift();
+    if (next) return next;
+    // Not enough same-gender characters: borrow any unused one.
+    const fallback = mystery.characters.find((c) => !used.has(c.id));
+    return fallback ?? mystery.characters[0];
+  };
+
+  const assignments = shuffle(players).map((player) => {
+    const character = take(player.gender);
+    used.add(character.id);
+    return { player: player.name, character };
+  });
+
+  // Safety net: guarantee the culprit ended up assigned to someone.
+  if (culprit && !used.has(culprit.id) && assignments.length) {
+    const slot =
+      assignments.find((a) => a.character.gender === culprit.gender) ?? assignments[0];
+    slot.character = culprit;
   }
 
-  const shuffledPlayers = shuffle(players);
-  return shuffledPlayers.map((player, i) => ({
-    player,
-    character: chosen[i],
-  }));
+  return assignments;
 }

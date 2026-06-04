@@ -10,6 +10,7 @@
     "characters": [
       {
         "id": "c1_son",
+        "gender": "male",
         "name": "كريم القاسمي",
         "age": 28,
         "occupation": "مدير في واحدة من شركات العيلة",
@@ -32,6 +33,7 @@
       },
       {
         "id": "c1_daughter",
+        "gender": "female",
         "name": "ليلى القاسمي",
         "age": 24,
         "occupation": "طالبة دراسات عليا في القانون",
@@ -44,6 +46,7 @@
       },
       {
         "id": "c1_wife",
+        "gender": "female",
         "name": "هند القاسمي",
         "age": 47,
         "occupation": "ست مجتمع وزوجة الضحية",
@@ -66,6 +69,7 @@
       },
       {
         "id": "c1_assistant",
+        "gender": "male",
         "name": "وليد ناصر",
         "age": 36,
         "occupation": "المساعد الشخصي لراجل الأعمال",
@@ -78,6 +82,7 @@
       },
       {
         "id": "c1_partner",
+        "gender": "male",
         "name": "فهد العتيبي",
         "age": 52,
         "occupation": "الشريك التجاري للضحية",
@@ -90,6 +95,7 @@
       },
       {
         "id": "c1_guard",
+        "gender": "male",
         "name": "مبارك الدوسري",
         "age": 41,
         "occupation": "حارس الفيلا",
@@ -102,6 +108,7 @@
       },
       {
         "id": "c1_lawyer",
+        "gender": "male",
         "name": "سامي الراشد",
         "age": 49,
         "occupation": "محامي العيلة",
@@ -114,6 +121,7 @@
       },
       {
         "id": "c1_driver",
+        "gender": "male",
         "name": "مرزوق سالم",
         "age": 39,
         "occupation": "سواق العيلة",
@@ -170,6 +178,7 @@
     "characters": [
       {
         "id": "c2_reception",
+        "gender": "male",
         "name": "يوسف حدّاد",
         "age": 27,
         "occupation": "موظف الاستقبال",
@@ -182,6 +191,7 @@
       },
       {
         "id": "c2_chef",
+        "gender": "male",
         "name": "طارق منصور",
         "age": 53,
         "occupation": "رئيس الطباخين",
@@ -204,6 +214,7 @@
       },
       {
         "id": "c2_housekeeper",
+        "gender": "female",
         "name": "مريم الخالدي",
         "age": 40,
         "occupation": "مشرفة النضافة",
@@ -216,6 +227,7 @@
       },
       {
         "id": "c2_investor",
+        "gender": "male",
         "name": "خالد العنزي",
         "age": 46,
         "occupation": "المستثمر اللي هيشتري",
@@ -228,6 +240,7 @@
       },
       {
         "id": "c2_manager",
+        "gender": "male",
         "name": "رامي حدّاد",
         "age": 49,
         "occupation": "مدير الفندق",
@@ -240,6 +253,7 @@
       },
       {
         "id": "c2_tourist",
+        "gender": "female",
         "name": "نورة السالم",
         "age": 31,
         "occupation": "نزيلة (سايحة)",
@@ -252,6 +266,7 @@
       },
       {
         "id": "c2_expartner",
+        "gender": "male",
         "name": "منصور الفيصل",
         "age": 57,
         "occupation": "الشريك السابق",
@@ -274,6 +289,7 @@
       },
       {
         "id": "c2_maintenance",
+        "gender": "male",
         "name": "جميل عوّاد",
         "age": 34,
         "occupation": "عامل الصيانة",
@@ -330,6 +346,7 @@
     "characters": [
       {
         "id": "c3_friend",
+        "gender": "male",
         "name": "رامي طلال",
         "age": 34,
         "occupation": "صاحب الطفولة ومدير بعض أعماله",
@@ -342,6 +359,7 @@
       },
       {
         "id": "c3_bodyguard",
+        "gender": "male",
         "name": "جابر القحطاني",
         "age": 42,
         "occupation": "الحارس الشخصي",
@@ -354,6 +372,7 @@
       },
       {
         "id": "c3_captain",
+        "gender": "male",
         "name": "سالم البحري",
         "age": 54,
         "occupation": "قبطان اليخت",
@@ -366,6 +385,7 @@
       },
       {
         "id": "c3_influencer",
+        "gender": "female",
         "name": "لين فارس",
         "age": 26,
         "occupation": "نجمة سوشيال ميديا",
@@ -378,6 +398,7 @@
       },
       {
         "id": "c3_journalist",
+        "gender": "male",
         "name": "عمر زيدان",
         "age": 39,
         "occupation": "صحفي فنّي",
@@ -390,6 +411,7 @@
       },
       {
         "id": "c3_agent",
+        "gender": "male",
         "name": "وسيم الديب",
         "age": 47,
         "occupation": "الوكيل التجاري للنجم",
@@ -412,6 +434,7 @@
       },
       {
         "id": "c3_ex",
+        "gender": "female",
         "name": "دارين حلمي",
         "age": 30,
         "occupation": "حبيبة سابقة وممثلة",
@@ -434,6 +457,7 @@
       },
       {
         "id": "c3_steward",
+        "gender": "male",
         "name": "ربيع سمعان",
         "age": 25,
         "occupation": "جرسون الحفلة الخاص",
@@ -490,6 +514,7 @@
     "characters": [
       {
         "id": "c4_archaeologist",
+        "gender": "male",
         "name": "د. فؤاد العامري",
         "age": 56,
         "occupation": "عالم آثار",
@@ -502,6 +527,7 @@
       },
       {
         "id": "c4_security",
+        "gender": "male",
         "name": "حمد الرشيدي",
         "age": 37,
         "occupation": "ضابط الأمن",
@@ -514,6 +540,7 @@
       },
       {
         "id": "c4_donor",
+        "gender": "male",
         "name": "وجدي الحمدان",
         "age": 61,
         "occupation": "المتبرّع الغني",
@@ -536,6 +563,7 @@
       },
       {
         "id": "c4_guide",
+        "gender": "male",
         "name": "باسل نعمان",
         "age": 31,
         "occupation": "المرشد السياحي",
@@ -548,6 +576,7 @@
       },
       {
         "id": "c4_researcher",
+        "gender": "female",
         "name": "د. ريم العلي",
         "age": 35,
         "occupation": "باحثة آثار",
@@ -560,6 +589,7 @@
       },
       {
         "id": "c4_cleaner",
+        "gender": "male",
         "name": "سعيد مبارك",
         "age": 46,
         "occupation": "عامل النظافة",
@@ -572,6 +602,7 @@
       },
       {
         "id": "c4_historian",
+        "gender": "male",
         "name": "أ. غسان الطيب",
         "age": 59,
         "occupation": "مؤرّخ",
@@ -594,6 +625,7 @@
       },
       {
         "id": "c4_restorer",
+        "gender": "male",
         "name": "أنيس صابر",
         "age": 48,
         "occupation": "مرمّم القطع الأثرية",
@@ -650,6 +682,7 @@
     "characters": [
       {
         "id": "c5_cto",
+        "gender": "male",
         "name": "د. طارق زين",
         "age": 41,
         "occupation": "المدير التقني (CTO)",
@@ -662,6 +695,7 @@
       },
       {
         "id": "c5_investor",
+        "gender": "male",
         "name": "حاتم الفارس",
         "age": 51,
         "occupation": "المستثمر الرئيسي",
@@ -674,6 +708,7 @@
       },
       {
         "id": "c5_designer",
+        "gender": "female",
         "name": "سلمى راضي",
         "age": 29,
         "occupation": "مديرة التصميم",
@@ -696,6 +731,7 @@
       },
       {
         "id": "c5_marketing",
+        "gender": "male",
         "name": "زياد قاسم",
         "age": 37,
         "occupation": "مدير التسويق",
@@ -718,6 +754,7 @@
       },
       {
         "id": "c5_hr",
+        "gender": "female",
         "name": "دعاء سليمان",
         "age": 39,
         "occupation": "مديرة الموارد البشرية",
@@ -730,6 +767,7 @@
       },
       {
         "id": "c5_developer",
+        "gender": "male",
         "name": "يزن خليل",
         "age": 27,
         "occupation": "مطوّر برمجيات",
@@ -742,6 +780,7 @@
       },
       {
         "id": "c5_ops",
+        "gender": "male",
         "name": "فادي نجّار",
         "age": 43,
         "occupation": "مدير العمليات",
@@ -754,6 +793,7 @@
       },
       {
         "id": "c5_assistant",
+        "gender": "female",
         "name": "هلا عابد",
         "age": 30,
         "occupation": "المساعدة التنفيذية للمؤسس",
@@ -810,6 +850,7 @@
     "characters": [
       {
         "id": "e1_partner",
+        "gender": "male",
         "name": "شريف داود",
         "age": 50,
         "occupation": "شريك في القهوة",
@@ -822,6 +863,7 @@
       },
       {
         "id": "e1_waiter",
+        "gender": "male",
         "name": "كمال فهمي",
         "age": 26,
         "occupation": "جرسون القهوة",
@@ -843,6 +885,7 @@
       },
       {
         "id": "e1_regular",
+        "gender": "male",
         "name": "الحاج فوزي عبد الله",
         "age": 64,
         "occupation": "زبون دايم وصاحب محل جنبها",
@@ -855,6 +898,7 @@
       },
       {
         "id": "e1_barista",
+        "gender": "male",
         "name": "نادر سليم",
         "age": 30,
         "occupation": "اللي بيعمل القهوة (الباريستا)",
@@ -867,6 +911,7 @@
       },
       {
         "id": "e1_supplier",
+        "gender": "male",
         "name": "أبو العز رجب",
         "age": 55,
         "occupation": "مورّد البنّ والمؤن",
@@ -879,6 +924,7 @@
       },
       {
         "id": "e1_hookah",
+        "gender": "male",
         "name": "زغلول مرسي",
         "age": 47,
         "occupation": "معلّم الشيشة والفحّام في القهوة",
@@ -909,6 +955,7 @@
     "characters": [
       {
         "id": "e2_nephew",
+        "gender": "male",
         "name": "سمير رجب",
         "age": 32,
         "occupation": "ابن أخو صاحب المخبز ومساعده",
@@ -921,6 +968,7 @@
       },
       {
         "id": "e2_baker",
+        "gender": "male",
         "name": "الأسطى حسن",
         "age": 45,
         "occupation": "الخبّاز الأول (الصنايعي)",
@@ -942,6 +990,7 @@
       },
       {
         "id": "e2_supplier",
+        "gender": "male",
         "name": "أبو ضياء",
         "age": 53,
         "occupation": "مورّد الدقيق",
@@ -954,6 +1003,7 @@
       },
       {
         "id": "e2_rival",
+        "gender": "male",
         "name": "مرزوق",
         "age": 48,
         "occupation": "صاحب مخبز منافس جنبه",
@@ -966,6 +1016,7 @@
       },
       {
         "id": "e2_cashier",
+        "gender": "female",
         "name": "نوال",
         "age": 34,
         "occupation": "البياعة في واجهة المخبز",
@@ -978,6 +1029,7 @@
       },
       {
         "id": "e2_apprentice",
+        "gender": "male",
         "name": "فرحات",
         "age": 22,
         "occupation": "صبي الفرن المساعد",
@@ -1008,6 +1060,7 @@
     "characters": [
       {
         "id": "e3_salesman",
+        "gender": "male",
         "name": "وسام",
         "age": 34,
         "occupation": "كبير مندوبين البيع",
@@ -1020,6 +1073,7 @@
       },
       {
         "id": "e3_accountant",
+        "gender": "male",
         "name": "هاني",
         "age": 40,
         "occupation": "محاسب المعرض",
@@ -1041,6 +1095,7 @@
       },
       {
         "id": "e3_mechanic",
+        "gender": "male",
         "name": "رؤوف",
         "age": 38,
         "occupation": "فني الصيانة والفحص",
@@ -1053,6 +1108,7 @@
       },
       {
         "id": "e3_partner",
+        "gender": "male",
         "name": "بدر",
         "age": 52,
         "occupation": "المستثمر الشريك",
@@ -1065,6 +1121,7 @@
       },
       {
         "id": "e3_guard",
+        "gender": "male",
         "name": "سعيد",
         "age": 44,
         "occupation": "حارس المعرض الليلي",
@@ -1077,6 +1134,7 @@
       },
       {
         "id": "e3_receptionist",
+        "gender": "male",
         "name": "ريّان",
         "age": 27,
         "occupation": "موظف استقبال المعرض وسكرتير المبيعات",
@@ -1107,6 +1165,7 @@
     "characters": [
       {
         "id": "e4_assistant",
+        "gender": "male",
         "name": "فادي",
         "age": 29,
         "occupation": "المدرّب المساعد",
@@ -1119,6 +1178,7 @@
       },
       {
         "id": "e4_member",
+        "gender": "male",
         "name": "حسام",
         "age": 36,
         "occupation": "عضو في النادي ورجل أعمال",
@@ -1140,6 +1200,7 @@
       },
       {
         "id": "e4_receptionist",
+        "gender": "female",
         "name": "رنا",
         "age": 27,
         "occupation": "موظفة الاستقبال",
@@ -1152,6 +1213,7 @@
       },
       {
         "id": "e4_partner",
+        "gender": "male",
         "name": "طارق",
         "age": 47,
         "occupation": "الشريك المموّل",
@@ -1164,6 +1226,7 @@
       },
       {
         "id": "e4_cleaner",
+        "gender": "male",
         "name": "عم صابر",
         "age": 58,
         "occupation": "عامل النظافة الليلي",
@@ -1176,6 +1239,7 @@
       },
       {
         "id": "e4_nutritionist",
+        "gender": "male",
         "name": "كريم",
         "age": 33,
         "occupation": "أخصائي التغذية ومدرّب اللياقة بالنادي",
@@ -1206,6 +1270,7 @@
     "characters": [
       {
         "id": "e5_assistant",
+        "gender": "male",
         "name": "د. باسم",
         "age": 33,
         "occupation": "الصيدلي المساعد المناوب",
@@ -1218,6 +1283,7 @@
       },
       {
         "id": "e5_supplier",
+        "gender": "male",
         "name": "نبيل",
         "age": 41,
         "occupation": "مندوب شركة الأدوية",
@@ -1239,6 +1305,7 @@
       },
       {
         "id": "e5_clerk",
+        "gender": "male",
         "name": "محمود",
         "age": 25,
         "occupation": "عامل المخزن والصندوق",
@@ -1251,6 +1318,7 @@
       },
       {
         "id": "e5_doctor",
+        "gender": "male",
         "name": "د. سمير",
         "age": 50,
         "occupation": "طبيب العيادة اللي جنبها",
@@ -1263,6 +1331,7 @@
       },
       {
         "id": "e5_neighbor",
+        "gender": "female",
         "name": "هالة",
         "age": 39,
         "occupation": "صاحبة صيدلية منافسة",
@@ -1275,6 +1344,7 @@
       },
       {
         "id": "e5_cashier",
+        "gender": "female",
         "name": "منى",
         "age": 29,
         "occupation": "أمينة صندوق الصيدلية",
@@ -1305,6 +1375,7 @@
     "characters": [
       {
         "id": "m1_star",
+        "gender": "male",
         "name": "آسر مراد",
         "age": 38,
         "occupation": "الممثل النجم وبطل الفيلم",
@@ -1317,6 +1388,7 @@
       },
       {
         "id": "m1_actress",
+        "gender": "female",
         "name": "ليان فاخوري",
         "age": 31,
         "occupation": "الممثلة المساعدة",
@@ -1339,6 +1411,7 @@
       },
       {
         "id": "m1_writer",
+        "gender": "male",
         "name": "هيثم عبد النور",
         "age": 44,
         "occupation": "كاتب السيناريو",
@@ -1361,6 +1434,7 @@
       },
       {
         "id": "m1_cinematographer",
+        "gender": "male",
         "name": "فؤاد",
         "age": 49,
         "occupation": "مدير التصوير",
@@ -1373,6 +1447,7 @@
       },
       {
         "id": "m1_assistant",
+        "gender": "female",
         "name": "دنيا",
         "age": 30,
         "occupation": "منسّقة الإنتاج",
@@ -1385,6 +1460,7 @@
       },
       {
         "id": "m1_investor",
+        "gender": "male",
         "name": "غسان",
         "age": 55,
         "occupation": "الممول الرئيسي للفيلم",
@@ -1416,6 +1492,7 @@
     "characters": [
       {
         "id": "m2_businessman",
+        "gender": "male",
         "name": "ناجي حلمي",
         "age": 57,
         "occupation": "راجل أعمال ومقاول",
@@ -1428,6 +1505,7 @@
       },
       {
         "id": "m2_aide",
+        "gender": "male",
         "name": "وسيم",
         "age": 36,
         "occupation": "مساعد مسؤول حكومي",
@@ -1450,6 +1528,7 @@
       },
       {
         "id": "m2_exwife",
+        "gender": "female",
         "name": "رحاب",
         "age": 42,
         "occupation": "مصمّمة ديكور",
@@ -1472,6 +1551,7 @@
       },
       {
         "id": "m2_conductor",
+        "gender": "male",
         "name": "خليل",
         "age": 50,
         "occupation": "مسؤول العربة ومفتّش التذاكر",
@@ -1484,6 +1564,7 @@
       },
       {
         "id": "m2_colleague",
+        "gender": "male",
         "name": "سامح",
         "age": 38,
         "occupation": "صحفي زميل ومنافس",
@@ -1496,6 +1577,7 @@
       },
       {
         "id": "m2_passenger",
+        "gender": "female",
         "name": "نور",
         "age": 33,
         "occupation": "راكبة غامضة",
@@ -1527,6 +1609,7 @@
     "characters": [
       {
         "id": "m3_surgeon",
+        "gender": "male",
         "name": "د. سامي راغب",
         "age": 40,
         "occupation": "جرّاح طموح",
@@ -1539,6 +1622,7 @@
       },
       {
         "id": "m3_nurse",
+        "gender": "female",
         "name": "أ. سعاد",
         "age": 46,
         "occupation": "رئيسة هيئة التمريض",
@@ -1561,6 +1645,7 @@
       },
       {
         "id": "m3_admin",
+        "gender": "male",
         "name": "أ. رفعت",
         "age": 52,
         "occupation": "مدير الشؤون المالية",
@@ -1583,6 +1668,7 @@
       },
       {
         "id": "m3_widow",
+        "gender": "female",
         "name": "السيدة عفاف",
         "age": 58,
         "occupation": "أرملة مريض متوفّى",
@@ -1595,6 +1681,7 @@
       },
       {
         "id": "m3_pharma",
+        "gender": "male",
         "name": "م. وليد",
         "age": 39,
         "occupation": "مندوب شركة أدوية",
@@ -1607,6 +1694,7 @@
       },
       {
         "id": "m3_resident",
+        "gender": "male",
         "name": "د. باسل",
         "age": 29,
         "occupation": "طبيب مقيم",
@@ -1638,6 +1726,7 @@
     "characters": [
       {
         "id": "h1_deputy",
+        "gender": "male",
         "name": "د. مازن خوري",
         "age": 45,
         "occupation": "نائب مدير المحطة",
@@ -1650,6 +1739,7 @@
       },
       {
         "id": "h1_researcher",
+        "gender": "female",
         "name": "د. لمى صبري",
         "age": 34,
         "occupation": "باحثة رئيسية",
@@ -1672,6 +1762,7 @@
       },
       {
         "id": "h1_funder",
+        "gender": "male",
         "name": "أ. سامر داوود",
         "age": 50,
         "occupation": "ممثل الجهة الممولة",
@@ -1694,6 +1785,7 @@
       },
       {
         "id": "h1_engineer",
+        "gender": "male",
         "name": "رامي",
         "age": 38,
         "occupation": "مهندس المحطة (الطاقة والاتصالات)",
@@ -1706,6 +1798,7 @@
       },
       {
         "id": "h1_doctor",
+        "gender": "female",
         "name": "د. هناء",
         "age": 42,
         "occupation": "طبيبة المحطة",
@@ -1718,6 +1811,7 @@
       },
       {
         "id": "h1_security",
+        "gender": "male",
         "name": "فيصل",
         "age": 47,
         "occupation": "مسؤول أمن المحطة",
@@ -1730,6 +1824,7 @@
       },
       {
         "id": "h1_assistant",
+        "gender": "male",
         "name": "زياد",
         "age": 27,
         "occupation": "مساعد المختبر",
@@ -1742,6 +1837,7 @@
       },
       {
         "id": "h1_cook",
+        "gender": "male",
         "name": "عم بدوي",
         "age": 56,
         "occupation": "مسؤول الإعاشة والتموين",
@@ -1774,6 +1870,7 @@
     "characters": [
       {
         "id": "h2_conductor",
+        "gender": "male",
         "name": "د. نبيل عسّاف",
         "age": 52,
         "occupation": "المايسترو المساعد والمؤلّف",
@@ -1786,6 +1883,7 @@
       },
       {
         "id": "h2_soprano",
+        "gender": "female",
         "name": "ثريا نعمان",
         "age": 36,
         "occupation": "السوبرانو الأولى",
@@ -1808,6 +1906,7 @@
       },
       {
         "id": "h2_tenor",
+        "gender": "male",
         "name": "سليم القاضي",
         "age": 48,
         "occupation": "التينور",
@@ -1830,6 +1929,7 @@
       },
       {
         "id": "h2_stage",
+        "gender": "male",
         "name": "حليم",
         "age": 44,
         "occupation": "مدير المسرح",
@@ -1842,6 +1942,7 @@
       },
       {
         "id": "h2_patron",
+        "gender": "female",
         "name": "السيدة ماهي",
         "age": 58,
         "occupation": "راعية الدار والممولة",
@@ -1854,6 +1955,7 @@
       },
       {
         "id": "h2_deputy",
+        "gender": "female",
         "name": "نادين",
         "age": 33,
         "occupation": "مساعدة مدير الدار",
@@ -1866,6 +1968,7 @@
       },
       {
         "id": "h2_critic",
+        "gender": "male",
         "name": "أسعد",
         "age": 50,
         "occupation": "ناقد فني",
@@ -1878,6 +1981,7 @@
       },
       {
         "id": "h2_security",
+        "gender": "male",
         "name": "مرعي",
         "age": 49,
         "occupation": "حارس الكواليس",

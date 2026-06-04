@@ -1,29 +1,39 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../game/GameContext';
-import { MIN_PLAYERS, maxPlayersFor } from '../data/cases';
+import { MIN_PLAYERS, genderCounts, genderFeasibility, maxPlayersFor } from '../data/cases';
 import { Button, Eyebrow, ScreenShell } from '../components/ui';
+import type { Gender, Player } from '../types';
+
+const blank = (): Player => ({ name: '', gender: 'male' });
 
 export default function AddPlayersScreen() {
   const { selectedCase, setPlayers, startGame, go } = useGame();
   const max = selectedCase ? maxPlayersFor(selectedCase) : 8;
-  const [names, setNames] = useState<string[]>(['', '', '', '']);
+  const [players, setPlayersState] = useState<Player[]>([blank(), blank(), blank(), blank()]);
 
   if (!selectedCase) return null;
 
   const update = (i: number, value: string) =>
-    setNames((arr) => arr.map((n, idx) => (idx === i ? value : n)));
+    setPlayersState((arr) => arr.map((p, idx) => (idx === i ? { ...p, name: value } : p)));
+  const setGender = (i: number, gender: Gender) =>
+    setPlayersState((arr) => arr.map((p, idx) => (idx === i ? { ...p, gender } : p)));
 
-  const addSlot = () => setNames((arr) => (arr.length >= max ? arr : [...arr, '']));
+  const addSlot = () => setPlayersState((arr) => (arr.length >= max ? arr : [...arr, blank()]));
   const removeSlot = (i: number) =>
-    setNames((arr) => (arr.length <= MIN_PLAYERS ? arr : arr.filter((_, idx) => idx !== i)));
+    setPlayersState((arr) => (arr.length <= MIN_PLAYERS ? arr : arr.filter((_, idx) => idx !== i)));
 
-  const filled = names.map((n) => n.trim()).filter(Boolean);
-  const ready = filled.length === names.length && filled.length >= MIN_PLAYERS;
+  const trimmed = players.map((p) => ({ ...p, name: p.name.trim() }));
+  const namesReady =
+    trimmed.every((p) => p.name.length > 0) && trimmed.length >= MIN_PLAYERS;
+  const feas = genderFeasibility(selectedCase, trimmed);
+  const ready = namesReady && feas.ok;
+
+  const caps = genderCounts(selectedCase);
 
   const onStart = () => {
     if (!ready) return;
-    setPlayers(filled);
+    setPlayers(trimmed);
     startGame();
   };
 
@@ -37,31 +47,35 @@ export default function AddPlayersScreen() {
       </div>
 
       <h1 className="mb-1 text-2xl font-bold text-parchment">مين المحققين؟</h1>
-      <p className="mb-5 text-sm text-muted">
-        اكتبوا أسامي اللاعبين — من {MIN_PLAYERS} لـ {max} لاعبين للقضية دي.
+      <p className="mb-3 text-sm text-muted">
+        اكتبوا أسامي اللاعبين واختاروا نوع كل واحد، عشان كل لاعب تيجيله شخصية بنفس النوع.
+      </p>
+      <p className="mb-4 text-xs text-brass-300/90">
+        القضية دي فيها {caps.male} شخصيات ولاد و{caps.female} {caps.female === 1 ? 'شخصية' : 'شخصيات'} بنات.
       </p>
 
       <div className="flex-1 space-y-3 overflow-y-auto scroll-thin pb-2">
         <AnimatePresence initial={false}>
-          {names.map((name, i) => (
+          {players.map((p, i) => (
             <motion.div
               key={i}
               layout
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 16 }}
-              className="flex items-center gap-3"
+              className="flex items-center gap-2"
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brass-500/15 text-sm font-bold text-brass-300">
                 {i + 1}
               </span>
               <input
-                value={name}
+                value={p.name}
                 onChange={(e) => update(i, e.target.value)}
                 placeholder={`اسم اللاعب رقم ${i + 1}`}
-                className="h-12 flex-1 rounded-xl border border-white/10 bg-ink-800/80 px-4 text-parchment outline-none transition focus:border-brass-500/60 focus:bg-ink-700/80"
+                className="h-12 min-w-0 flex-1 rounded-xl border border-white/10 bg-ink-800/80 px-3 text-parchment outline-none transition focus:border-brass-500/60 focus:bg-ink-700/80"
               />
-              {names.length > MIN_PLAYERS && (
+              <GenderToggle gender={p.gender} onChange={(g) => setGender(i, g)} />
+              {players.length > MIN_PLAYERS && (
                 <button
                   onClick={() => removeSlot(i)}
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blood-500/15 text-blood-400 transition hover:bg-blood-500/25"
@@ -74,7 +88,7 @@ export default function AddPlayersScreen() {
           ))}
         </AnimatePresence>
 
-        {names.length < max && (
+        {players.length < max && (
           <button
             onClick={addSlot}
             className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-brass-500/40 py-3 text-sm text-brass-300 transition hover:bg-brass-500/5"
@@ -88,12 +102,37 @@ export default function AddPlayersScreen() {
         <Button full onClick={onStart} disabled={!ready}>
           وزّع الشخصيات
         </Button>
-        {!ready && (
-          <p className="text-center text-xs text-muted">
-            اكتب كل الأسامي (٤ على الأقل) عشان تكمّل
-          </p>
-        )}
+        {!namesReady ? (
+          <p className="text-center text-xs text-muted">اكتب كل الأسامي (٤ على الأقل) عشان تكمّل</p>
+        ) : !feas.ok ? (
+          <p className="text-center text-xs text-blood-400">{feas.reason}</p>
+        ) : null}
       </div>
     </ScreenShell>
+  );
+}
+
+function GenderToggle({ gender, onChange }: { gender: Gender; onChange: (g: Gender) => void }) {
+  const opts: { g: Gender; sym: string; label: string; active: string }[] = [
+    { g: 'male', sym: '♂', label: 'ولد', active: 'bg-sky-500/25 text-sky-300' },
+    { g: 'female', sym: '♀', label: 'بنت', active: 'bg-pink-500/25 text-pink-300' },
+  ];
+  return (
+    <div className="flex shrink-0 overflow-hidden rounded-xl border border-white/10">
+      {opts.map((o) => (
+        <button
+          key={o.g}
+          type="button"
+          onClick={() => onChange(o.g)}
+          aria-label={o.label}
+          aria-pressed={gender === o.g}
+          className={`flex h-12 w-10 items-center justify-center text-xl leading-none transition ${
+            gender === o.g ? o.active : 'text-muted hover:text-parchment'
+          }`}
+        >
+          {o.sym}
+        </button>
+      ))}
+    </div>
   );
 }
