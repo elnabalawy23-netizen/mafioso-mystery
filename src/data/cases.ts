@@ -1,4 +1,4 @@
-import type { Clue, Difficulty, Gender, MysteryCase, Player } from '../types';
+import type { Clue, Difficulty, Gender, MysteryCase } from '../types';
 import casesJson from './cases.json';
 
 export const CASES: MysteryCase[] = casesJson as MysteryCase[];
@@ -55,17 +55,6 @@ export function genderCounts(c: MysteryCase): { male: number; female: number } {
   return { male, female };
 }
 
-/** The genders among this case's possible culprits (canonical + variants). */
-export function culpritGenders(c: MysteryCase): Set<Gender> {
-  const byId = new Map(c.characters.map((ch) => [ch.id, ch] as const));
-  const set = new Set<Gender>();
-  for (const id of culpritCandidateIds(c)) {
-    const ch = byId.get(id);
-    if (ch) set.add(ch.gender);
-  }
-  return set;
-}
-
 /**
  * Picks a random culprit for a fresh playthrough. When `allowedGenders` is
  * given (the genders present among the players), the culprit is chosen only
@@ -81,35 +70,6 @@ export function pickCulprit(c: MysteryCase, allowedGenders?: Set<Gender>): strin
   }
   if (ids.length === 0) return c.criminalId;
   return ids[Math.floor(Math.random() * ids.length)];
-}
-
-/**
- * Checks whether the chosen player genders can be matched to this case.
- * Returns { ok } and, when not ok, a short Arabic reason for the UI.
- */
-export function genderFeasibility(
-  c: MysteryCase,
-  players: Player[],
-): { ok: boolean; reason?: string } {
-  const { male, female } = genderCounts(c);
-  const pf = players.filter((p) => p.gender === 'female').length;
-  const pm = players.length - pf;
-
-  if (pf > female) {
-    return { ok: false, reason: `القضية دي فيها ${female} شخصيات بنات بس، قلّل عدد البنات.` };
-  }
-  if (pm > male) {
-    return { ok: false, reason: `القضية دي فيها ${male} شخصيات ولاد بس، قلّل عدد الولاد.` };
-  }
-  // The culprit must be a player, so a culprit of an available gender must exist.
-  const cg = culpritGenders(c);
-  const playerGenders = new Set(players.map((p) => p.gender));
-  const culpritPossible = [...cg].some((g) => playerGenders.has(g));
-  if (!culpritPossible) {
-    const needed = cg.has('male') ? 'ولد' : 'بنت';
-    return { ok: false, reason: `في القضية دي المجرم لازم يكون ${needed}، فمحتاج لاعب ${needed} واحد على الأقل.` };
-  }
-  return { ok: true };
 }
 
 /** The clues to reveal for a given culprit (their dossier, or the canonical set). */

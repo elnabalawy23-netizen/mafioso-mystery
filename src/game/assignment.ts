@@ -35,8 +35,13 @@ export function assignCharacters(
 
   const used = new Set<string>();
   const take = (gender: Gender): Character => {
-    const next = pools[gender].shift();
-    if (next) return next;
+    // Same-gender pool first, skipping any character already handed out
+    // (a character can be borrowed cross-gender below before its pool is reached).
+    const pool = pools[gender];
+    while (pool.length) {
+      const ch = pool.shift()!;
+      if (!used.has(ch.id)) return ch;
+    }
     // Not enough same-gender characters: borrow any unused one.
     const fallback = mystery.characters.find((c) => !used.has(c.id));
     return fallback ?? mystery.characters[0];

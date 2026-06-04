@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../game/GameContext';
-import { MIN_PLAYERS, genderCounts, genderFeasibility, maxPlayersFor } from '../data/cases';
+import { MIN_PLAYERS, genderCounts, maxPlayersFor } from '../data/cases';
 import { Button, Eyebrow, ScreenShell } from '../components/ui';
 import type { Gender, Player } from '../types';
 
@@ -26,10 +26,12 @@ export default function AddPlayersScreen() {
   const trimmed = players.map((p) => ({ ...p, name: p.name.trim() }));
   const namesReady =
     trimmed.every((p) => p.name.length > 0) && trimmed.length >= MIN_PLAYERS;
-  const feas = genderFeasibility(selectedCase, trimmed);
-  const ready = namesReady && feas.ok;
+  // Gender is a soft preference — it never blocks starting the game.
+  const ready = namesReady;
 
   const caps = genderCounts(selectedCase);
+  const pf = trimmed.filter((p) => p.gender === 'female').length;
+  const overflow = pf > caps.female || trimmed.length - pf > caps.male;
 
   const onStart = () => {
     if (!ready) return;
@@ -48,7 +50,7 @@ export default function AddPlayersScreen() {
 
       <h1 className="mb-1 text-2xl font-bold text-parchment">مين المحققين؟</h1>
       <p className="mb-3 text-sm text-muted">
-        اكتبوا أسامي اللاعبين واختاروا نوع كل واحد، عشان كل لاعب تيجيله شخصية بنفس النوع.
+        اكتبوا الأسامي واختاروا نوع كل لاعب (ولد/بنت)، واللعبة هتحاول تديله شخصية بنفس النوع قد ما تقدر.
       </p>
       <p className="mb-4 text-xs text-brass-300/90">
         القضية دي فيها {caps.male} شخصيات ولاد و{caps.female} {caps.female === 1 ? 'شخصية' : 'شخصيات'} بنات.
@@ -104,8 +106,10 @@ export default function AddPlayersScreen() {
         </Button>
         {!namesReady ? (
           <p className="text-center text-xs text-muted">اكتب كل الأسامي (٤ على الأقل) عشان تكمّل</p>
-        ) : !feas.ok ? (
-          <p className="text-center text-xs text-blood-400">{feas.reason}</p>
+        ) : overflow ? (
+          <p className="text-center text-xs text-muted">
+            القضية دي فيها {caps.male} ولاد و{caps.female} بنات، فلو العدد زاد، اللي زيادة ممكن ياخد شخصية من النوع التاني.
+          </p>
         ) : null}
       </div>
     </ScreenShell>
