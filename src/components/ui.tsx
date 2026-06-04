@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { motion } from 'framer-motion';
+import { TEXT_SIZES } from '../game/useTextScale';
 
 type Variant = 'primary' | 'ghost' | 'danger' | 'outline';
 
@@ -70,8 +71,41 @@ export function Divider() {
 export function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <p className="mb-1 text-xs font-semibold text-muted">{label}</p>
-      <p className="text-[15px] leading-relaxed text-parchment">{children}</p>
+      <p className="mb-1 text-[0.78em] font-semibold text-muted">{label}</p>
+      <p className="text-[1em] leading-relaxed text-parchment">{children}</p>
+    </div>
+  );
+}
+
+/** Easy font-size picker (عادي / كبير / أكبر) shown as growing "أ" glyphs. */
+export function TextSizeControl({
+  level,
+  onChange,
+}: {
+  level: number;
+  onChange: (level: number) => void;
+}) {
+  const labels = ['عادي', 'كبير', 'أكبر'];
+  return (
+    <div className="mb-3 flex items-center justify-center gap-2">
+      <span className="text-xs text-muted">حجم الخط</span>
+      <div className="flex items-stretch overflow-hidden rounded-xl border border-brass-500/30 bg-ink-800/50">
+        {TEXT_SIZES.map((px, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => onChange(i)}
+            aria-label={`حجم الخط ${labels[i]}`}
+            aria-pressed={i === level}
+            className={`btn-press flex h-9 w-12 items-center justify-center leading-none transition ${
+              i > 0 ? 'border-s border-brass-500/20' : ''
+            } ${i === level ? 'bg-brass-500/25 font-bold text-brass-200' : 'text-muted hover:text-parchment'}`}
+            style={{ fontSize: `${px}px` }}
+          >
+            أ
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
