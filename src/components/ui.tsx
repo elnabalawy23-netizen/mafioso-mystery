@@ -126,7 +126,7 @@ export function Stepper({ total, current }: { total: number; current: number }) 
   );
 }
 
-/** Two-option ♂/♀ picker used on the setup screens. */
+/** Two-option picker used on the setup screens — symbol + a clear label. */
 export function GenderToggle({ gender, onChange }: { gender: Gender; onChange: (g: Gender) => void }) {
   const opts: { g: Gender; sym: string; label: string; active: string }[] = [
     { g: 'male', sym: '♂', label: 'ولد', active: 'bg-sky-500/25 text-sky-300' },
@@ -141,11 +141,12 @@ export function GenderToggle({ gender, onChange }: { gender: Gender; onChange: (
           onClick={() => onChange(o.g)}
           aria-label={o.label}
           aria-pressed={gender === o.g}
-          className={`flex h-12 w-10 items-center justify-center text-xl leading-none transition ${
+          className={`flex h-12 w-12 flex-col items-center justify-center leading-none transition ${
             gender === o.g ? o.active : 'text-muted hover:text-parchment'
           }`}
         >
-          {o.sym}
+          <span className="text-lg">{o.sym}</span>
+          <span className="mt-0.5 text-[10px] font-semibold">{o.label}</span>
         </button>
       ))}
     </div>
