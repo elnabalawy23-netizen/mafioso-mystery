@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useOnline } from './OnlineContext';
-import { CASES, DIFFICULTIES, difficultyLabel } from '../data/cases';
+import { casesByDifficulty, DIFFICULTIES, difficultyLabel } from '../data/cases';
 import { Button, Eyebrow, GenderToggle, ScreenShell } from '../components/ui';
 import type { Gender } from '../types';
 
@@ -81,7 +81,7 @@ function CreateRoom() {
           <div key={d.key}>
             <p className="mb-2 text-xs font-bold tracking-widest text-brass-300">{difficultyLabel(d.key)}</p>
             <div className="space-y-2">
-              {CASES.filter((c) => c.difficulty === d.key).map((c) => (
+              {casesByDifficulty(d.key).map((c) => (
                 <button
                   key={c.id}
                   onClick={() => setCaseId(c.id)}
