@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
 import { Button, Eyebrow, ScreenShell } from '../components/ui';
+import { CaseArt } from '../components/CaseArt';
 
 export default function CrimeStoryScreen() {
   const { selectedCase, beginInvestigation } = useGame();
@@ -8,17 +9,21 @@ export default function CrimeStoryScreen() {
 
   return (
     <ScreenShell>
-      <div className="mb-4 text-center">
+      <div className="mb-3 text-center">
         <Eyebrow>ملف القضية</Eyebrow>
       </div>
 
-      <motion.h1
+      <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center font-display text-4xl gold-text leading-tight"
+        className="relative h-44 shrink-0 overflow-hidden rounded-2xl border border-white/10"
       >
-        {selectedCase.title}
-      </motion.h1>
+        <CaseArt caseId={selectedCase.id} />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/30 to-transparent" />
+        <h1 className="absolute inset-x-0 bottom-0 p-4 text-center font-display text-3xl gold-text leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+          {selectedCase.title}
+        </h1>
+      </motion.div>
 
       <div className="flex-1 overflow-y-auto scroll-thin py-5">
         <motion.div

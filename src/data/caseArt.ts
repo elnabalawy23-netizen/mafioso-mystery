@@ -1,0 +1,18 @@
+/** Emoji shown on a case's placeholder art until a real image is added. */
+export const CASE_ICON: Record<string, string> = {
+  c1: '🏡',
+  c2: '🏨',
+  c3: '🛥️',
+  c4: '🏛️',
+  c5: '💻',
+  e1: '☕',
+  e2: '🥖',
+  e3: '🚗',
+  e4: '🏋️',
+  e5: '💊',
+  m1: '🎬',
+  m2: '🚆',
+  m3: '🏥',
+  h1: '🏜️',
+  h2: '🎭',
+};
