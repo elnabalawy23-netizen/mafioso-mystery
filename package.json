@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:engine": "esbuild src/server/engine.spec.ts --bundle --platform=node --format=esm --outfile=node_modules/.tmp/engine.spec.mjs --log-level=error && node node_modules/.tmp/engine.spec.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.3.19",
