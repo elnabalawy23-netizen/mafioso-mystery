@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run build:api",
+    "build:api": "esbuild src/server/apiEntry.ts --bundle --platform=node --format=esm --outfile=api/room.js --log-level=error",
     "preview": "vite preview",
     "test:engine": "esbuild src/server/engine.spec.ts --bundle --platform=node --format=esm --outfile=node_modules/.tmp/engine.spec.mjs --log-level=error && node node_modules/.tmp/engine.spec.mjs"
   },
