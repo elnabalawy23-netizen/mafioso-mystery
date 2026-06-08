@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { GameProvider, useGame } from './game/GameContext';
+import { AppModeContext } from './game/appMode';
+import OnlineApp from './online/OnlineApp';
 import SplashScreen from './screens/SplashScreen';
 import HomeScreen from './screens/HomeScreen';
 import SelectCaseScreen from './screens/SelectCaseScreen';
@@ -37,12 +40,19 @@ function Router() {
 }
 
 export default function App() {
+  const [mode, setMode] = useState<'local' | 'online'>('local');
   return (
-    <GameProvider>
-      <div className="app-bg">
-        <div className="grain" />
-        <Router />
-      </div>
-    </GameProvider>
+    <div className="app-bg">
+      <div className="grain" />
+      {mode === 'online' ? (
+        <OnlineApp onExit={() => setMode('local')} />
+      ) : (
+        <AppModeContext.Provider value={{ goOnline: () => setMode('online') }}>
+          <GameProvider>
+            <Router />
+          </GameProvider>
+        </AppModeContext.Provider>
+      )}
+    </div>
   );
 }

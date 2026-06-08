@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../game/GameContext';
 import { MIN_PLAYERS, genderCounts, maxPlayersFor } from '../data/cases';
-import { Button, Eyebrow, ScreenShell } from '../components/ui';
+import { Button, Eyebrow, GenderToggle, ScreenShell } from '../components/ui';
 import type { Gender, Player } from '../types';
 
 const blank = (): Player => ({ name: '', gender: 'male' });
@@ -116,27 +116,3 @@ export default function AddPlayersScreen() {
   );
 }
 
-function GenderToggle({ gender, onChange }: { gender: Gender; onChange: (g: Gender) => void }) {
-  const opts: { g: Gender; sym: string; label: string; active: string }[] = [
-    { g: 'male', sym: '♂', label: 'ولد', active: 'bg-sky-500/25 text-sky-300' },
-    { g: 'female', sym: '♀', label: 'بنت', active: 'bg-pink-500/25 text-pink-300' },
-  ];
-  return (
-    <div className="flex shrink-0 overflow-hidden rounded-xl border border-white/10">
-      {opts.map((o) => (
-        <button
-          key={o.g}
-          type="button"
-          onClick={() => onChange(o.g)}
-          aria-label={o.label}
-          aria-pressed={gender === o.g}
-          className={`flex h-12 w-10 items-center justify-center text-xl leading-none transition ${
-            gender === o.g ? o.active : 'text-muted hover:text-parchment'
-          }`}
-        >
-          {o.sym}
-        </button>
-      ))}
-    </div>
-  );
-}

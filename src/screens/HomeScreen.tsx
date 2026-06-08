@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
+import { useAppMode } from '../game/appMode';
 import { Button, ScreenShell } from '../components/ui';
 
 const howTo = [
@@ -12,6 +13,7 @@ const howTo = [
 
 export default function HomeScreen() {
   const { go } = useGame();
+  const { goOnline } = useAppMode();
 
   return (
     <ScreenShell>
@@ -53,10 +55,13 @@ export default function HomeScreen() {
           className="mt-7 space-y-3"
         >
           <Button full onClick={() => go('selectCase')}>
-            يلا نبدأ التحقيق
+            العبوا على موبايل واحد
+          </Button>
+          <Button full variant="outline" onClick={goOnline}>
+            العبوا أونلاين — كل واحد على موبايله
           </Button>
           <p className="text-center text-xs text-muted">
-            لعبة تحقيق جماعية على موبايل واحد — من غير إنترنت
+            لعبة تحقيق جماعية — مع بعض في نفس المكان، أو كل واحد من مكانه
           </p>
         </motion.div>
       </div>
