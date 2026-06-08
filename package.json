@@ -10,6 +10,7 @@
     "test:engine": "esbuild src/server/engine.spec.ts --bundle --platform=node --format=esm --outfile=node_modules/.tmp/engine.spec.mjs --log-level=error && node node_modules/.tmp/engine.spec.mjs"
   },
   "dependencies": {
+    "@upstash/redis": "^1.38.0",
     "framer-motion": "^11.3.19",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
