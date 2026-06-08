@@ -13,3 +13,4 @@ yarn-error.log*
 # TypeScript build artifacts (sources are .ts/.tsx only)
 *.tsbuildinfo
 /vite.config.js
+.env*.local
