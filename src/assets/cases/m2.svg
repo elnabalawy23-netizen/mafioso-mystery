@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1d130b"/>
+      <stop offset="1" stop-color="#100a05"/>
+    </linearGradient>
+    <linearGradient id="nightOut" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a1322"/>
+      <stop offset="1" stop-color="#060a12"/>
+    </linearGradient>
+    <radialGradient id="lamp" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f5cf6e" stop-opacity="0.8"/>
+      <stop offset="0.5" stop-color="#e8a93e" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#e8a93e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.6"/>
+    </radialGradient>
+  </defs>
+
+  <!-- cabin walls -->
+  <rect width="600" height="400" fill="url(#wood)"/>
+  <g stroke="#241710" stroke-width="3" opacity="0.8">
+    <line x1="0" y1="58" x2="600" y2="58"/>
+    <line x1="0" y1="306" x2="600" y2="306"/>
+    <line x1="40" y1="0" x2="40" y2="400"/>
+    <line x1="560" y1="0" x2="560" y2="400"/>
+  </g>
+  <!-- brass trim -->
+  <g stroke="#8a651c" stroke-width="2" opacity="0.6">
+    <line x1="0" y1="64" x2="600" y2="64"/>
+    <line x1="0" y1="300" x2="600" y2="300"/>
+  </g>
+
+  <!-- window: night rushing past -->
+  <rect x="150" y="84" width="300" height="170" rx="14" fill="#0d0a06"/>
+  <rect x="160" y="94" width="280" height="150" rx="9" fill="url(#nightOut)"/>
+  <!-- blurred landscape -->
+  <path d="M160 206 Q230 188 300 202 Q370 214 440 198 L440 244 L160 244 Z" fill="#0a0f1a"/>
+  <circle cx="404" cy="122" r="15" fill="#ead9a6" opacity="0.85"/>
+  <!-- light streaks (motion) -->
+  <g stroke="#e8c15a" stroke-linecap="round" opacity="0.8">
+    <line x1="190" y1="170" x2="240" y2="168" stroke-width="3"/>
+    <line x1="260" y1="186" x2="296" y2="184" stroke-width="2.4"/>
+    <line x1="330" y1="176" x2="378" y2="174" stroke-width="3"/>
+    <line x1="280" y1="156" x2="306" y2="155" stroke-width="2"/>
+    <line x1="368" y1="192" x2="398" y2="191" stroke-width="2"/>
+  </g>
+  <g stroke="#9fb3d8" stroke-linecap="round" opacity="0.4">
+    <line x1="200" y1="140" x2="232" y2="139" stroke-width="2"/>
+    <line x1="350" y1="146" x2="386" y2="145" stroke-width="2"/>
+  </g>
+  <!-- window cross bar -->
+  <line x1="150" y1="168" x2="450" y2="168" stroke="#1d130b" stroke-width="5" opacity="0.55"/>
+
+  <!-- curtains -->
+  <path d="M150 84 Q166 170 150 254 L128 254 Q140 170 128 84 Z" fill="#2e1216"/>
+  <path d="M450 84 Q434 170 450 254 L472 254 Q460 170 472 84 Z" fill="#2e1216"/>
+  <path d="M136 84 Q146 170 136 254" stroke="#1d0b0e" stroke-width="3" fill="none"/>
+  <path d="M464 84 Q454 170 464 254" stroke="#1d0b0e" stroke-width="3" fill="none"/>
+
+  <!-- table under window -->
+  <rect x="180" y="278" width="240" height="12" rx="3" fill="#2a1a0e"/>
+  <rect x="190" y="290" width="220" height="6" fill="#190f07"/>
+  <rect x="286" y="296" width="10" height="40" fill="#190f07"/>
+
+  <!-- reading lamp -->
+  <circle cx="232" cy="240" r="62" fill="url(#lamp)"/>
+  <g>
+    <path d="M214 244 L250 244 L240 226 L224 226 Z" fill="#caa53f"/>
+    <rect x="228" y="244" width="8" height="26" fill="#7a5c1d"/>
+    <ellipse cx="232" cy="274" rx="16" ry="5" fill="#7a5c1d"/>
+    <circle cx="232" cy="238" r="6" fill="#f7e09a"/>
+  </g>
+
+  <!-- glass with residue (the drugged drink) -->
+  <g>
+    <path d="M352 240 L376 240 L372 276 L356 276 Z" fill="#aac4e8" opacity="0.2"/>
+    <path d="M352 240 L376 240 L372 276 L356 276 Z" fill="none" stroke="#9fb3d8" stroke-width="1.6" opacity="0.5"/>
+    <path d="M358 262 L370 262 L369 274 L359 274 Z" fill="#8a651c" opacity="0.7"/>
+    <ellipse cx="364" cy="279" rx="13" ry="3.4" fill="#0a0705"/>
+  </g>
+  <!-- folded dossier on table -->
+  <g>
+    <rect x="392" y="258" width="52" height="20" rx="2" fill="#3d2c12" transform="rotate(-6 418 268)"/>
+    <rect x="396" y="252" width="44" height="6" rx="1" fill="#c8bfa6" transform="rotate(-6 418 255)" opacity="0.85"/>
+  </g>
+
+  <!-- berth seat bottom -->
+  <rect x="60" y="316" width="480" height="40" rx="8" fill="#23262e"/>
+  <rect x="60" y="352" width="480" height="30" fill="#15171d"/>
+
+  <rect width="600" height="400" fill="url(#vig)"/>
+</svg>

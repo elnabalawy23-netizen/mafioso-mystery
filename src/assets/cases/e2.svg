@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#120d08"/>
+      <stop offset="1" stop-color="#070503"/>
+    </linearGradient>
+    <radialGradient id="fire" cx="0.5" cy="0.7" r="0.7">
+      <stop offset="0" stop-color="#ffd98a"/>
+      <stop offset="0.4" stop-color="#f59a3a"/>
+      <stop offset="0.8" stop-color="#a8431a"/>
+      <stop offset="1" stop-color="#5a1d0c"/>
+    </radialGradient>
+    <radialGradient id="fireGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f59a3a" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#f59a3a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bread" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d99c4a"/>
+      <stop offset="1" stop-color="#8a5a22"/>
+    </linearGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.6"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#bg)"/>
+
+  <!-- oven glow fills the right -->
+  <circle cx="430" cy="230" r="190" fill="url(#fireGlow)"/>
+
+  <!-- brick oven -->
+  <g>
+    <path d="M310 300 L560 300 L560 130 Q435 70 310 130 Z" fill="#1c120a"/>
+    <!-- brick lines -->
+    <g stroke="#2a1a0e" stroke-width="3" opacity="0.9">
+      <path d="M318 160 L552 160" />
+      <path d="M312 200 L558 200" />
+      <path d="M310 240 L560 240" />
+      <path d="M310 274 L560 274" />
+      <line x1="380" y1="130" x2="380" y2="160"/>
+      <line x1="460" y1="124" x2="460" y2="160"/>
+      <line x1="350" y1="160" x2="350" y2="200"/>
+      <line x1="430" y1="160" x2="430" y2="200"/>
+      <line x1="510" y1="160" x2="510" y2="200"/>
+      <line x1="390" y1="200" x2="390" y2="240"/>
+      <line x1="470" y1="200" x2="470" y2="240"/>
+    </g>
+    <!-- mouth -->
+    <path d="M368 268 L502 268 L502 210 Q435 168 368 210 Z" fill="#070402"/>
+    <path d="M376 264 L494 264 L494 214 Q435 178 376 214 Z" fill="url(#fire)"/>
+    <!-- flames -->
+    <path d="M404 264 Q400 240 412 232 Q416 246 424 238 Q426 254 418 264 Z" fill="#ffd98a" opacity="0.9"/>
+    <path d="M444 264 Q442 236 454 226 Q456 244 466 238 Q466 256 456 264 Z" fill="#ffe7ae" opacity="0.95"/>
+    <!-- hearth -->
+    <rect x="356" y="268" width="158" height="10" fill="#241408"/>
+  </g>
+
+  <!-- peel leaning on oven -->
+  <g transform="rotate(-24 330 220)">
+    <rect x="326" y="120" width="8" height="190" rx="3" fill="#3a2410"/>
+    <ellipse cx="330" cy="110" rx="26" ry="14" fill="#4a2f14"/>
+  </g>
+
+  <!-- table with bread -->
+  <g>
+    <rect x="40" y="262" width="240" height="14" fill="#241509"/>
+    <rect x="52" y="276" width="12" height="60" fill="#190e06"/>
+    <rect x="256" y="276" width="12" height="60" fill="#190e06"/>
+    <!-- round baladi loaves -->
+    <ellipse cx="92" cy="252" rx="34" ry="13" fill="url(#bread)"/>
+    <ellipse cx="92" cy="248" rx="34" ry="12" fill="#e0a955"/>
+    <ellipse cx="162" cy="252" rx="34" ry="13" fill="url(#bread)"/>
+    <ellipse cx="162" cy="248" rx="34" ry="12" fill="#d49c46"/>
+    <ellipse cx="232" cy="252" rx="34" ry="13" fill="url(#bread)"/>
+    <ellipse cx="232" cy="248" rx="34" ry="12" fill="#e0a955"/>
+    <!-- stacked second row -->
+    <ellipse cx="127" cy="240" rx="32" ry="12" fill="url(#bread)"/>
+    <ellipse cx="127" cy="236" rx="32" ry="11" fill="#eab861"/>
+    <ellipse cx="197" cy="240" rx="32" ry="12" fill="url(#bread)"/>
+    <ellipse cx="197" cy="236" rx="32" ry="11" fill="#dba24c"/>
+  </g>
+
+  <!-- hanging bulb -->
+  <line x1="150" y1="0" x2="150" y2="96" stroke="#241509" stroke-width="3"/>
+  <circle cx="150" cy="110" r="56" fill="url(#fireGlow)"/>
+  <circle cx="150" cy="112" r="10" fill="#f7d878"/>
+
+  <!-- flour dust -->
+  <g fill="#e8dcc8">
+    <circle cx="120" cy="180" r="1.4" opacity="0.5"/>
+    <circle cx="180" cy="150" r="1.1" opacity="0.4"/>
+    <circle cx="230" cy="196" r="1.3" opacity="0.45"/>
+    <circle cx="90" cy="140" r="1" opacity="0.35"/>
+    <circle cx="260" cy="160" r="1" opacity="0.4"/>
+    <circle cx="200" cy="120" r="1.2" opacity="0.3"/>
+  </g>
+
+  <!-- floor -->
+  <rect x="0" y="300" width="600" height="100" fill="#080502"/>
+  <ellipse cx="435" cy="310" rx="150" ry="14" fill="#f59a3a" opacity="0.12"/>
+  <!-- flour sack spilled -->
+  <g>
+    <path d="M60 360 Q58 330 84 326 Q112 324 112 352 L108 372 L64 372 Z" fill="#1f1812"/>
+    <ellipse cx="120" cy="370" rx="26" ry="6" fill="#d8ccb4" opacity="0.5"/>
+  </g>
+
+  <rect width="600" height="400" fill="url(#vig)"/>
+</svg>

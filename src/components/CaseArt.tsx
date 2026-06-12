@@ -1,18 +1,28 @@
 import { CASE_ICON } from '../data/caseArt';
 
-// Auto-detect case images dropped into src/assets/cases/<id>.{webp,jpg,png}.
-// Vite hashes & optimizes them; when a file is added it just appears — no code
-// change needed. Until then, each case shows a themed placeholder.
-const images = import.meta.glob('../assets/cases/*.{webp,jpg,jpeg,png}', {
+// Case art lives in src/assets/cases/<id>.<ext>. Built-in hand-drawn SVG
+// posters ship with the app; dropping a raster (webp/jpg/png) with the same
+// case id overrides the SVG automatically — no code change needed.
+const vectors = import.meta.glob('../assets/cases/*.svg', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+}) as Record<string, string>;
+const rasters = import.meta.glob('../assets/cases/*.{webp,jpg,jpeg,png}', {
   eager: true,
   query: '?url',
   import: 'default',
 }) as Record<string, string>;
 
 const byId: Record<string, string> = {};
-for (const path in images) {
-  const m = path.match(/([^/]+)\.\w+$/);
-  if (m) byId[m[1]] = images[path];
+const idOf = (path: string) => path.match(/([^/]+)\.\w+$/)?.[1];
+for (const path in vectors) {
+  const id = idOf(path);
+  if (id) byId[id] = vectors[path];
+}
+for (const path in rasters) {
+  const id = idOf(path);
+  if (id) byId[id] = rasters[path]; // raster art wins over the built-in SVG
 }
 
 export function CaseArt({ caseId, className = '' }: { caseId: string; className?: string }) {

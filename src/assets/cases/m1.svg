@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b0d13"/>
+      <stop offset="1" stop-color="#050609"/>
+    </linearGradient>
+    <linearGradient id="cone" x1="0" y1="0" x2="1" y2="0.3">
+      <stop offset="0" stop-color="#f2e2a8" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#f2e2a8" stop-opacity="0.02"/>
+    </linearGradient>
+    <radialGradient id="haze" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#d8dff0" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#d8dff0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.6"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#bg)"/>
+
+  <!-- studio rigging -->
+  <g stroke="#11141d" stroke-width="5">
+    <line x1="0" y1="36" x2="600" y2="36"/>
+    <line x1="120" y1="36" x2="120" y2="60"/>
+    <line x1="480" y1="36" x2="480" y2="60"/>
+  </g>
+  <g fill="#0e1119">
+    <rect x="104" y="58" width="32" height="20" rx="4"/>
+    <rect x="464" y="58" width="32" height="20" rx="4"/>
+  </g>
+
+  <!-- big studio spotlight on tripod (left) -->
+  <g>
+    <ellipse cx="170" cy="142" rx="34" ry="30" fill="#171c29"/>
+    <circle cx="196" cy="142" r="22" fill="#f5e6a8"/>
+    <g stroke="#0d1018" stroke-width="3">
+      <line x1="196" y1="120" x2="196" y2="164"/>
+      <line x1="174" y1="142" x2="218" y2="142"/>
+    </g>
+    <!-- barn doors -->
+    <path d="M214 116 L236 104 L238 112 L218 122 Z" fill="#11151f"/>
+    <path d="M214 168 L236 180 L238 172 L218 162 Z" fill="#11151f"/>
+    <!-- tripod -->
+    <g stroke="#0d1018" stroke-width="6">
+      <line x1="170" y1="172" x2="146" y2="300"/>
+      <line x1="170" y1="172" x2="196" y2="300"/>
+      <line x1="170" y1="170" x2="170" y2="238"/>
+    </g>
+    <!-- light cone -->
+    <path d="M218 124 L222 160 L520 282 L470 180 Z" fill="url(#cone)"/>
+  </g>
+  <circle cx="380" cy="210" r="120" fill="url(#haze)"/>
+
+  <!-- director's chair -->
+  <g>
+    <g stroke="#0e1119" stroke-width="6">
+      <line x1="350" y1="206" x2="402" y2="298"/>
+      <line x1="402" y1="206" x2="350" y2="298"/>
+    </g>
+    <rect x="346" y="196" width="62" height="14" rx="3" fill="#202a3e"/>
+    <rect x="350" y="246" width="54" height="10" rx="3" fill="#202a3e"/>
+    <line x1="344" y1="298" x2="360" y2="298" stroke="#0e1119" stroke-width="6"/>
+    <line x1="394" y1="298" x2="410" y2="298" stroke="#0e1119" stroke-width="6"/>
+  </g>
+
+  <!-- clapperboard leaning at chair base -->
+  <g transform="rotate(-14 452 268)">
+    <rect x="424" y="252" width="58" height="40" rx="3" fill="#10141d"/>
+    <rect x="424" y="244" width="58" height="12" rx="3" fill="#e8e4da"/>
+    <g fill="#10141d">
+      <path d="M428 244 L438 244 L434 256 L424 256 Z"/>
+      <path d="M448 244 L458 244 L454 256 L444 256 Z"/>
+      <path d="M468 244 L478 244 L474 256 L464 256 Z"/>
+    </g>
+    <g stroke="#3a4254" stroke-width="1.6" opacity="0.8">
+      <line x1="430" y1="266" x2="476" y2="266"/>
+      <line x1="430" y1="276" x2="476" y2="276"/>
+      <line x1="430" y1="286" x2="476" y2="286"/>
+    </g>
+  </g>
+
+  <!-- cables on floor -->
+  <g stroke="#0d1018" stroke-width="5" fill="none">
+    <path d="M40 350 Q140 320 240 348 Q320 370 420 344"/>
+    <path d="M200 366 Q280 346 360 364 Q440 380 520 360"/>
+  </g>
+
+  <!-- floor -->
+  <rect x="0" y="302" width="600" height="98" fill="#06070b" opacity="0.6"/>
+  <ellipse cx="380" cy="312" rx="160" ry="12" fill="#f2e2a8" opacity="0.1"/>
+
+  <!-- floor marking tape (X) -->
+  <g stroke="#caa53f" stroke-width="4" opacity="0.7">
+    <line x1="368" y1="306" x2="392" y2="322"/>
+    <line x1="392" y1="306" x2="368" y2="322"/>
+  </g>
+
+  <rect width="600" height="400" fill="url(#vig)"/>
+</svg>

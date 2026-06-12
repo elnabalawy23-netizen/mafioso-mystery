@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a0e18"/>
+      <stop offset="1" stop-color="#05070c"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#19324a"/>
+      <stop offset="1" stop-color="#0d1b2c"/>
+    </linearGradient>
+    <radialGradient id="screenGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4aa3c8" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#4aa3c8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.55"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#bg)"/>
+
+  <!-- window wall + skyline -->
+  <rect x="356" y="40" width="244" height="270" fill="#0a111e"/>
+  <g stroke="#152033" stroke-width="3">
+    <line x1="356" y1="40" x2="356" y2="310"/>
+    <line x1="438" y1="40" x2="438" y2="310"/>
+    <line x1="520" y1="40" x2="520" y2="310"/>
+    <line x1="356" y1="130" x2="600" y2="130"/>
+    <line x1="356" y1="220" x2="600" y2="220"/>
+  </g>
+  <!-- skyline -->
+  <g fill="#0f1626">
+    <rect x="368" y="190" width="34" height="120"/>
+    <rect x="410" y="160" width="28" height="150"/>
+    <rect x="446" y="208" width="38" height="102"/>
+    <rect x="492" y="150" width="30" height="160"/>
+    <rect x="530" y="186" width="40" height="124"/>
+  </g>
+  <g fill="#e8c15a" opacity="0.7">
+    <rect x="374" y="200" width="4" height="5"/><rect x="386" y="216" width="4" height="5"/>
+    <rect x="416" y="170" width="4" height="5"/><rect x="428" y="192" width="4" height="5"/>
+    <rect x="454" y="220" width="4" height="5"/><rect x="470" y="240" width="4" height="5"/>
+    <rect x="498" y="162" width="4" height="5"/><rect x="510" y="186" width="4" height="5"/>
+    <rect x="538" y="200" width="4" height="5"/><rect x="552" y="226" width="4" height="5"/>
+  </g>
+  <circle cx="394" cy="84" r="14" fill="#ead9a6" opacity="0.85"/>
+
+  <!-- desks row (dark) -->
+  <g fill="#0b101b">
+    <rect x="20" y="262" width="150" height="10"/>
+    <rect x="30" y="272" width="8" height="48"/>
+    <rect x="152" y="272" width="8" height="48"/>
+  </g>
+  <rect x="56" y="226" width="44" height="32" rx="3" fill="#0e1524"/>
+  <rect x="74" y="258" width="8" height="6" fill="#0e1524"/>
+
+  <!-- main desk with glowing monitors -->
+  <ellipse cx="282" cy="236" rx="150" ry="80" fill="url(#screenGlow)"/>
+  <g>
+    <rect x="186" y="276" width="220" height="12" fill="#10141f"/>
+    <rect x="200" y="288" width="10" height="56" fill="#0c101a"/>
+    <rect x="382" y="288" width="10" height="56" fill="#0c101a"/>
+    <!-- left monitor -->
+    <rect x="200" y="206" width="86" height="60" rx="4" fill="url(#screen)"/>
+    <rect x="238" y="266" width="10" height="10" fill="#0c101a"/>
+    <!-- right monitor -->
+    <rect x="298" y="200" width="92" height="66" rx="4" fill="url(#screen)"/>
+    <rect x="338" y="266" width="10" height="10" fill="#0c101a"/>
+    <!-- code lines -->
+    <g stroke="#5fc4e8" stroke-width="2.6" opacity="0.85" stroke-linecap="round">
+      <line x1="208" y1="216" x2="248" y2="216"/>
+      <line x1="214" y1="226" x2="262" y2="226"/>
+      <line x1="208" y1="236" x2="240" y2="236"/>
+      <line x1="214" y1="246" x2="256" y2="246"/>
+      <line x1="306" y1="212" x2="354" y2="212"/>
+      <line x1="312" y1="222" x2="372" y2="222"/>
+      <line x1="306" y1="232" x2="344" y2="232"/>
+      <line x1="312" y1="242" x2="366" y2="242"/>
+      <line x1="306" y1="252" x2="338" y2="252"/>
+    </g>
+    <g stroke="#e06a5a" stroke-width="2.6" opacity="0.9" stroke-linecap="round">
+      <line x1="222" y1="256" x2="252" y2="256"/>
+      <line x1="344" y1="232" x2="362" y2="232"/>
+    </g>
+    <!-- keyboard -->
+    <rect x="266" y="280" width="64" height="7" rx="2" fill="#141b2b"/>
+  </g>
+
+  <!-- empty chair -->
+  <g fill="#0a0e17">
+    <path d="M448 244 Q444 210 470 208 Q496 210 492 244 Z"/>
+    <rect x="452" y="244" width="36" height="10" rx="3"/>
+    <rect x="466" y="254" width="8" height="34"/>
+    <path d="M450 296 L490 296 L494 302 L446 302 Z"/>
+  </g>
+
+  <!-- floor -->
+  <rect x="0" y="310" width="600" height="90" fill="#06080e"/>
+  <ellipse cx="290" cy="320" rx="170" ry="14" fill="#4aa3c8" opacity="0.08"/>
+
+  <rect width="600" height="400" fill="url(#vig)"/>
+</svg>

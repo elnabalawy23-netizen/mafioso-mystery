@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#120e0a"/>
+      <stop offset="1" stop-color="#080604"/>
+    </linearGradient>
+    <radialGradient id="bulbGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f5cf6e" stop-opacity="0.75"/>
+      <stop offset="0.45" stop-color="#e8a93e" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#e8a93e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="tea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d98f2b"/>
+      <stop offset="1" stop-color="#8a4d12"/>
+    </linearGradient>
+    <linearGradient id="shishaGlass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7a2c2c"/>
+      <stop offset="1" stop-color="#3d1014"/>
+    </linearGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.6"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#bg)"/>
+
+  <!-- back wall: shuttered window + shelf -->
+  <rect x="60" y="60" width="130" height="120" fill="#0d0a07"/>
+  <g stroke="#1c1610" stroke-width="4">
+    <line x1="60" y1="78" x2="190" y2="78"/>
+    <line x1="60" y1="96" x2="190" y2="96"/>
+    <line x1="60" y1="114" x2="190" y2="114"/>
+    <line x1="60" y1="132" x2="190" y2="132"/>
+    <line x1="60" y1="150" x2="190" y2="150"/>
+    <line x1="60" y1="168" x2="190" y2="168"/>
+  </g>
+  <rect x="430" y="92" width="130" height="6" fill="#1a130c"/>
+  <g fill="#241a10">
+    <path d="M444 92 L444 74 Q444 68 450 68 L458 68 Q464 68 464 74 L464 92 Z"/>
+    <path d="M478 92 L478 74 Q478 68 484 68 L492 68 Q498 68 498 74 L498 92 Z"/>
+    <path d="M512 92 L512 74 Q512 68 518 68 L526 68 Q532 68 532 74 L532 92 Z"/>
+  </g>
+
+  <!-- hanging bulb -->
+  <line x1="300" y1="0" x2="300" y2="118" stroke="#1c1610" stroke-width="3"/>
+  <circle cx="300" cy="132" r="86" fill="url(#bulbGlow)"/>
+  <path d="M292 118 L308 118 L306 128 L294 128 Z" fill="#2a2014"/>
+  <circle cx="300" cy="140" r="13" fill="#f7d878"/>
+  <path d="M295 136 Q300 146 305 136" stroke="#b8862a" stroke-width="1.6" fill="none"/>
+
+  <!-- table -->
+  <ellipse cx="300" cy="268" rx="210" ry="34" fill="#1d130a"/>
+  <rect x="96" y="268" width="408" height="16" fill="#150d06"/>
+  <ellipse cx="300" cy="262" rx="200" ry="30" fill="#241709"/>
+
+  <!-- shisha -->
+  <g>
+    <path d="M448 120 L452 120 L455 168 L445 168 Z" fill="#caa53f"/>
+    <ellipse cx="450" cy="118" rx="10" ry="5" fill="#8a651c"/>
+    <path d="M438 168 L462 168 L458 186 L442 186 Z" fill="#caa53f"/>
+    <path d="M444 186 Q428 208 444 232 Q436 252 450 252 Q464 252 456 232 Q472 208 456 186 Z" fill="url(#shishaGlass)"/>
+    <rect x="441" y="250" width="18" height="6" rx="2" fill="#caa53f"/>
+    <ellipse cx="450" cy="116" rx="5" ry="2.6" fill="#e8643e"/>
+    <!-- hose -->
+    <path d="M444 196 Q400 196 388 216 Q376 238 396 246 Q420 254 412 262" stroke="#5a3b1e" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <!-- smoke -->
+    <path d="M450 104 Q444 88 452 74 Q460 60 452 44" stroke="#cfd8ea" stroke-width="2.4" fill="none" opacity="0.3" stroke-linecap="round"/>
+  </g>
+
+  <!-- tea glass -->
+  <g>
+    <path d="M236 226 L260 226 L256 258 L240 258 Z" fill="url(#tea)"/>
+    <path d="M234 222 L262 222 L261 228 L235 228 Z" fill="#f0d080" opacity="0.5"/>
+    <ellipse cx="248" cy="261" rx="14" ry="4" fill="#100a05"/>
+    <path d="M252 218 Q250 208 256 202" stroke="#cfd8ea" stroke-width="1.8" fill="none" opacity="0.3"/>
+  </g>
+
+  <!-- dominoes -->
+  <g>
+    <rect x="300" y="240" width="40" height="20" rx="3" fill="#e8e2d0" transform="rotate(-8 320 250)"/>
+    <line x1="318" y1="234" x2="322" y2="254" stroke="#1a1208" stroke-width="1.6" transform="rotate(-8 320 250)"/>
+    <g fill="#1a1208">
+      <circle cx="310" cy="244" r="1.8" transform="rotate(-8 320 250)"/>
+      <circle cx="330" cy="248" r="1.8" transform="rotate(-8 320 250)"/>
+      <circle cx="330" cy="254" r="1.8" transform="rotate(-8 320 250)"/>
+    </g>
+    <rect x="350" y="248" width="38" height="19" rx="3" fill="#ded8c4" transform="rotate(14 369 257)"/>
+    <line x1="367" y1="242" x2="371" y2="262" stroke="#1a1208" stroke-width="1.6" transform="rotate(14 369 257)"/>
+  </g>
+
+  <!-- empty cash drawer on table edge -->
+  <g>
+    <rect x="120" y="234" width="64" height="26" rx="3" fill="#17202e"/>
+    <rect x="126" y="240" width="52" height="16" rx="2" fill="#0a0e16"/>
+    <circle cx="152" cy="248" r="2.6" fill="#caa53f"/>
+  </g>
+
+  <!-- floor -->
+  <rect x="0" y="284" width="600" height="116" fill="#070503"/>
+  <g fill="#0d0906">
+    <rect x="60" y="300" width="14" height="80"/>
+    <rect x="520" y="300" width="14" height="80"/>
+  </g>
+  <ellipse cx="300" cy="300" rx="190" ry="12" fill="#e8a93e" opacity="0.07"/>
+
+  <rect width="600" height="400" fill="url(#vig)"/>
+</svg>

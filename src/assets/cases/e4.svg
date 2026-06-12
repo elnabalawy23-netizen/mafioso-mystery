@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b0e14"/>
+      <stop offset="1" stop-color="#05060a"/>
+    </linearGradient>
+    <radialGradient id="bulb" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f0e3b0" stop-opacity="0.7"/>
+      <stop offset="0.5" stop-color="#d8c074" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#d8c074" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mirror" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141b29"/>
+      <stop offset="1" stop-color="#0a0e17"/>
+    </linearGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.6"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#bg)"/>
+
+  <!-- mirror wall -->
+  <rect x="60" y="80" width="480" height="160" fill="url(#mirror)"/>
+  <g stroke="#1b2334" stroke-width="3">
+    <line x1="220" y1="80" x2="220" y2="240"/>
+    <line x1="380" y1="80" x2="380" y2="240"/>
+  </g>
+  <!-- faint reflections in mirror -->
+  <g opacity="0.25" fill="#222c40">
+    <rect x="120" y="150" width="60" height="12" rx="6"/>
+    <rect x="146" y="162" width="8" height="40"/>
+    <rect x="420" y="146" width="70" height="12" rx="6"/>
+    <rect x="450" y="158" width="8" height="44"/>
+  </g>
+
+  <!-- bare bulb harsh light -->
+  <line x1="300" y1="0" x2="300" y2="86" stroke="#11151f" stroke-width="3"/>
+  <circle cx="300" cy="120" r="110" fill="url(#bulb)"/>
+  <circle cx="300" cy="98" r="11" fill="#f5edc8"/>
+
+  <!-- dumbbell rack -->
+  <g fill="#0a0d14">
+    <rect x="70" y="236" width="170" height="10"/>
+    <rect x="78" y="246" width="10" height="60"/>
+    <rect x="222" y="246" width="10" height="60"/>
+    <rect x="70" y="270" width="170" height="10"/>
+  </g>
+  <g fill="#101521">
+    <rect x="86" y="222" width="12" height="16" rx="2"/><rect x="104" y="222" width="12" height="16" rx="2"/>
+    <rect x="130" y="220" width="14" height="18" rx="2"/><rect x="150" y="220" width="14" height="18" rx="2"/>
+    <rect x="178" y="218" width="16" height="20" rx="2"/><rect x="200" y="218" width="16" height="20" rx="2"/>
+    <rect x="92" y="256" width="14" height="16" rx="2"/><rect x="112" y="256" width="14" height="16" rx="2"/>
+    <rect x="150" y="254" width="16" height="18" rx="2"/><rect x="172" y="254" width="16" height="18" rx="2"/>
+  </g>
+
+  <!-- bench -->
+  <g fill="#0c1018">
+    <rect x="396" y="226" width="120" height="14" rx="5"/>
+    <rect x="410" y="240" width="10" height="44"/>
+    <rect x="492" y="240" width="10" height="44"/>
+  </g>
+  <!-- racked barbell over bench -->
+  <line x1="380" y1="206" x2="540" y2="206" stroke="#131927" stroke-width="6"/>
+  <g fill="#0e1320">
+    <rect x="392" y="190" width="12" height="32" rx="3"/>
+    <rect x="406" y="194" width="9" height="24" rx="3"/>
+    <rect x="508" y="190" width="12" height="32" rx="3"/>
+    <rect x="497" y="194" width="9" height="24" rx="3"/>
+  </g>
+
+  <!-- the iron bar on the floor (weapon) -->
+  <g transform="rotate(-7 300 330)">
+    <line x1="190" y1="330" x2="416" y2="330" stroke="#1b2336" stroke-width="7" stroke-linecap="round"/>
+    <rect x="196" y="312" width="16" height="36" rx="4" fill="#121a2c"/>
+    <rect x="216" y="318" width="12" height="25" rx="4" fill="#0f1626"/>
+    <rect x="392" y="312" width="16" height="36" rx="4" fill="#121a2c"/>
+    <rect x="376" y="318" width="12" height="25" rx="4" fill="#0f1626"/>
+  </g>
+  <ellipse cx="300" cy="352" rx="130" ry="9" fill="#000" opacity="0.5"/>
+
+  <!-- floor -->
+  <rect x="0" y="284" width="600" height="116" fill="#06070c" opacity="0"/>
+  <rect x="0" y="290" width="600" height="110" fill="#07090e"/>
+  <ellipse cx="300" cy="300" rx="180" ry="12" fill="#d8c074" opacity="0.08"/>
+  <g transform="rotate(-7 300 330)">
+    <line x1="190" y1="330" x2="416" y2="330" stroke="#1b2336" stroke-width="7" stroke-linecap="round"/>
+    <rect x="196" y="312" width="16" height="36" rx="4" fill="#121a2c"/>
+    <rect x="216" y="318" width="12" height="25" rx="4" fill="#0f1626"/>
+    <rect x="392" y="312" width="16" height="36" rx="4" fill="#121a2c"/>
+    <rect x="376" y="318" width="12" height="25" rx="4" fill="#0f1626"/>
+  </g>
+  <!-- towel dropped -->
+  <path d="M460 336 Q478 326 496 336 Q510 344 500 352 Q482 360 466 352 Q452 344 460 336 Z" fill="#1c2230"/>
+
+  <rect width="600" height="400" fill="url(#vig)"/>
+</svg>

@@ -1,15 +1,17 @@
 # Case art
 
-Drop one image per case here, named by the case id, e.g. `c1.webp`, `e1.webp`,
-`h2.webp`. Supported: `.webp`, `.jpg`, `.png` (WebP preferred — smallest).
+One image per case, named by the case id (`c1`, `e6`, `h3`, …).
 
-They are auto-detected by `src/components/CaseArt.tsx` (via `import.meta.glob`)
-and shown on the case-select cards and the crime-story screen. Until a file
-exists for a case, a themed placeholder (icon + gradient) is shown instead.
-
-Recommended source images: landscape ~3:2, no text. Convert to WebP and keep
-each well under ~200 KB.
+- **Built-in art:** every case ships with a hand-drawn noir `<id>.svg` poster
+  (in this folder). These render on the case-select cards and the crime-story
+  hero via `src/components/CaseArt.tsx` (`import.meta.glob`).
+- **Overriding with real images:** drop `<id>.webp` / `.jpg` / `.png` next to
+  the SVG — raster art automatically wins over the built-in SVG, no code
+  change. Recommended: landscape 3:2, no text, well under ~200 KB (WebP).
+- The card banner crops vertically (object-cover), so keep the subject in the
+  middle band of the image.
 
 Case ids: c1 villa · c2 hotel · c3 yacht · c4 museum · c5 tech ·
 e1 coffeehouse · e2 bakery · e3 car showroom · e4 gym · e5 pharmacy ·
-m1 film set · m2 night train · m3 hospital · h1 desert station · h2 opera.
+e6 clothes shop · m1 film set · m2 night train · m3 hospital ·
+m4 TV studio · h1 desert station · h2 opera · h3 Nile cruise.

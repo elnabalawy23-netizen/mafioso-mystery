@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0c0f18"/>
+      <stop offset="1" stop-color="#06070c"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2d484" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#f2d484" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="vase" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f0d080"/>
+      <stop offset="1" stop-color="#8a651c"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#11141f"/>
+      <stop offset="1" stop-color="#070910"/>
+    </linearGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.55"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <rect x="0" y="300" width="600" height="100" fill="url(#floor)"/>
+
+  <!-- columns -->
+  <g fill="#0d111c">
+    <rect x="30" y="60" width="48" height="240"/>
+    <rect x="22" y="48" width="64" height="14"/>
+    <rect x="22" y="298" width="64" height="12"/>
+    <rect x="522" y="60" width="48" height="240"/>
+    <rect x="514" y="48" width="64" height="14"/>
+    <rect x="514" y="298" width="64" height="12"/>
+    <rect x="130" y="86" width="36" height="216"/>
+    <rect x="124" y="76" width="48" height="11"/>
+    <rect x="434" y="86" width="36" height="216"/>
+    <rect x="428" y="76" width="48" height="11"/>
+  </g>
+  <!-- column fluting hint -->
+  <g stroke="#161c2c" stroke-width="2" opacity="0.6">
+    <line x1="44" y1="62" x2="44" y2="298"/>
+    <line x1="62" y1="62" x2="62" y2="298"/>
+    <line x1="536" y1="62" x2="536" y2="298"/>
+    <line x1="554" y1="62" x2="554" y2="298"/>
+  </g>
+
+  <!-- hanging banner (no text) -->
+  <path d="M196 0 L256 0 L256 120 L226 142 L196 120 Z" fill="#3d1014"/>
+  <path d="M344 0 L404 0 L404 120 L374 142 L344 120 Z" fill="#3d1014"/>
+
+  <!-- light beam -->
+  <path d="M268 0 L332 0 L382 304 L218 304 Z" fill="url(#beam)"/>
+
+  <!-- pedestal + glass case + artifact -->
+  <g>
+    <rect x="252" y="236" width="96" height="68" fill="#10141f"/>
+    <rect x="246" y="232" width="108" height="8" fill="#181e2e"/>
+    <!-- glass -->
+    <rect x="258" y="150" width="84" height="82" fill="#aac4e8" opacity="0.08"/>
+    <path d="M258 150 L342 150 L342 232 L258 232 Z" fill="none" stroke="#9fb3d8" stroke-opacity="0.35" stroke-width="1.5"/>
+    <line x1="258" y1="150" x2="266" y2="142" stroke="#9fb3d8" stroke-opacity="0.25" stroke-width="1.5"/>
+    <!-- golden vase -->
+    <path d="M291 226 L309 226 L306 212 Q316 204 314 188 Q312 174 300 170 Q288 174 286 188 Q284 204 294 212 Z" fill="url(#vase)"/>
+    <path d="M294 170 L306 170 L308 162 L292 162 Z" fill="url(#vase)"/>
+    <ellipse cx="300" cy="161" rx="9" ry="3" fill="#f5dc8e"/>
+  </g>
+
+  <!-- floor reflection -->
+  <ellipse cx="300" cy="312" rx="120" ry="12" fill="#f2d484" opacity="0.10"/>
+  <g stroke="#1a2030" stroke-width="1.5" opacity="0.8">
+    <line x1="0" y1="330" x2="600" y2="330"/>
+    <line x1="40" y1="360" x2="560" y2="360"/>
+  </g>
+  <path d="M291 318 L309 318 L306 352 L294 352 Z" fill="url(#vase)" opacity="0.12"/>
+
+  <!-- scattered documents -->
+  <g fill="#c8cede" opacity="0.85">
+    <rect x="382" y="314" width="30" height="18" rx="1" transform="rotate(8 397 323)"/>
+    <rect x="170" y="322" width="28" height="17" rx="1" transform="rotate(-12 184 330)"/>
+    <rect x="412" y="336" width="26" height="16" rx="1" transform="rotate(-5 425 344)"/>
+  </g>
+  <g stroke="#8d93a6" stroke-width="1" opacity="0.5">
+    <line x1="388" y1="320" x2="406" y2="322"/>
+    <line x1="387" y1="325" x2="405" y2="327"/>
+    <line x1="175" y1="328" x2="191" y2="325"/>
+  </g>
+
+  <rect width="600" height="400" fill="url(#vig)"/>
+</svg>
