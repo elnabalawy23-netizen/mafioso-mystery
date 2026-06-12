@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d0b10"/>
+      <stop offset="1" stop-color="#060508"/>
+    </linearGradient>
+    <linearGradient id="cone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2d484" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#f2d484" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="paint" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#27384f"/>
+      <stop offset="0.55" stop-color="#1a2433"/>
+      <stop offset="1" stop-color="#101722"/>
+    </linearGradient>
+    <radialGradient id="chand" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f0d080" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#f0d080" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.6"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#bg)"/>
+
+  <!-- dim chandelier -->
+  <circle cx="300" cy="54" r="60" fill="url(#chand)"/>
+  <g stroke="#2a2114" stroke-width="2.4" fill="none">
+    <line x1="300" y1="0" x2="300" y2="34"/>
+    <path d="M268 56 Q300 74 332 56"/>
+    <path d="M276 44 Q300 58 324 44"/>
+  </g>
+  <g fill="#caa53f" opacity="0.6">
+    <circle cx="268" cy="56" r="3"/>
+    <circle cx="300" cy="64" r="3"/>
+    <circle cx="332" cy="56" r="3"/>
+    <circle cx="276" cy="44" r="2.4"/>
+    <circle cx="324" cy="44" r="2.4"/>
+  </g>
+
+  <!-- spotlight cone on the painting -->
+  <rect x="196" y="26" width="56" height="10" rx="5" fill="#10131d"/>
+  <circle cx="224" cy="34" r="6" fill="#f5d878"/>
+  <path d="M212 38 L236 38 L300 290 L140 290 Z" fill="url(#cone)"/>
+
+  <!-- easel + framed painting -->
+  <g>
+    <!-- easel legs -->
+    <g stroke="#241808" stroke-width="6">
+      <line x1="180" y1="300" x2="222" y2="140"/>
+      <line x1="266" y1="300" x2="226" y2="140"/>
+      <line x1="223" y1="170" x2="223" y2="306"/>
+    </g>
+    <!-- frame -->
+    <rect x="152" y="148" width="142" height="112" rx="4" fill="#8a651c"/>
+    <rect x="158" y="154" width="130" height="100" rx="2" fill="#5a4112"/>
+    <rect x="164" y="160" width="118" height="88" fill="url(#paint)"/>
+    <!-- painting content: moonlit landscape silhouette -->
+    <circle cx="254" cy="178" r="9" fill="#ead9a6" opacity="0.9"/>
+    <path d="M164 226 Q194 206 224 222 Q254 236 282 218 L282 248 L164 248 Z" fill="#0c1119"/>
+    <path d="M176 232 L186 214 L196 232 Z" fill="#0a0e15"/>
+    <!-- glint on frame -->
+    <line x1="158" y1="154" x2="288" y2="154" stroke="#f0d080" stroke-width="2" opacity="0.5"/>
+  </g>
+
+  <!-- podium with gavel (right) -->
+  <g>
+    <path d="M398 218 L478 218 L470 300 L406 300 Z" fill="#1c1208"/>
+    <rect x="392" y="210" width="92" height="12" rx="3" fill="#2a1c0c"/>
+    <!-- gavel -->
+    <g transform="rotate(-18 438 200)">
+      <rect x="414" y="196" width="38" height="7" rx="3" fill="#3a2410"/>
+      <rect x="446" y="186" width="16" height="27" rx="4" fill="#4a2f14"/>
+    </g>
+    <circle cx="466" cy="216" r="7" fill="#3a2410"/>
+    <!-- small lamp on podium -->
+    <circle cx="412" cy="206" r="16" fill="url(#chand)"/>
+  </g>
+
+  <!-- numbered paddle dropped on floor -->
+  <g transform="rotate(14 332 332)">
+    <rect x="320" y="318" width="26" height="32" rx="13" fill="#1d1610"/>
+    <rect x="330" y="348" width="6" height="16" rx="2" fill="#140f0a"/>
+  </g>
+
+  <!-- rows of chairs silhouettes (audience, foreground) -->
+  <g fill="#08060a">
+    <path d="M0 400 L0 368 Q34 354 66 368 L66 400 Z"/>
+    <path d="M76 400 L76 364 Q110 350 142 364 L142 400 Z"/>
+    <path d="M152 400 L152 362 Q186 348 218 362 L218 400 Z"/>
+    <path d="M228 400 L228 360 Q262 346 294 360 L294 400 Z"/>
+    <path d="M304 400 L304 362 Q338 348 370 362 L370 400 Z"/>
+    <path d="M380 400 L380 364 Q414 350 446 364 L446 400 Z"/>
+    <path d="M456 400 L456 366 Q490 352 522 366 L522 400 Z"/>
+    <path d="M532 400 L532 370 Q566 356 598 370 L598 400 Z"/>
+  </g>
+  <g stroke="#8a651c" stroke-width="1.4" opacity="0.3" fill="none">
+    <path d="M152 362 Q186 348 218 362"/>
+    <path d="M228 360 Q262 346 294 360"/>
+    <path d="M304 362 Q338 348 370 362"/>
+  </g>
+
+  <!-- floor light pool -->
+  <ellipse cx="223" cy="306" rx="110" ry="14" fill="#f2d484" opacity="0.12"/>
+
+  <rect width="600" height="400" fill="url(#vig)"/>
+</svg>
