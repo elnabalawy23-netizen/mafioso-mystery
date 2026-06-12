@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../game/GameContext';
 import { MIN_PLAYERS, genderCounts, maxPlayersFor } from '../data/cases';
 import { Button, Eyebrow, GenderToggle, ScreenShell } from '../components/ui';
+import { CaseArt } from '../components/CaseArt';
 import type { Gender, Player } from '../types';
 
 const blank = (): Player => ({ name: '', gender: 'male' });
@@ -41,11 +42,19 @@ export default function AddPlayersScreen() {
 
   return (
     <ScreenShell>
-      <div className="mb-5 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between">
         <Button variant="ghost" onClick={() => go('selectCase')} className="px-4 py-2 text-sm">
           رجوع
         </Button>
         <Eyebrow>اللاعبين</Eyebrow>
+      </div>
+
+      <div className="relative mb-4 h-28 shrink-0 overflow-hidden rounded-2xl border border-white/10">
+        <CaseArt caseId={selectedCase.id} />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-950/95 via-ink-950/25 to-transparent" />
+        <p className="absolute bottom-2 right-3 text-lg font-bold text-parchment drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">
+          {selectedCase.title}
+        </p>
       </div>
 
       <h1 className="mb-1 text-2xl font-bold text-parchment">مين المحققين؟</h1>

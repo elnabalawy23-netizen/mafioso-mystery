@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useOnline } from './OnlineContext';
 import { Button, Eyebrow, Field, ScreenShell, TextSizeControl } from '../components/ui';
+import { CaseArt } from '../components/CaseArt';
 import { TEXT_SIZES, useTextScale } from '../game/useTextScale';
 
 export function InRoom() {
@@ -37,6 +38,13 @@ function Lobby() {
           اخرج
         </Button>
         <Eyebrow>غرفة اللعب</Eyebrow>
+      </div>
+      <div className="relative mb-4 h-24 shrink-0 overflow-hidden rounded-2xl border border-white/10">
+        <CaseArt caseId={v.case.id} />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-950/95 via-ink-950/25 to-transparent" />
+        <p className="absolute bottom-2 right-3 font-bold text-parchment drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">
+          {v.case.title}
+        </p>
       </div>
       <div className="mb-5 rounded-2xl border border-brass-500/40 bg-brass-500/10 p-4 text-center">
         <p className="text-xs text-muted">كود الغرفة</p>
