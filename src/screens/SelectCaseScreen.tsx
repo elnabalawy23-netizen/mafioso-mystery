@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
-import { casesByDifficulty, DIFFICULTIES, MIN_PLAYERS } from '../data/cases';
+import { casesByDifficulty, DIFFICULTIES, MIN_PLAYERS, type CaseOrder } from '../data/cases';
 import { Button, Eyebrow, ScreenShell } from '../components/ui';
 import { CaseArt } from '../components/CaseArt';
 import type { Difficulty } from '../types';
@@ -27,8 +27,9 @@ const TAB_STYLE: Record<Difficulty, { active: string; dot: string; badge: string
 export default function SelectCaseScreen() {
   const { chooseCase, go } = useGame();
   const [active, setActive] = useState<Difficulty>('easy');
+  const [order, setOrder] = useState<CaseOrder>('newest');
 
-  const cases = casesByDifficulty(active);
+  const cases = casesByDifficulty(active, order);
 
   const surpriseMe = () => {
     if (cases.length === 0) return;
@@ -70,6 +71,31 @@ export default function SelectCaseScreen() {
             </button>
           );
         })}
+      </div>
+
+      <div className="mb-4 flex items-center justify-between">
+        <span className="text-xs text-muted">ترتيب القضايا</span>
+        <div className="flex overflow-hidden rounded-xl border border-white/10 bg-ink-800/50">
+          {(
+            [
+              { key: 'newest', label: 'الأحدث الأول' },
+              { key: 'oldest', label: 'الأقدم الأول' },
+            ] as { key: CaseOrder; label: string }[]
+          ).map((o) => (
+            <button
+              key={o.key}
+              onClick={() => setOrder(o.key)}
+              aria-pressed={order === o.key}
+              className={`btn-press px-3 py-2 text-xs font-semibold transition ${
+                order === o.key
+                  ? 'bg-brass-500/25 text-brass-200'
+                  : 'text-muted hover:text-parchment'
+              }`}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <motion.button

@@ -20,9 +20,12 @@ export function difficultyLabel(d: Difficulty): string {
   return DIFFICULTIES.find((x) => x.key === d)?.label ?? d;
 }
 
-/** Cases of a difficulty, newest first (the data file is oldest → newest). */
-export function casesByDifficulty(d: Difficulty): MysteryCase[] {
-  return CASES.filter((c) => c.difficulty === d).reverse();
+export type CaseOrder = 'newest' | 'oldest';
+
+/** Cases of a difficulty; the data file is ordered oldest → newest. */
+export function casesByDifficulty(d: Difficulty, order: CaseOrder = 'newest'): MysteryCase[] {
+  const list = CASES.filter((c) => c.difficulty === d);
+  return order === 'newest' ? list.reverse() : list;
 }
 
 export function maxPlayersFor(c: MysteryCase): number {
