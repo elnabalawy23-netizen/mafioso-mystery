@@ -1,28 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
-import { casesByDifficulty, DIFFICULTIES, MIN_PLAYERS, type CaseOrder } from '../data/cases';
+import { casesByDifficulty, DIFFICULTIES, type CaseOrder } from '../data/cases';
 import { Button, Eyebrow, ScreenShell } from '../components/ui';
-import { CaseArt } from '../components/CaseArt';
+import { CaseCard, DIFFICULTY_STYLE } from '../components/CaseCard';
 import type { Difficulty } from '../types';
-
-const TAB_STYLE: Record<Difficulty, { active: string; dot: string; badge: string }> = {
-  easy: {
-    active: 'bg-emerald-500/20 border-emerald-400/50 text-emerald-200',
-    dot: 'bg-emerald-400',
-    badge: 'border-emerald-400/40 bg-emerald-500/10 text-emerald-200',
-  },
-  medium: {
-    active: 'bg-amber-500/20 border-amber-400/50 text-amber-200',
-    dot: 'bg-amber-400',
-    badge: 'border-amber-400/40 bg-amber-500/10 text-amber-200',
-  },
-  hard: {
-    active: 'bg-blood-500/20 border-blood-400/50 text-blood-400',
-    dot: 'bg-blood-400',
-    badge: 'border-blood-400/40 bg-blood-500/10 text-blood-400',
-  },
-};
 
 export default function SelectCaseScreen() {
   const { chooseCase, go } = useGame();
@@ -59,12 +41,12 @@ export default function SelectCaseScreen() {
               onClick={() => setActive(key)}
               className={`btn-press rounded-2xl border px-3 py-2.5 text-sm font-semibold transition ${
                 isActive
-                  ? TAB_STYLE[key].active
+                  ? DIFFICULTY_STYLE[key].active
                   : 'border-white/10 bg-white/5 text-muted hover:text-parchment'
               }`}
             >
               <span className="flex items-center justify-center gap-1.5">
-                <span className={`h-2 w-2 rounded-full ${TAB_STYLE[key].dot}`} />
+                <span className={`h-2 w-2 rounded-full ${DIFFICULTY_STYLE[key].dot}`} />
                 {label}
               </span>
               <span className="mt-0.5 block text-[11px] font-normal opacity-70">{count} قضايا</span>
@@ -113,45 +95,7 @@ export default function SelectCaseScreen() {
           <p className="mt-10 text-center text-sm text-muted">مفيش قضايا في المستوى ده لسه.</p>
         )}
         {cases.map((c, i) => (
-          <motion.button
-            key={c.id}
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.06 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => chooseCase(c)}
-            className="panel block w-full overflow-hidden p-0 text-right"
-          >
-            <div className="relative h-24 w-full">
-              <CaseArt caseId={c.id} />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/25 to-transparent" />
-              <span className="absolute left-3 top-2 font-display text-2xl text-brass-200 drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]">
-                {i + 1}
-              </span>
-              <span
-                className={`absolute right-3 top-2 rounded-full border px-2 py-0.5 text-[10px] font-bold ${TAB_STYLE[c.difficulty].badge}`}
-              >
-                {DIFFICULTIES.find((d) => d.key === c.difficulty)?.label}
-              </span>
-              <p className="absolute bottom-1.5 right-3 text-[11px] font-semibold tracking-wider text-brass-300/90 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
-                {c.theme}
-              </p>
-            </div>
-            <div className="p-4 pt-3">
-              <h3 className="text-lg font-bold leading-snug text-parchment">{c.title}</h3>
-              <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted">
-                {c.description}
-              </p>
-              <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span className="rounded-full border border-brass-500/30 bg-brass-500/10 px-2.5 py-1 font-semibold text-brass-300">
-                  👥 {MIN_PLAYERS}–{c.characters.length} لاعبين
-                </span>
-                <span className="rounded-full bg-white/5 px-2.5 py-1 text-parchment/80">
-                  🔍 {c.clues.length} أدلة
-                </span>
-              </div>
-            </div>
-          </motion.button>
+          <CaseCard key={c.id} caseData={c} index={i} onClick={() => chooseCase(c)} />
         ))}
       </div>
     </ScreenShell>

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useOnline } from './OnlineContext';
-import { casesByDifficulty, DIFFICULTIES, difficultyLabel } from '../data/cases';
+import { casesByDifficulty, DIFFICULTIES, getCaseById, type CaseOrder } from '../data/cases';
 import { Button, Eyebrow, GenderToggle, ScreenShell } from '../components/ui';
-import type { Gender } from '../types';
+import { CaseCard, DIFFICULTY_STYLE } from '../components/CaseCard';
+import type { Difficulty, Gender } from '../types';
 
 export function PreRoom({ onExit }: { onExit: () => void }) {
   const { screen } = useOnline();
@@ -60,9 +61,13 @@ function NameAndGender({
 
 function CreateRoom() {
   const { setScreen, create, busy, error } = useOnline();
+  const [active, setActive] = useState<Difficulty>('easy');
+  const [order, setOrder] = useState<CaseOrder>('newest');
   const [caseId, setCaseId] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [gender, setGender] = useState<Gender>('male');
+  const cases = casesByDifficulty(active, order);
+  const selected = caseId ? getCaseById(caseId) : null;
   const ready = !!caseId && name.trim().length > 0;
 
   return (
@@ -74,37 +79,69 @@ function CreateRoom() {
         <Eyebrow>غرفة جديدة</Eyebrow>
       </div>
       <h1 className="mb-1 text-2xl font-bold text-parchment">اختار القضية</h1>
-      <p className="mb-4 text-sm text-muted">إنت المنظّم — اختار القضية واكتب اسمك.</p>
+      <p className="mb-3 text-sm text-muted">إنت المنظّم — اختار القضية واكتب اسمك.</p>
+
+      <div className="mb-3 grid grid-cols-3 gap-2">
+        {DIFFICULTIES.map(({ key, label }) => {
+          const isActive = key === active;
+          const count = casesByDifficulty(key).length;
+          return (
+            <button
+              key={key}
+              onClick={() => setActive(key)}
+              className={`btn-press rounded-2xl border px-3 py-2.5 text-sm font-semibold transition ${
+                isActive ? DIFFICULTY_STYLE[key].active : 'border-white/10 bg-white/5 text-muted hover:text-parchment'
+              }`}
+            >
+              <span className="flex items-center justify-center gap-1.5">
+                <span className={`h-2 w-2 rounded-full ${DIFFICULTY_STYLE[key].dot}`} />
+                {label}
+              </span>
+              <span className="mt-0.5 block text-[11px] font-normal opacity-70">{count} قضايا</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mb-3 flex items-center justify-between">
+        <span className="text-xs text-muted">ترتيب القضايا</span>
+        <div className="flex overflow-hidden rounded-xl border border-white/10 bg-ink-800/50">
+          {(
+            [
+              { key: 'newest', label: 'الأحدث الأول' },
+              { key: 'oldest', label: 'الأقدم الأول' },
+            ] as { key: CaseOrder; label: string }[]
+          ).map((o) => (
+            <button
+              key={o.key}
+              onClick={() => setOrder(o.key)}
+              aria-pressed={order === o.key}
+              className={`btn-press px-3 py-2 text-xs font-semibold transition ${
+                order === o.key ? 'bg-brass-500/25 text-brass-200' : 'text-muted hover:text-parchment'
+              }`}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="flex-1 space-y-4 overflow-y-auto scroll-thin pb-2">
-        {DIFFICULTIES.map((d) => (
-          <div key={d.key}>
-            <p className="mb-2 text-xs font-bold tracking-widest text-brass-300">{difficultyLabel(d.key)}</p>
-            <div className="space-y-2">
-              {casesByDifficulty(d.key).map((c) => (
-                <button
-                  key={c.id}
-                  onClick={() => setCaseId(c.id)}
-                  className={`flex w-full items-center justify-between rounded-xl border px-4 py-3 text-right transition ${
-                    caseId === c.id
-                      ? 'border-brass-500/70 bg-brass-500/15 text-parchment'
-                      : 'border-white/10 bg-ink-800/60 text-parchment/90 hover:border-brass-500/30'
-                  }`}
-                >
-                  <span className="text-sm font-semibold">{c.title}</span>
-                  {caseId === c.id && <span className="text-brass-300">✓</span>}
-                </button>
-              ))}
-            </div>
-          </div>
+        {cases.map((c, i) => (
+          <CaseCard key={c.id} caseData={c} index={i} selected={caseId === c.id} onClick={() => setCaseId(c.id)} />
         ))}
       </div>
 
-      <div className="mt-4 space-y-2">
+      <div className="mt-3 space-y-2 border-t border-white/10 pt-3">
+        {selected && (
+          <p className="text-center text-xs text-muted">
+            القضية: <span className="font-semibold text-brass-300">{selected.title}</span>
+          </p>
+        )}
         <NameAndGender name={name} gender={gender} onName={setName} onGender={setGender} />
         {error && <p className="text-center text-xs text-blood-400">{error}</p>}
         <Button full disabled={!ready || busy} onClick={() => caseId && create(caseId, name.trim(), gender)}>
-          {busy ? 'لحظة…' : 'اعمل الغرفة'}
+          {busy ? 'لحظة…' : selected ? `اعمل غرفة — ${selected.title}` : 'اختار قضية الأول'}
         </Button>
       </div>
     </ScreenShell>
