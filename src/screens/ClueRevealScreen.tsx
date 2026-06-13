@@ -3,11 +3,13 @@ import { useGame } from '../game/GameContext';
 import { Button, Eyebrow, ScreenShell } from '../components/ui';
 
 export default function ClueRevealScreen() {
-  const { selectedCase, clues, revealedClues, go } = useGame();
+  const { selectedCase, clues, revealedClues, revealNextClue, go } = useGame();
   if (!selectedCase) return null;
 
   const clue = clues[revealedClues - 1];
   if (!clue) return null;
+
+  const hasMore = revealedClues < clues.length;
 
   return (
     <ScreenShell center>
@@ -55,13 +57,20 @@ export default function ClueRevealScreen() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7 }}
-        className="mt-8"
+        className="mt-8 space-y-2.5"
       >
-        <Button full onClick={() => go('discussion')}>
-          حُط الدليل على اللوحة
+        {hasMore && (
+          <Button full onClick={revealNextClue}>
+            🔍 اكشف الدليل اللي بعده
+          </Button>
+        )}
+        <Button variant={hasMore ? 'outline' : 'primary'} full onClick={() => go('discussion')}>
+          📌 حُطه على اللوحة واتناقشوا
         </Button>
-        <p className="mt-3 text-center text-xs text-muted">
-          اتناقشوا الدليل ده معناه إيه قبل ما تصوّتوا
+        <p className="mt-1 text-center text-xs text-muted">
+          {hasMore
+            ? 'اكشفوا أدلة أكتر، أو اتناقشوا وصوّتوا لما تكونوا جاهزين'
+            : 'دي آخر دليل — اتناقشوا وصوّتوا على المجرم'}
         </p>
       </motion.div>
     </ScreenShell>
