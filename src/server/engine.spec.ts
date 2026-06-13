@@ -121,16 +121,25 @@ for (const caseId of cases) {
     ok(state.phase === 'clues' && state.revealedClues === 1, `${caseId}: first clue not shown`);
     checkSecurity(state, ids, `${caseId}/clues`);
 
-    // everyone votes for a WRONG suspect (a non-culprit), resolve -> wrong
+    // everyone votes for a WRONG suspect (an assigned non-culprit, never themselves) -> wrong
     openVoting(state, ids[0], 3100);
-    const wrongSuspect = c.characters.find((x) => x.id !== state.criminalId)!.id;
-    for (const id of ids) castVote(state, id, wrongSuspect, 3200);
+    const assignedIds = Object.values(state.assignments);
+    const wrongTargets: Record<string, string> = {};
+    for (const id of ids) {
+      const t = assignedIds.find((cid) => cid !== state.criminalId && cid !== state.assignments[id])!;
+      wrongTargets[id] = t;
+      castVote(state, id, t, 3200);
+    }
     checkSecurity(state, ids, `${caseId}/voting`);
     // during voting, no one sees others' vote targets
     for (const id of ids) {
       const v = viewFor(state, id, 3200);
-      ok(v.myVote === wrongSuspect, `${caseId}: myVote wrong`);
+      ok(v.myVote === wrongTargets[id], `${caseId}: myVote wrong`);
       ok(v.votesIn === ids.length, `${caseId}: votesIn count wrong`);
+      // you are never offered yourself, and every suspect is a real player
+      ok(v.suspects.every((s) => s.id !== state.assignments[id]), `${caseId}: self in suspects`);
+      ok(v.suspects.every((s) => assignedIds.includes(s.id)), `${caseId}: non-player in suspects`);
+      ok(v.suspects.length === ids.length - 1, `${caseId}: suspect count wrong`);
     }
     resolveVoting(state, ids[0], 3300);
     ok(state.phase === 'wrong', `${caseId}: should be wrong after wrong accusation`);
@@ -140,7 +149,15 @@ for (const caseId of cases) {
     continueAfterWrong(state, ids[0], 3400);
     ok(state.phase === 'clues' && state.revealedClues === 2, `${caseId}: second clue not shown`);
     openVoting(state, ids[0], 3500);
-    for (const id of ids) castVote(state, id, state.criminalId!, 3600);
+    for (const id of ids) {
+      if (state.assignments[id] === state.criminalId) {
+        // the culprit can't accuse themselves — they vote someone else (stays a minority)
+        const other = assignedIds.find((cid) => cid !== state.criminalId)!;
+        castVote(state, id, other, 3600);
+      } else {
+        castVote(state, id, state.criminalId!, 3600);
+      }
+    }
     resolveVoting(state, ids[0], 3700);
     ok(state.phase === 'solved', `${caseId}: should be solved after correct accusation`);
 
@@ -183,6 +200,43 @@ console.log('guard checks...');
     threw2 = true;
   }
   ok(threw2, 'non-host start should throw');
+}
+
+// 3) Voting target guards: only real players, never yourself.
+console.log('voting target guards...');
+{
+  const { state, ids } = buildStarted('c1', ['male', 'female', 'male', 'female']); // 8-char case, 4 players
+  beginInvestigation(state, ids[0], 100);
+  openVoting(state, ids[0], 110);
+  const c = getCaseById('c1')!;
+  const assigned = new Set(Object.values(state.assignments));
+
+  // a real case character that is NOT dealt to any player must be rejected
+  const unassigned = c.characters.find((ch) => !assigned.has(ch.id));
+  ok(!!unassigned, 'c1 with 4 players should leave some characters unassigned');
+  if (unassigned) {
+    let threw = false;
+    try {
+      castVote(state, ids[0], unassigned.id, 120);
+    } catch {
+      threw = true;
+    }
+    ok(threw, 'voting for a non-player character should throw');
+  }
+
+  // voting for your OWN character must be rejected
+  let threwSelf = false;
+  try {
+    castVote(state, ids[0], state.assignments[ids[0]], 130);
+  } catch {
+    threwSelf = true;
+  }
+  ok(threwSelf, 'self-vote should throw');
+
+  // a valid vote (another real player) is recorded
+  const valid = Object.values(state.assignments).find((cid) => cid !== state.assignments[ids[0]])!;
+  castVote(state, ids[0], valid, 140);
+  ok(state.players.find((p) => p.id === ids[0])!.vote === valid, 'valid vote should be recorded');
 }
 
 console.log(failures === 0 ? '\nPASS — all engine flow + security checks green' : `\nFAIL — ${failures} check(s) failed`);

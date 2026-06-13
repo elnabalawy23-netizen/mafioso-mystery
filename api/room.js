@@ -3630,8 +3630,9 @@ function openVoting(state, playerId, now) {
 function castVote(state, playerId, characterId, now) {
   if (state.phase !== "voting") throw new RoomError("\u0645\u0641\u064A\u0634 \u062A\u0635\u0648\u064A\u062A \u062F\u0644\u0648\u0642\u062A\u064A", "BAD_PHASE");
   const p = player(state, playerId);
-  const c = requireCase(state.caseId);
-  if (!c.characters.some((ch) => ch.id === characterId)) throw new RoomError("\u0645\u0634\u062A\u0628\u0647 \u0645\u0634 \u0645\u0648\u062C\u0648\u062F", "BAD_TARGET");
+  const assignedCharIds = new Set(Object.values(state.assignments));
+  if (!assignedCharIds.has(characterId)) throw new RoomError("\u0627\u0644\u0645\u0634\u062A\u0628\u0647 \u062F\u0647 \u0645\u0634 \u0645\u0646 \u0627\u0644\u0644\u0627\u0639\u0628\u064A\u0646", "BAD_TARGET");
+  if (state.assignments[playerId] === characterId) throw new RoomError("\u0645\u0634 \u0647\u062A\u0642\u062F\u0631 \u062A\u0635\u0648\u0651\u062A \u0639\u0644\u0649 \u0646\u0641\u0633\u0643", "SELF_VOTE");
   p.vote = characterId;
   p.lastSeen = now;
   state.updatedAt = now;
@@ -3695,6 +3696,7 @@ function viewFor(state, playerId, now) {
   const charById = new Map(c.characters.map((ch) => [ch.id, ch]));
   const myCharId = me ? state.assignments[me.id] : void 0;
   const myChar = myCharId ? charById.get(myCharId) ?? null : null;
+  const assignedCharIds = new Set(Object.values(state.assignments));
   const totalClues = state.criminalId ? cluesFor(c, state.criminalId).length : c.clues.length;
   const revealed = state.criminalId ? cluesFor(c, state.criminalId).slice(0, state.revealedClues) : [];
   let solution = null;
@@ -3735,7 +3737,8 @@ function viewFor(state, playerId, now) {
       victim: c.victim
     },
     // Suspect roster for the voting screen — public info only, no secrets.
-    suspects: c.characters.map((ch) => ({
+    // Only players who are actually in the game, and never yourself.
+    suspects: c.characters.filter((ch) => assignedCharIds.has(ch.id) && ch.id !== myCharId).map((ch) => ({
       id: ch.id,
       name: ch.name,
       age: ch.age,

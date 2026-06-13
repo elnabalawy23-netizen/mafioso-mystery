@@ -222,8 +222,11 @@ export function openVoting(state: RoomState, playerId: string, now: number): Roo
 export function castVote(state: RoomState, playerId: string, characterId: string, now: number): RoomState {
   if (state.phase !== 'voting') throw new RoomError('مفيش تصويت دلوقتي', 'BAD_PHASE');
   const p = player(state, playerId);
-  const c = requireCase(state.caseId);
-  if (!c.characters.some((ch) => ch.id === characterId)) throw new RoomError('مشتبه مش موجود', 'BAD_TARGET');
+  // The target must be a character actually dealt to a player…
+  const assignedCharIds = new Set(Object.values(state.assignments));
+  if (!assignedCharIds.has(characterId)) throw new RoomError('المشتبه ده مش من اللاعبين', 'BAD_TARGET');
+  // …and you can't accuse yourself.
+  if (state.assignments[playerId] === characterId) throw new RoomError('مش هتقدر تصوّت على نفسك', 'SELF_VOTE');
   p.vote = characterId;
   p.lastSeen = now;
   state.updatedAt = now;
@@ -330,6 +333,8 @@ export function viewFor(state: RoomState, playerId: string, now: number): RoomVi
   const charById = new Map(c.characters.map((ch) => [ch.id, ch] as const));
   const myCharId = me ? state.assignments[me.id] : undefined;
   const myChar = myCharId ? charById.get(myCharId) ?? null : null;
+  // Only characters actually dealt to players are real suspects.
+  const assignedCharIds = new Set(Object.values(state.assignments));
 
   const totalClues = state.criminalId ? cluesFor(c, state.criminalId).length : c.clues.length;
   const revealed = state.criminalId
@@ -375,13 +380,16 @@ export function viewFor(state: RoomState, playerId: string, now: number): RoomVi
       victim: c.victim,
     },
     // Suspect roster for the voting screen — public info only, no secrets.
-    suspects: c.characters.map((ch) => ({
-      id: ch.id,
-      name: ch.name,
-      age: ch.age,
-      gender: ch.gender,
-      occupation: ch.occupation,
-    })),
+    // Only players who are actually in the game, and never yourself.
+    suspects: c.characters
+      .filter((ch) => assignedCharIds.has(ch.id) && ch.id !== myCharId)
+      .map((ch) => ({
+        id: ch.id,
+        name: ch.name,
+        age: ch.age,
+        gender: ch.gender,
+        occupation: ch.occupation,
+      })),
     myCharacter: myChar ? { ...myChar, amICulprit: myChar.id === state.criminalId } : null,
     clues: revealed,
     revealedClues: state.revealedClues,
