@@ -72,13 +72,22 @@ export function OnlineProvider({ children }: { children: ReactNode }) {
   });
   const polling = useRef(false);
 
-  // Resume an existing room after a refresh.
+  // Resume an existing room after a refresh — but only an active one.
+  // A finished game (solved/final) is dropped so reopening the app lands on
+  // the menu, where a new room code can be joined instead of re-entering the
+  // old, already-played room.
   useEffect(() => {
     const saved = loadSaved();
     if (!saved) return;
     roomApi
       .view(saved.code, saved.playerId)
-      .then((r) => setState((s) => ({ ...s, code: saved.code, playerId: saved.playerId, view: r.view })))
+      .then((r) => {
+        if (r.view.phase === 'solved' || r.view.phase === 'final') {
+          save(null, null);
+          return;
+        }
+        setState((s) => ({ ...s, code: saved.code, playerId: saved.playerId, view: r.view }));
+      })
       .catch(() => save(null, null));
   }, []);
 
