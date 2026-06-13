@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b1322"/>
+      <stop offset="0.6" stop-color="#11182a"/>
+      <stop offset="1" stop-color="#1a1610"/>
+    </linearGradient>
+    <linearGradient id="duneA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2017"/>
+      <stop offset="1" stop-color="#160f0a"/>
+    </linearGradient>
+    <linearGradient id="duneB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c150d"/>
+      <stop offset="1" stop-color="#0d0905"/>
+    </linearGradient>
+    <radialGradient id="moon" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#eadfae" stop-opacity="0.95"/>
+      <stop offset="0.4" stop-color="#d4af37" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pit" cx="0.5" cy="0.4" r="0.6">
+      <stop offset="0" stop-color="#f5c462" stop-opacity="0.85"/>
+      <stop offset="0.5" stop-color="#e8a93e" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#e8a93e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lantern" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffe6a0" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#f0b94e" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#f0b94e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe08a"/>
+      <stop offset="1" stop-color="#b8862a"/>
+    </linearGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.58"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#sky)"/>
+
+  <!-- moon + stars -->
+  <circle cx="500" cy="80" r="54" fill="url(#moon)"/>
+  <circle cx="500" cy="80" r="18" fill="#ead9a6"/>
+  <g fill="#cfd8ea">
+    <circle cx="70" cy="50" r="1.3" opacity="0.8"/>
+    <circle cx="150" cy="86" r="1" opacity="0.6"/>
+    <circle cx="250" cy="44" r="1.3" opacity="0.7"/>
+    <circle cx="340" cy="74" r="1" opacity="0.5"/>
+    <circle cx="420" cy="40" r="1.2" opacity="0.7"/>
+    <circle cx="120" cy="120" r="1" opacity="0.4"/>
+    <circle cx="560" cy="150" r="1.1" opacity="0.5"/>
+  </g>
+
+  <!-- far dune ridge -->
+  <path d="M0 240 Q150 196 320 226 Q460 252 600 214 L600 280 L0 280 Z" fill="url(#duneB)"/>
+  <!-- wind streaks -->
+  <g stroke="#6b5a38" fill="none" stroke-linecap="round" opacity="0.22">
+    <path d="M0 150 Q160 134 320 150 Q460 164 600 144" stroke-width="2.6"/>
+    <path d="M40 186 Q200 172 360 186" stroke-width="2"/>
+  </g>
+
+  <!-- tents on the ridge -->
+  <g>
+    <path d="M70 240 L104 196 L138 240 Z" fill="#0e1118"/>
+    <path d="M104 196 L104 240" stroke="#070a0f" stroke-width="2"/>
+    <path d="M150 242 L188 202 L226 242 Z" fill="#0c0f16"/>
+    <path d="M188 202 L188 242" stroke="#070a0f" stroke-width="2"/>
+    <!-- lit tent (warm glow) -->
+    <circle cx="156" cy="226" r="30" fill="url(#lantern)" opacity="0.7"/>
+    <path d="M132 240 L156 206 L180 240 Z" fill="#241808"/>
+    <path d="M140 240 L156 214 L172 240 Z" fill="#f0b94e" opacity="0.7"/>
+  </g>
+
+  <!-- near dune -->
+  <path d="M0 300 Q180 262 380 296 Q500 316 600 290 L600 400 L0 400 Z" fill="url(#duneA)"/>
+
+  <!-- excavation pit + tomb entrance (glowing) -->
+  <ellipse cx="300" cy="320" rx="150" ry="44" fill="url(#pit)"/>
+  <!-- pit rim -->
+  <path d="M196 322 Q300 286 404 322 Q300 352 196 322 Z" fill="#0b0805"/>
+  <!-- stone steps down -->
+  <g fill="#1c140c">
+    <path d="M258 316 L342 316 L334 326 L266 326 Z"/>
+    <path d="M266 326 L334 326 L326 338 L274 338 Z"/>
+    <path d="M274 338 L326 338 L318 350 L282 350 Z"/>
+  </g>
+  <!-- tomb doorway glowing at the bottom -->
+  <path d="M286 350 L314 350 L312 332 L288 332 Z" fill="#1a1206"/>
+  <rect x="291" y="334" width="18" height="16" fill="#f5c462" opacity="0.85"/>
+  <!-- hieroglyph hint on the lintel -->
+  <g stroke="#caa53f" stroke-width="1.4" opacity="0.6">
+    <line x1="276" y1="320" x2="276" y2="328"/>
+    <circle cx="290" cy="322" r="2" fill="none"/>
+    <line x1="304" y1="320" x2="312" y2="320"/>
+    <line x1="320" y1="320" x2="320" y2="328"/>
+  </g>
+
+  <!-- planted excavation lamp on a pole (left of pit) -->
+  <g>
+    <line x1="180" y1="350" x2="186" y2="288" stroke="#0e0a06" stroke-width="4"/>
+    <circle cx="187" cy="282" r="9" fill="#ffe6a0"/>
+    <circle cx="187" cy="282" r="22" fill="url(#lantern)"/>
+  </g>
+
+  <!-- pickaxe stuck in the sand (right) -->
+  <g transform="rotate(18 430 320)">
+    <line x1="430" y1="300" x2="430" y2="366" stroke="#3a2410" stroke-width="5" stroke-linecap="round"/>
+    <path d="M410 300 Q430 290 450 300" stroke="#1b2433" stroke-width="6" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- golden mask resting on a cloth at the pit edge -->
+  <g transform="translate(330 300)">
+    <ellipse cx="0" cy="20" rx="34" ry="8" fill="#0a0705" opacity="0.6"/>
+    <path d="M-18 -14 Q-18 -26 0 -26 Q18 -26 18 -14 L14 14 Q0 22 -14 14 Z" fill="url(#gold)"/>
+    <!-- nemes stripes -->
+    <path d="M-18 -14 L-22 6 L-12 10 L-12 -12 Z" fill="#d8a23a"/>
+    <path d="M18 -14 L22 6 L12 10 L12 -12 Z" fill="#d8a23a"/>
+    <!-- eyes -->
+    <path d="M-10 -8 L-3 -8" stroke="#1a1206" stroke-width="2" stroke-linecap="round"/>
+    <path d="M3 -8 L10 -8" stroke="#1a1206" stroke-width="2" stroke-linecap="round"/>
+    <!-- beard -->
+    <rect x="-3" y="14" width="6" height="12" rx="2" fill="#d8a23a"/>
+    <circle cx="14" cy="-18" r="2.4" fill="#fff3c8" opacity="0.9"/>
+  </g>
+
+  <!-- light pool on sand -->
+  <ellipse cx="300" cy="330" rx="160" ry="22" fill="#e8a93e" opacity="0.1"/>
+
+  <rect width="600" height="400" fill="url(#vig)"/>
+</svg>
