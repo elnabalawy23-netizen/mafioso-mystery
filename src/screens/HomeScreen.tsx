@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
 import { useAppMode } from '../game/appMode';
-import { Button, ScreenShell } from '../components/ui';
+import { Button, MuteButton, ScreenShell } from '../components/ui';
 
 const howTo = [
   'اختاروا القضية، وبعدين اكتبوا أسامي اللاعبين (من ٤ لـ ٨ لاعبين).',
@@ -17,6 +17,9 @@ export default function HomeScreen() {
 
   return (
     <ScreenShell>
+      <div className="flex justify-end">
+        <MuteButton />
+      </div>
       <div className="flex flex-1 flex-col justify-center">
         <motion.div
           initial={{ opacity: 0, y: 10 }}

@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
 import { Button, ScreenShell } from '../components/ui';
+import { play } from '../audio/sound';
 
 const CONFETTI_COLORS = ['#e7b54a', '#f5c542', '#f4e9d0', '#3ddc84', '#e74c3c'];
 
@@ -47,6 +48,9 @@ function Confetti() {
 
 export default function CorrectVoteScreen() {
   const { selectedCase, criminalId, assignments, revealTruth, wrongAttempts } = useGame();
+  useEffect(() => {
+    play('correct');
+  }, []);
   if (!selectedCase) return null;
 
   const criminal = selectedCase.characters.find((c) => c.id === criminalId);

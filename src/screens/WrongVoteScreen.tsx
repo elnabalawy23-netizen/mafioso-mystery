@@ -1,10 +1,15 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
 import { Button, ScreenShell } from '../components/ui';
+import { play } from '../audio/sound';
 
 export default function WrongVoteScreen() {
   const { selectedCase, clues, assignments, lastAccusedId, revealedClues, wrongAttempts, continueAfterWrong } =
     useGame();
+  useEffect(() => {
+    play('wrong');
+  }, []);
   if (!selectedCase) return null;
 
   const accusedAssignment = assignments.find((a) => a.character.id === lastAccusedId);

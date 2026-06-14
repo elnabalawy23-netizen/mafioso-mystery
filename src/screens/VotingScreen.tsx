@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../game/GameContext';
 import { Button, Eyebrow, ScreenShell } from '../components/ui';
+import { play } from '../audio/sound';
 
 export default function VotingScreen() {
   const { selectedCase, assignments, revealedClues, accuse } = useGame();
@@ -14,6 +15,7 @@ export default function VotingScreen() {
   const submit = () => {
     if (!selected) return;
     setConfirming(true);
+    play('accuse');
     setTimeout(() => accuse(selected.character.id), 1500);
   };
 

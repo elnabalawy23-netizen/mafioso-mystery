@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useOnline } from './OnlineContext';
 import { casesByDifficulty, DIFFICULTIES, getCaseById, type CaseOrder } from '../data/cases';
-import { Button, Eyebrow, GenderToggle, ScreenShell } from '../components/ui';
+import { Button, Eyebrow, GenderToggle, MuteButton, ScreenShell } from '../components/ui';
 import { CaseCard, DIFFICULTY_STYLE } from '../components/CaseCard';
 import type { Difficulty, Gender } from '../types';
 
@@ -30,6 +30,9 @@ function Menu({ onExit }: { onExit: () => void }) {
         <button onClick={onExit} className="mt-2 w-full text-center text-sm text-muted hover:text-parchment">
           ← رجوع للّعب على موبايل واحد
         </button>
+      </div>
+      <div className="mt-6 flex justify-center">
+        <MuteButton />
       </div>
     </ScreenShell>
   );

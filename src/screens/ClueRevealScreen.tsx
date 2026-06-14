@@ -1,9 +1,15 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
 import { Button, Eyebrow, ScreenShell } from '../components/ui';
+import { play } from '../audio/sound';
 
 export default function ClueRevealScreen() {
   const { selectedCase, clues, revealedClues, revealNextClue, go } = useGame();
+  // A suspense sting each time a clue is shown.
+  useEffect(() => {
+    play('clue');
+  }, [revealedClues]);
   if (!selectedCase) return null;
 
   const clue = clues[revealedClues - 1];

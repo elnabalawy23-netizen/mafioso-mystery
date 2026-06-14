@@ -1,6 +1,7 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { useEffect, useState, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { TEXT_SIZES } from '../game/useTextScale';
+import { isMuted, onMuteChange, toggleMuted, unlockAudio } from '../audio/sound';
 import type { Gender } from '../types';
 
 type Variant = 'primary' | 'ghost' | 'danger' | 'outline';
@@ -108,6 +109,28 @@ export function TextSizeControl({
         ))}
       </div>
     </div>
+  );
+}
+
+/** Speaker toggle for the game sound effects (persists in localStorage). */
+export function MuteButton({ className = '' }: { className?: string }) {
+  const [m, setM] = useState(isMuted());
+  useEffect(() => onMuteChange(setM), []);
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        unlockAudio();
+        setM(toggleMuted());
+      }}
+      aria-label={m ? 'تشغيل الصوت' : 'كتم الصوت'}
+      aria-pressed={m}
+      className={`btn-press flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-ink-800/60 text-lg transition hover:text-parchment ${
+        m ? 'text-muted' : 'text-brass-300'
+      } ${className}`}
+    >
+      {m ? '🔇' : '🔊'}
+    </button>
   );
 }
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
 import { casesByDifficulty, DIFFICULTIES, type CaseOrder } from '../data/cases';
-import { Button, Eyebrow, ScreenShell } from '../components/ui';
+import { Button, Eyebrow, MuteButton, ScreenShell } from '../components/ui';
 import { CaseCard, DIFFICULTY_STYLE } from '../components/CaseCard';
 import type { Difficulty } from '../types';
 
@@ -22,9 +22,12 @@ export default function SelectCaseScreen() {
   return (
     <ScreenShell>
       <div className="mb-5 flex items-center justify-between">
-        <Button variant="ghost" onClick={() => go('home')} className="px-4 py-2 text-sm">
-          رجوع
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" onClick={() => go('home')} className="px-4 py-2 text-sm">
+            رجوع
+          </Button>
+          <MuteButton />
+        </div>
         <Eyebrow>اختار القضية</Eyebrow>
       </div>
 

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { unlockAudio } from './audio/sound';
 import { GameProvider, useGame } from './game/GameContext';
 import { AppModeContext } from './game/appMode';
 import OnlineApp from './online/OnlineApp';
@@ -41,6 +42,12 @@ function Router() {
 
 export default function App() {
   const [mode, setMode] = useState<'local' | 'online'>('local');
+  // Unlock the audio context on the first user gesture (mobile autoplay policy).
+  useEffect(() => {
+    const unlock = () => unlockAudio();
+    window.addEventListener('pointerdown', unlock, { once: true });
+    return () => window.removeEventListener('pointerdown', unlock);
+  }, []);
   return (
     <div className="app-bg">
       <div className="grain" />

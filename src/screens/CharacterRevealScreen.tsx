@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useGame } from '../game/GameContext';
 import { Button, Field, ScreenShell, Stepper, TextSizeControl } from '../components/ui';
 import { TEXT_SIZES, useTextScale } from '../game/useTextScale';
+import { play } from '../audio/sound';
 
 export default function CharacterRevealScreen() {
   const { assignments, criminalId, revealIndex, nextReveal } = useGame();
@@ -13,6 +14,14 @@ export default function CharacterRevealScreen() {
   useEffect(() => {
     setRevealed(false);
   }, [revealIndex]);
+
+  // On reveal: a low ominous tone for the culprit, a soft neutral one for the
+  // rest — both short, so the sound itself never gives the culprit away.
+  useEffect(() => {
+    if (!revealed) return;
+    const cur = assignments[revealIndex];
+    if (cur) play(cur.character.id === criminalId ? 'culprit' : 'reveal');
+  }, [revealed]);
 
   const current = assignments[revealIndex];
   if (!current) return null;

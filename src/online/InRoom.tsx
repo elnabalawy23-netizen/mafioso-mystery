@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useOnline } from './OnlineContext';
 import { Button, Eyebrow, Field, ScreenShell, TextSizeControl } from '../components/ui';
 import { CaseArt } from '../components/CaseArt';
 import { TEXT_SIZES, useTextScale } from '../game/useTextScale';
+import { play } from '../audio/sound';
 
 export function InRoom() {
   const { view } = useOnline();
@@ -121,6 +122,9 @@ function MyCharacterCard() {
 function Roles() {
   const { view, begin, busy } = useOnline();
   const isHost = !!view!.you?.isHost;
+  useEffect(() => {
+    play(view!.myCharacter?.amICulprit ? 'culprit' : 'reveal');
+  }, []);
   return (
     <ScreenShell>
       <div className="mb-3 text-center">
@@ -147,6 +151,9 @@ function Clues() {
   const v = view!;
   const isHost = !!v.you?.isHost;
   const [showChar, setShowChar] = useState(false);
+  useEffect(() => {
+    play('clue');
+  }, [v.revealedClues]);
   return (
     <ScreenShell>
       <div className="mb-3 flex items-center justify-between">
@@ -246,6 +253,9 @@ function Wrong() {
   const v = view!;
   const isHost = !!v.you?.isHost;
   const more = v.revealedClues < v.totalClues;
+  useEffect(() => {
+    play('wrong');
+  }, []);
   return (
     <ScreenShell center>
       <div className="text-center">
@@ -276,6 +286,9 @@ function Result() {
   const isHost = !!v.you?.isHost;
   const sol = v.solution;
   const solved = v.phase === 'solved';
+  useEffect(() => {
+    play(solved ? 'correct' : 'wrong');
+  }, []);
   return (
     <ScreenShell>
       <div className="mb-4 text-center">
