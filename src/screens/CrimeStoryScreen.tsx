@@ -4,7 +4,7 @@ import { Button, Eyebrow, ScreenShell } from '../components/ui';
 import { CaseArt } from '../components/CaseArt';
 
 export default function CrimeStoryScreen() {
-  const { selectedCase, beginInvestigation } = useGame();
+  const { selectedCase, startReveal } = useGame();
   if (!selectedCase) return null;
 
   return (
@@ -60,9 +60,12 @@ export default function CrimeStoryScreen() {
         </motion.p>
       </div>
 
-      <Button full onClick={beginInvestigation}>
-        يلا نبدأ التحقيق والنقاش
+      <Button full onClick={startReveal}>
+        اظهر لكل واحد شخصيته
       </Button>
+      <p className="mt-2 text-center text-xs text-muted">
+        هتسلّموا الموبايل لكل لاعب عشان يشوف شخصيته السرية
+      </p>
     </ScreenShell>
   );
 }

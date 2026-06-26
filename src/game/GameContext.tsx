@@ -26,7 +26,7 @@ interface GameContextValue extends GameState {
   setPlayers: (players: Player[]) => void;
   startGame: () => void;
   nextReveal: () => void;
-  beginInvestigation: () => void;
+  startReveal: () => void;
   revealNextClue: () => void;
   goVote: () => void;
   accuse: (characterId: string) => boolean;
@@ -79,7 +79,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         revealedClues: 0,
         lastAccusedId: null,
         wrongAttempts: 0,
-        phase: 'reveal',
+        phase: 'crime',
       };
     });
   }, []);
@@ -88,14 +88,15 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState((s) => {
       const next = s.revealIndex + 1;
       if (next >= s.assignments.length) {
-        return { ...s, revealIndex: next, phase: 'crime' };
+        return { ...s, revealIndex: next, phase: 'discussion' };
       }
       return { ...s, revealIndex: next };
     });
   }, []);
 
-  const beginInvestigation = useCallback(() => {
-    setState((s) => ({ ...s, phase: 'discussion' }));
+  // Show the crime story first; this then hands out characters one player at a time.
+  const startReveal = useCallback(() => {
+    setState((s) => ({ ...s, phase: 'reveal', revealIndex: 0 }));
   }, []);
 
   const revealNextClue = useCallback(() => {
@@ -156,7 +157,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         revealedClues: 0,
         lastAccusedId: null,
         wrongAttempts: 0,
-        phase: 'reveal',
+        phase: 'crime',
       };
     });
   }, []);
@@ -184,7 +185,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setPlayers,
       startGame,
       nextReveal,
-      beginInvestigation,
+      startReveal,
       revealNextClue,
       goVote,
       accuse,
@@ -202,7 +203,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setPlayers,
       startGame,
       nextReveal,
-      beginInvestigation,
+      startReveal,
       revealNextClue,
       goVote,
       accuse,
