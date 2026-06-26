@@ -15,6 +15,7 @@ export const CASE_ICON: Record<string, string> = {
   m2: '🚆',
   m3: '🏥',
   m4: '📺',
+  m5: '🍽️',
   h1: '🏜️',
   h2: '🎭',
   h3: '🛳️',
