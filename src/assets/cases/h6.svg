@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0c1226"/>
+      <stop offset="0.65" stop-color="#13122a"/>
+      <stop offset="1" stop-color="#1a1410"/>
+    </linearGradient>
+    <radialGradient id="moon" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#eadfae" stop-opacity="0.95"/>
+      <stop offset="0.4" stop-color="#d4af37" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="tentDark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7a1f2b"/>
+      <stop offset="1" stop-color="#4a1019"/>
+    </linearGradient>
+    <linearGradient id="tentLight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e7d6b8"/>
+      <stop offset="1" stop-color="#b9a583"/>
+    </linearGradient>
+    <radialGradient id="doorGlow" cx="0.5" cy="0.7" r="0.6">
+      <stop offset="0" stop-color="#ffe6a0" stop-opacity="0.95"/>
+      <stop offset="0.5" stop-color="#f0b94e" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#f0b94e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ground" cx="0.5" cy="0" r="1">
+      <stop offset="0" stop-color="#241a12"/>
+      <stop offset="1" stop-color="#0c0905"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.58"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#sky)"/>
+
+  <!-- moon + stars -->
+  <circle cx="498" cy="78" r="50" fill="url(#moon)"/>
+  <circle cx="498" cy="78" r="17" fill="#ead9a6"/>
+  <g fill="#cfd8ea">
+    <circle cx="70" cy="48" r="1.3" opacity="0.8"/>
+    <circle cx="150" cy="84" r="1" opacity="0.6"/>
+    <circle cx="250" cy="44" r="1.3" opacity="0.7"/>
+    <circle cx="340" cy="70" r="1" opacity="0.5"/>
+    <circle cx="120" cy="120" r="1" opacity="0.4"/>
+    <circle cx="560" cy="150" r="1.1" opacity="0.5"/>
+    <circle cx="430" cy="40" r="1.1" opacity="0.6"/>
+  </g>
+
+  <!-- ground -->
+  <path d="M0 300 Q300 268 600 300 L600 400 L0 400 Z" fill="url(#ground)"/>
+
+  <!-- small caravan on the left -->
+  <g>
+    <rect x="36" y="252" width="92" height="50" rx="6" fill="#13202e"/>
+    <rect x="44" y="262" width="20" height="18" rx="2" fill="#f0b94e" opacity="0.8"/>
+    <rect x="72" y="262" width="20" height="18" rx="2" fill="#101824"/>
+    <path d="M36 252 L48 238 L116 238 L128 252 Z" fill="#0e1822"/>
+    <circle cx="58" cy="306" r="9" fill="#0a0d12"/>
+    <circle cx="106" cy="306" r="9" fill="#0a0d12"/>
+    <rect x="74" y="218" width="4" height="22" fill="#0e1822"/>
+  </g>
+
+  <!-- BIG TOP tent -->
+  <g>
+    <!-- roof scalloped peak -->
+    <path d="M300 96 L470 250 L130 250 Z" fill="url(#tentDark)"/>
+    <!-- light stripes on roof -->
+    <path d="M300 96 L210 250 L168 250 Z" fill="url(#tentLight)" opacity="0.92"/>
+    <path d="M300 96 L300 250 L262 250 Z" fill="url(#tentLight)" opacity="0.92"/>
+    <path d="M300 96 L392 250 L354 250 Z" fill="url(#tentLight)" opacity="0.92"/>
+    <!-- roof rim -->
+    <path d="M130 250 L470 250" stroke="#2a0c12" stroke-width="3"/>
+    <!-- scalloped valance -->
+    <path d="M130 250 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 L470 250 Z" fill="#5a141f"/>
+    <!-- body walls -->
+    <rect x="150" y="250" width="300" height="80" fill="#41101a"/>
+    <g fill="#caa478" opacity="0.6">
+      <rect x="174" y="250" width="20" height="80"/>
+      <rect x="226" y="250" width="20" height="80"/>
+      <rect x="278" y="250" width="20" height="80"/>
+      <rect x="330" y="250" width="20" height="80"/>
+      <rect x="382" y="250" width="20" height="80"/>
+    </g>
+    <!-- glowing entrance -->
+    <circle cx="300" cy="312" r="58" fill="url(#doorGlow)"/>
+    <path d="M276 330 L276 280 Q300 262 324 280 L324 330 Z" fill="#1a1206"/>
+    <path d="M282 330 L282 286 Q300 272 318 286 L318 330 Z" fill="#ffd86e" opacity="0.85"/>
+    <!-- tied-back flaps -->
+    <path d="M276 280 L262 286 L268 320 L276 318 Z" fill="#5a141f"/>
+    <path d="M324 280 L338 286 L332 320 L324 318 Z" fill="#5a141f"/>
+    <!-- top pole + pennant flags -->
+    <rect x="298" y="78" width="4" height="22" fill="#1a0d10"/>
+    <path d="M302 80 L322 86 L302 92 Z" fill="#e2b23a"/>
+    <path d="M298 80 L278 86 L298 92 Z" fill="#c23a48"/>
+  </g>
+
+  <!-- bunting/string lights from tent to poles -->
+  <path d="M70 220 Q190 250 130 252" stroke="#caa53f" stroke-width="1.2" fill="none" opacity="0.7"/>
+  <path d="M470 250 Q540 250 560 224" stroke="#caa53f" stroke-width="1.2" fill="none" opacity="0.7"/>
+  <g fill="#f3cf6d">
+    <circle cx="96" cy="232" r="2.2"/><circle cx="120" cy="244" r="2.2"/>
+    <circle cx="500" cy="244" r="2.2"/><circle cx="528" cy="234" r="2.2"/>
+  </g>
+
+  <!-- spotlight beams crossing the sky -->
+  <path d="M300 312 L150 120 L186 110 L330 300 Z" fill="#f5e2a0" opacity="0.06"/>
+  <path d="M300 312 L470 130 L500 150 L330 304 Z" fill="#f5e2a0" opacity="0.06"/>
+
+  <!-- light pool at entrance -->
+  <ellipse cx="300" cy="330" rx="120" ry="16" fill="#f0b94e" opacity="0.12"/>
+
+  <rect width="600" height="400" fill="url(#vig)"/>
+</svg>
