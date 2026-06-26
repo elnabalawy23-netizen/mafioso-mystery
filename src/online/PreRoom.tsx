@@ -81,8 +81,13 @@ function CreateRoom() {
         </Button>
         <Eyebrow>غرفة جديدة</Eyebrow>
       </div>
-      <h1 className="mb-1 text-2xl font-bold text-parchment">اختار القضية</h1>
-      <p className="mb-3 text-sm text-muted">إنت المنظّم — اختار القضية واكتب اسمك.</p>
+      <h1 className="mb-1 text-2xl font-bold text-parchment">غرفة جديدة</h1>
+      <p className="mb-3 text-sm text-muted">إنت المنظّم — اكتب اسمك واختار القضية.</p>
+
+      <div className="mb-4 rounded-2xl border border-white/10 bg-ink-800/40 p-3">
+        <p className="mb-1.5 text-xs font-semibold text-brass-300">اسمك ونوعك</p>
+        <NameAndGender name={name} gender={gender} onName={setName} onGender={setGender} />
+      </div>
 
       <div className="mb-3 grid grid-cols-3 gap-2">
         {DIFFICULTIES.map(({ key, label }) => {
@@ -136,15 +141,15 @@ function CreateRoom() {
       </div>
 
       <div className="mt-3 space-y-2 border-t border-white/10 pt-3">
-        {selected && (
-          <p className="text-center text-xs text-muted">
-            القضية: <span className="font-semibold text-brass-300">{selected.title}</span>
-          </p>
-        )}
-        <NameAndGender name={name} gender={gender} onName={setName} onGender={setGender} />
         {error && <p className="text-center text-xs text-blood-400">{error}</p>}
         <Button full disabled={!ready || busy} onClick={() => caseId && create(caseId, name.trim(), gender)}>
-          {busy ? 'لحظة…' : selected ? `اعمل غرفة — ${selected.title}` : 'اختار قضية الأول'}
+          {busy
+            ? 'لحظة…'
+            : !name.trim()
+              ? 'اكتب اسمك الأول'
+              : !selected
+                ? 'اختار قضية'
+                : `اعمل غرفة — ${selected.title}`}
         </Button>
       </div>
     </ScreenShell>
