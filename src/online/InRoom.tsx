@@ -212,45 +212,58 @@ function Voting() {
   const { view, vote, resolve, busy } = useOnline();
   const v = view!;
   const isHost = !!v.you?.isHost;
+  const iAmOut = !!v.you?.eliminated;
+  const allVoted = v.eligibleVoters > 0 && v.votesIn >= v.eligibleVoters;
   return (
     <ScreenShell>
       <div className="mb-2 text-center">
         <Eyebrow>التصويت</Eyebrow>
       </div>
       <p className="mb-3 text-center text-sm text-muted">
-        مين المجرم؟ اختار مشتبه. ({v.votesIn} من {v.players.length} صوّتوا)
+        مين المجرم؟ أكتر حد تصوّتوا عليه يطلع من اللعبة. ({v.votesIn} من {v.eligibleVoters} صوّتوا)
       </p>
-      <div className="flex-1 space-y-2 overflow-y-auto scroll-thin">
-        {v.suspects.map((s) => (
-          <button
-            key={s.id}
-            onClick={() => vote(s.id)}
-            disabled={busy}
-            className={`flex w-full items-center justify-between rounded-xl border px-4 py-3 text-right transition ${
-              v.myVote === s.id
-                ? 'border-blood-500/70 bg-blood-500/15 text-parchment'
-                : 'border-white/10 bg-ink-800/60 text-parchment/90 hover:border-blood-500/30'
-            }`}
-          >
-            <span>
-              <span className="text-sm font-semibold">{s.name}</span>{' '}
-              <span className="text-xs text-muted">— {s.occupation}</span>
-            </span>
-            <span className="shrink-0 text-sm text-muted">
-              {s.gender === 'female' ? '♀' : '♂'}
-              {v.myVote === s.id ? ' ✓' : ''}
-            </span>
-          </button>
-        ))}
-      </div>
+      {iAmOut ? (
+        <div className="flex flex-1 flex-col items-center justify-center text-center text-muted">
+          <div className="mb-3 text-5xl">💀</div>
+          <p className="text-sm">إنت طلعت من اللعبة — اتفرّج على باقي التصويت.</p>
+        </div>
+      ) : (
+        <div className="flex-1 space-y-2 overflow-y-auto scroll-thin">
+          {v.suspects.map((s) => (
+            <button
+              key={s.id}
+              onClick={() => vote(s.id)}
+              disabled={busy}
+              className={`flex w-full items-center justify-between rounded-xl border px-4 py-3 text-right transition ${
+                v.myVote === s.id
+                  ? 'border-blood-500/70 bg-blood-500/15 text-parchment'
+                  : 'border-white/10 bg-ink-800/60 text-parchment/90 hover:border-blood-500/30'
+              }`}
+            >
+              <span>
+                <span className="text-sm font-semibold">{s.name}</span>{' '}
+                <span className="text-xs text-muted">— {s.occupation}</span>
+              </span>
+              <span className="shrink-0 text-sm text-muted">
+                {s.gender === 'female' ? '♀' : '♂'}
+                {v.myVote === s.id ? ' ✓' : ''}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
       <div className="mt-4">
         {isHost ? (
-          <Button full variant="danger" disabled={busy || v.votesIn === 0} onClick={resolve}>
-            اقفل التصويت واعرف النتيجة
+          <Button full variant="danger" disabled={busy || !allVoted} onClick={resolve}>
+            {allVoted ? 'اعرفوا مين طلع' : `مستنيين الكل يصوّت (${v.votesIn}/${v.eligibleVoters})`}
           </Button>
         ) : (
           <p className="text-center text-sm text-muted">
-            {v.myVote ? 'صوتك اتسجّل… مستنيين الباقيين والمنظّم.' : 'اختار مين المتهم.'}
+            {iAmOut
+              ? 'إنت برّه — مستنيين الباقيين.'
+              : v.myVote
+                ? 'صوتك اتسجّل… لازم كل واحد يصوّت قبل ما تظهر النتيجة.'
+                : 'اختار مين المتهم.'}
           </p>
         )}
       </div>
@@ -262,7 +275,8 @@ function Wrong() {
   const { view, next, busy } = useOnline();
   const v = view!;
   const isHost = !!v.you?.isHost;
-  const more = v.revealedClues < v.totalClues;
+  const ej = v.lastEjected;
+  const iWasOut = !!v.you?.eliminated;
   useEffect(() => {
     play('wrong');
   }, []);
@@ -270,17 +284,23 @@ function Wrong() {
     <ScreenShell center>
       <div className="text-center">
         <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-blood-500/40 bg-blood-500/10 text-4xl">
-          ❌
+          💀
         </div>
-        <h1 className="mb-2 text-2xl font-bold text-blood-400">تخمين غلط!</h1>
-        <p className="text-sm text-muted">
-          المتهم ده مش المجرم. {more ? 'هيطلع دليل جديد يساعدكم.' : 'خلصت الأدلة، يلا نكشف الحقيقة.'}
+        <h1 className="mb-2 text-2xl font-bold text-blood-400">طلع بريء!</h1>
+        {ej && (
+          <p className="text-base text-parchment">
+            <span className="font-bold">{ej.playerName}</span> طلع من اللعبة — وطلع إنه كان{' '}
+            <span className="text-brass-300">{ej.characterName}</span> البريء.
+          </p>
+        )}
+        <p className="mt-2 text-sm text-muted">
+          {iWasOut ? 'إنت اللي طلعت! اتفرّج وانتوا بتكملوا.' : 'المجرم لسه معاكم… كمّلوا التحقيق وصوّتوا تاني.'}
         </p>
       </div>
       <div className="mt-8 w-full">
         {isHost ? (
           <Button full disabled={busy} onClick={next}>
-            {more ? 'اطلع الدليل الجديد' : 'اكشف الحقيقة'}
+            كمّلوا الجولة الجاية
           </Button>
         ) : (
           <p className="text-center text-sm text-muted">مستنيين المنظّم…</p>
@@ -296,18 +316,26 @@ function Result() {
   const isHost = !!v.you?.isHost;
   const sol = v.solution;
   const solved = v.phase === 'solved';
+  const escaped = !!sol?.escaped;
   useEffect(() => {
     play(solved ? 'correct' : 'wrong');
   }, []);
   return (
     <ScreenShell>
       <div className="mb-4 text-center">
-        <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full border border-brass-500/40 bg-brass-500/10 text-3xl">
-          {solved ? '🎉' : '🔍'}
+        <div
+          className={`mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full border text-3xl ${
+            solved ? 'border-emerald-500/40 bg-emerald-500/10' : 'border-blood-500/40 bg-blood-500/10'
+          }`}
+        >
+          {solved ? '🎉' : escaped ? '🏃' : '🔍'}
         </div>
-        <h1 className={`text-2xl font-bold ${solved ? 'text-emerald-400' : 'text-brass-300'}`}>
-          {solved ? 'برافو! مسكتوا المجرم' : 'الحقيقة اتكشفت'}
+        <h1 className={`text-2xl font-bold ${solved ? 'text-emerald-400' : 'text-blood-400'}`}>
+          {solved ? 'برافو! مسكتوا المجرم' : escaped ? 'المجرم هرب منكم!' : 'الحقيقة اتكشفت'}
         </h1>
+        {!solved && escaped && (
+          <p className="mt-1 text-sm text-muted">طلّعتوا كل الأبرياء وفضل هو لوحده… المرة الجاية ركّزوا أكتر.</p>
+        )}
       </div>
       {sol && (
         <div className="flex-1 space-y-4 overflow-y-auto scroll-thin">

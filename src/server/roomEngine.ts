@@ -36,6 +36,10 @@ export interface RoomState {
   revealedClues: number;
   wrongAttempts: number;
   lastAccusedId: string | null;
+  /** playerIds voted out so far (Mafia-style elimination). */
+  eliminated: string[];
+  /** True once only the culprit is left standing — the group lost. */
+  escaped: boolean;
   round: number;
   createdAt: number;
   updatedAt: number;
@@ -86,6 +90,20 @@ function player(state: RoomState, playerId: string): RoomPlayer {
   return p;
 }
 
+// ---- Elimination helpers (Mafia-style voting) ----
+/** Players still in the game (not voted out). */
+function livePlayers(state: RoomState): RoomPlayer[] {
+  return state.players.filter((p) => !state.eliminated.includes(p.id));
+}
+/** Characters of players still in the game — the valid vote targets. */
+function liveChars(state: RoomState): Set<string> {
+  return new Set(livePlayers(state).map((p) => state.assignments[p.id]));
+}
+/** Players who still get to vote this round (in the game + connected). */
+function activeVoters(state: RoomState, now: number): RoomPlayer[] {
+  return livePlayers(state).filter((p) => now - p.lastSeen < DISCONNECT_MS);
+}
+
 // ---- Mutations (each returns the updated state; throws RoomError on misuse) ----
 
 export function createRoom(caseId: string, hostName: string, hostGender: Gender, now: number): {
@@ -106,6 +124,8 @@ export function createRoom(caseId: string, hostName: string, hostGender: Gender,
     revealedClues: 0,
     wrongAttempts: 0,
     lastAccusedId: null,
+    eliminated: [],
+    escaped: false,
     round: 0,
     createdAt: now,
     updatedAt: now,
@@ -197,6 +217,8 @@ function dealRoles(state: RoomState, now: number) {
   state.revealedClues = 0;
   state.wrongAttempts = 0;
   state.lastAccusedId = null;
+  state.eliminated = [];
+  state.escaped = false;
   state.players.forEach((p) => (p.vote = null));
   state.updatedAt = now;
 }
@@ -235,9 +257,9 @@ export function openVoting(state: RoomState, playerId: string, now: number): Roo
 export function castVote(state: RoomState, playerId: string, characterId: string, now: number): RoomState {
   if (state.phase !== 'voting') throw new RoomError('مفيش تصويت دلوقتي', 'BAD_PHASE');
   const p = player(state, playerId);
-  // The target must be a character actually dealt to a player…
-  const assignedCharIds = new Set(Object.values(state.assignments));
-  if (!assignedCharIds.has(characterId)) throw new RoomError('المشتبه ده مش من اللاعبين', 'BAD_TARGET');
+  if (state.eliminated.includes(playerId)) throw new RoomError('إنت طلعت من اللعبة، بتتفرّج بس', 'ELIMINATED');
+  // The target must be a player who is still in the game…
+  if (!liveChars(state).has(characterId)) throw new RoomError('المشتبه ده مش من اللاعبين', 'BAD_TARGET');
   // …and you can't accuse yourself.
   if (state.assignments[playerId] === characterId) throw new RoomError('مش هتقدر تصوّت على نفسك', 'SELF_VOTE');
   p.vote = characterId;
@@ -246,10 +268,12 @@ export function castVote(state: RoomState, playerId: string, characterId: string
   return state;
 }
 
-/** Tally votes to a single accusation (plurality; ties broken at random). */
+/** Tally votes (still-in players only) to a single accusation; ties broken at random. */
 function tally(state: RoomState): string | null {
   const counts = new Map<string, number>();
-  for (const p of state.players) if (p.vote) counts.set(p.vote, (counts.get(p.vote) ?? 0) + 1);
+  for (const p of state.players) {
+    if (p.vote && !state.eliminated.includes(p.id)) counts.set(p.vote, (counts.get(p.vote) ?? 0) + 1);
+  }
   if (!counts.size) return null;
   const max = Math.max(...counts.values());
   const top = [...counts.entries()].filter(([, n]) => n === max).map(([id]) => id);
@@ -259,14 +283,27 @@ function tally(state: RoomState): string | null {
 export function resolveVoting(state: RoomState, playerId: string, now: number): RoomState {
   requireHost(state, playerId);
   if (state.phase !== 'voting') throw new RoomError('مفيش تصويت يتقفل', 'BAD_PHASE');
+  // Everyone still in the game (and connected) has to vote first.
+  if (activeVoters(state, now).some((p) => p.vote == null)) {
+    throw new RoomError('لسه في حد ماصوّتش', 'NOT_ALL_VOTED');
+  }
   const accused = tally(state);
   if (!accused) throw new RoomError('محدش صوّت لسه', 'NO_VOTES');
   state.lastAccusedId = accused;
   if (accused === state.criminalId) {
-    state.phase = 'solved';
+    state.phase = 'solved'; // caught the killer — the group wins
   } else {
+    // Most-voted player is ejected, even though they're innocent.
+    const ejected = state.players.find((p) => state.assignments[p.id] === accused);
+    if (ejected && !state.eliminated.includes(ejected.id)) state.eliminated.push(ejected.id);
     state.wrongAttempts += 1;
-    state.phase = 'wrong';
+    if (livePlayers(state).length <= 1) {
+      // only the culprit is left — they got away
+      state.phase = 'final';
+      state.escaped = true;
+    } else {
+      state.phase = 'wrong';
+    }
   }
   state.updatedAt = now;
   return state;
@@ -277,12 +314,9 @@ export function continueAfterWrong(state: RoomState, playerId: string, now: numb
   if (state.phase !== 'wrong') throw new RoomError('مش وقتها', 'BAD_PHASE');
   const c = requireCase(state.caseId);
   const total = cluesFor(c, state.criminalId ?? c.criminalId).length;
-  if (state.revealedClues < total) {
-    state.revealedClues += 1;
-    state.phase = 'clues';
-  } else {
-    state.phase = 'final';
-  }
+  if (state.revealedClues < total) state.revealedClues += 1;
+  // Back to discussion for another round; the ejected player stays out.
+  state.phase = 'clues';
   state.players.forEach((p) => (p.vote = null));
   state.updatedAt = now;
   return state;
@@ -312,12 +346,14 @@ export interface PublicPlayer {
   isHost: boolean;
   connected: boolean;
   hasVoted: boolean;
+  /** Voted out of the game. */
+  eliminated: boolean;
 }
 export interface RoomView {
   code: string;
   phase: RoomPhase;
   round: number;
-  you: { id: string; name: string; gender: Gender; isHost: boolean } | null;
+  you: { id: string; name: string; gender: Gender; isHost: boolean; eliminated: boolean } | null;
   players: PublicPlayer[];
   case: { id: string; title: string; theme: string; difficulty: string; description: string; victim: string };
   suspects: { id: string; name: string; age: number; gender: Gender; occupation: string }[];
@@ -326,13 +362,19 @@ export interface RoomView {
   revealedClues: number;
   totalClues: number;
   votesIn: number;
+  /** How many players still have to vote this round. */
+  eligibleVoters: number;
   myVote: string | null;
+  /** The player just voted out (shown on the wrong-guess screen). */
+  lastEjected: { playerName: string; characterName: string } | null;
   /** Only present once the case is over. */
   solution: {
     criminalId: string;
     criminalName: string;
     culpritPlayerName: string | null;
     accusedId: string | null;
+    /** True when the culprit got away (group lost). */
+    escaped: boolean;
     explanation: string;
     cast: { playerName: string; characterId: string; characterName: string }[];
   } | null;
@@ -346,8 +388,16 @@ export function viewFor(state: RoomState, playerId: string, now: number): RoomVi
   const charById = new Map(c.characters.map((ch) => [ch.id, ch] as const));
   const myCharId = me ? state.assignments[me.id] : undefined;
   const myChar = myCharId ? charById.get(myCharId) ?? null : null;
-  // Only characters actually dealt to players are real suspects.
-  const assignedCharIds = new Set(Object.values(state.assignments));
+  // Real suspects = players still in the game.
+  const liveCharSet = liveChars(state);
+
+  // The player just voted out, surfaced on the wrong-guess screen.
+  let lastEjected: RoomView['lastEjected'] = null;
+  if (state.phase === 'wrong' && state.lastAccusedId) {
+    const ej = state.players.find((p) => state.assignments[p.id] === state.lastAccusedId);
+    const ch = ej ? charById.get(state.assignments[ej.id]) : undefined;
+    if (ej && ch) lastEjected = { playerName: ej.name, characterName: ch.name };
+  }
 
   const totalClues = state.criminalId ? cluesFor(c, state.criminalId).length : c.clues.length;
   const revealed = state.criminalId
@@ -363,6 +413,7 @@ export function viewFor(state: RoomState, playerId: string, now: number): RoomVi
       criminalName: criminal.name,
       culpritPlayerName: culpritPlayer?.name ?? null,
       accusedId: state.lastAccusedId,
+      escaped: state.escaped,
       explanation: explanationFor(c, state.criminalId),
       cast: state.players.map((p) => {
         const ch = charById.get(state.assignments[p.id]);
@@ -375,7 +426,9 @@ export function viewFor(state: RoomState, playerId: string, now: number): RoomVi
     code: state.code,
     phase: state.phase,
     round: state.round,
-    you: me ? { id: me.id, name: me.name, gender: me.gender, isHost: me.isHost } : null,
+    you: me
+      ? { id: me.id, name: me.name, gender: me.gender, isHost: me.isHost, eliminated: state.eliminated.includes(me.id) }
+      : null,
     players: state.players.map((p) => ({
       id: p.id,
       name: p.name,
@@ -383,6 +436,7 @@ export function viewFor(state: RoomState, playerId: string, now: number): RoomVi
       isHost: p.isHost,
       connected: now - p.lastSeen < DISCONNECT_MS,
       hasVoted: p.vote != null,
+      eliminated: state.eliminated.includes(p.id),
     })),
     case: {
       id: c.id,
@@ -393,9 +447,9 @@ export function viewFor(state: RoomState, playerId: string, now: number): RoomVi
       victim: c.victim,
     },
     // Suspect roster for the voting screen — public info only, no secrets.
-    // Only players who are actually in the game, and never yourself.
+    // Only players still in the game, and never yourself.
     suspects: c.characters
-      .filter((ch) => assignedCharIds.has(ch.id) && ch.id !== myCharId)
+      .filter((ch) => liveCharSet.has(ch.id) && ch.id !== myCharId)
       .map((ch) => ({
         id: ch.id,
         name: ch.name,
@@ -407,8 +461,10 @@ export function viewFor(state: RoomState, playerId: string, now: number): RoomVi
     clues: revealed,
     revealedClues: state.revealedClues,
     totalClues,
-    votesIn: state.players.filter((p) => p.vote != null).length,
+    votesIn: state.players.filter((p) => p.vote != null && !state.eliminated.includes(p.id)).length,
+    eligibleVoters: activeVoters(state, now).length,
     myVote: me?.vote ?? null,
+    lastEjected,
     solution,
   };
 }

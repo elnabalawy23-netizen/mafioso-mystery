@@ -122,38 +122,57 @@ for (const caseId of cases) {
     ok(state.phase === 'clues' && state.revealedClues === 1, `${caseId}: first clue not shown`);
     checkSecurity(state, ids, `${caseId}/clues`);
 
-    // everyone votes for a WRONG suspect (an assigned non-culprit, never themselves) -> wrong
+    // --- Round 1: everyone piles votes on the same innocent X -> X is ejected ---
     openVoting(state, ids[0], 3100);
     const assignedIds = Object.values(state.assignments);
+    const X = assignedIds.find((cid) => cid !== state.criminalId)!; // an innocent character
+    const xOwner = ids.find((id) => state.assignments[id] === X)!;
+
+    // can't resolve before everyone votes
+    let earlyThrew = false;
+    try {
+      resolveVoting(state, ids[0], 3150);
+    } catch {
+      earlyThrew = true;
+    }
+    ok(earlyThrew, `${caseId}: resolve before all voted should throw`);
+
     const wrongTargets: Record<string, string> = {};
     for (const id of ids) {
-      const t = assignedIds.find((cid) => cid !== state.criminalId && cid !== state.assignments[id])!;
+      const t = id === xOwner ? assignedIds.find((cid) => cid !== X && cid !== state.assignments[id])! : X;
       wrongTargets[id] = t;
       castVote(state, id, t, 3200);
     }
     checkSecurity(state, ids, `${caseId}/voting`);
-    // during voting, no one sees others' vote targets
     for (const id of ids) {
       const v = viewFor(state, id, 3200);
       ok(v.myVote === wrongTargets[id], `${caseId}: myVote wrong`);
-      ok(v.votesIn === ids.length, `${caseId}: votesIn count wrong`);
-      // you are never offered yourself, and every suspect is a real player
+      ok(v.votesIn === ids.length && v.eligibleVoters === ids.length, `${caseId}: vote counts wrong`);
       ok(v.suspects.every((s) => s.id !== state.assignments[id]), `${caseId}: self in suspects`);
-      ok(v.suspects.every((s) => assignedIds.includes(s.id)), `${caseId}: non-player in suspects`);
       ok(v.suspects.length === ids.length - 1, `${caseId}: suspect count wrong`);
     }
     resolveVoting(state, ids[0], 3300);
-    ok(state.phase === 'wrong', `${caseId}: should be wrong after wrong accusation`);
+    ok(state.phase === 'wrong', `${caseId}: innocent ejected should be 'wrong'`);
+    ok(state.eliminated.includes(xOwner), `${caseId}: ejected player not eliminated`);
     checkSecurity(state, ids, `${caseId}/wrong`);
 
-    // continue -> next clue, then everyone votes for the REAL culprit -> solved
+    // --- continue -> clue 2 ---
     continueAfterWrong(state, ids[0], 3400);
     ok(state.phase === 'clues' && state.revealedClues === 2, `${caseId}: second clue not shown`);
+
+    // --- Round 2: the ejected player can't vote; the rest catch the culprit -> solved ---
     openVoting(state, ids[0], 3500);
+    let outThrew = false;
+    try {
+      castVote(state, xOwner, state.criminalId!, 3550);
+    } catch {
+      outThrew = true;
+    }
+    ok(outThrew, `${caseId}: eliminated player vote should throw`);
     for (const id of ids) {
+      if (id === xOwner) continue; // out of the game
       if (state.assignments[id] === state.criminalId) {
-        // the culprit can't accuse themselves — they vote someone else (stays a minority)
-        const other = assignedIds.find((cid) => cid !== state.criminalId)!;
+        const other = assignedIds.find((cid) => cid !== state.criminalId && cid !== X)!;
         castVote(state, id, other, 3600);
       } else {
         castVote(state, id, state.criminalId!, 3600);

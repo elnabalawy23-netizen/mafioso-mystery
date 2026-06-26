@@ -4245,6 +4245,15 @@ function player(state, playerId) {
   if (!p) throw new RoomError("\u0627\u0644\u0644\u0627\u0639\u0628 \u0645\u0634 \u0641\u064A \u0627\u0644\u063A\u0631\u0641\u0629", "NOT_IN_ROOM");
   return p;
 }
+function livePlayers(state) {
+  return state.players.filter((p) => !state.eliminated.includes(p.id));
+}
+function liveChars(state) {
+  return new Set(livePlayers(state).map((p) => state.assignments[p.id]));
+}
+function activeVoters(state, now) {
+  return livePlayers(state).filter((p) => now - p.lastSeen < DISCONNECT_MS);
+}
 function createRoom(caseId, hostName, hostGender, now) {
   requireCase(caseId);
   const name = hostName.trim();
@@ -4260,6 +4269,8 @@ function createRoom(caseId, hostName, hostGender, now) {
     revealedClues: 0,
     wrongAttempts: 0,
     lastAccusedId: null,
+    eliminated: [],
+    escaped: false,
     round: 0,
     createdAt: now,
     updatedAt: now
@@ -4336,6 +4347,8 @@ function dealRoles(state, now) {
   state.revealedClues = 0;
   state.wrongAttempts = 0;
   state.lastAccusedId = null;
+  state.eliminated = [];
+  state.escaped = false;
   state.players.forEach((p) => p.vote = null);
   state.updatedAt = now;
 }
@@ -4369,8 +4382,8 @@ function openVoting(state, playerId, now) {
 function castVote(state, playerId, characterId, now) {
   if (state.phase !== "voting") throw new RoomError("\u0645\u0641\u064A\u0634 \u062A\u0635\u0648\u064A\u062A \u062F\u0644\u0648\u0642\u062A\u064A", "BAD_PHASE");
   const p = player(state, playerId);
-  const assignedCharIds = new Set(Object.values(state.assignments));
-  if (!assignedCharIds.has(characterId)) throw new RoomError("\u0627\u0644\u0645\u0634\u062A\u0628\u0647 \u062F\u0647 \u0645\u0634 \u0645\u0646 \u0627\u0644\u0644\u0627\u0639\u0628\u064A\u0646", "BAD_TARGET");
+  if (state.eliminated.includes(playerId)) throw new RoomError("\u0625\u0646\u062A \u0637\u0644\u0639\u062A \u0645\u0646 \u0627\u0644\u0644\u0639\u0628\u0629\u060C \u0628\u062A\u062A\u0641\u0631\u0651\u062C \u0628\u0633", "ELIMINATED");
+  if (!liveChars(state).has(characterId)) throw new RoomError("\u0627\u0644\u0645\u0634\u062A\u0628\u0647 \u062F\u0647 \u0645\u0634 \u0645\u0646 \u0627\u0644\u0644\u0627\u0639\u0628\u064A\u0646", "BAD_TARGET");
   if (state.assignments[playerId] === characterId) throw new RoomError("\u0645\u0634 \u0647\u062A\u0642\u062F\u0631 \u062A\u0635\u0648\u0651\u062A \u0639\u0644\u0649 \u0646\u0641\u0633\u0643", "SELF_VOTE");
   p.vote = characterId;
   p.lastSeen = now;
@@ -4379,7 +4392,9 @@ function castVote(state, playerId, characterId, now) {
 }
 function tally(state) {
   const counts = /* @__PURE__ */ new Map();
-  for (const p of state.players) if (p.vote) counts.set(p.vote, (counts.get(p.vote) ?? 0) + 1);
+  for (const p of state.players) {
+    if (p.vote && !state.eliminated.includes(p.id)) counts.set(p.vote, (counts.get(p.vote) ?? 0) + 1);
+  }
   if (!counts.size) return null;
   const max = Math.max(...counts.values());
   const top = [...counts.entries()].filter(([, n]) => n === max).map(([id]) => id);
@@ -4388,14 +4403,24 @@ function tally(state) {
 function resolveVoting(state, playerId, now) {
   requireHost(state, playerId);
   if (state.phase !== "voting") throw new RoomError("\u0645\u0641\u064A\u0634 \u062A\u0635\u0648\u064A\u062A \u064A\u062A\u0642\u0641\u0644", "BAD_PHASE");
+  if (activeVoters(state, now).some((p) => p.vote == null)) {
+    throw new RoomError("\u0644\u0633\u0647 \u0641\u064A \u062D\u062F \u0645\u0627\u0635\u0648\u0651\u062A\u0634", "NOT_ALL_VOTED");
+  }
   const accused = tally(state);
   if (!accused) throw new RoomError("\u0645\u062D\u062F\u0634 \u0635\u0648\u0651\u062A \u0644\u0633\u0647", "NO_VOTES");
   state.lastAccusedId = accused;
   if (accused === state.criminalId) {
     state.phase = "solved";
   } else {
+    const ejected = state.players.find((p) => state.assignments[p.id] === accused);
+    if (ejected && !state.eliminated.includes(ejected.id)) state.eliminated.push(ejected.id);
     state.wrongAttempts += 1;
-    state.phase = "wrong";
+    if (livePlayers(state).length <= 1) {
+      state.phase = "final";
+      state.escaped = true;
+    } else {
+      state.phase = "wrong";
+    }
   }
   state.updatedAt = now;
   return state;
@@ -4405,12 +4430,8 @@ function continueAfterWrong(state, playerId, now) {
   if (state.phase !== "wrong") throw new RoomError("\u0645\u0634 \u0648\u0642\u062A\u0647\u0627", "BAD_PHASE");
   const c = requireCase(state.caseId);
   const total = cluesFor(c, state.criminalId ?? c.criminalId).length;
-  if (state.revealedClues < total) {
-    state.revealedClues += 1;
-    state.phase = "clues";
-  } else {
-    state.phase = "final";
-  }
+  if (state.revealedClues < total) state.revealedClues += 1;
+  state.phase = "clues";
   state.players.forEach((p) => p.vote = null);
   state.updatedAt = now;
   return state;
@@ -4435,7 +4456,13 @@ function viewFor(state, playerId, now) {
   const charById = new Map(c.characters.map((ch) => [ch.id, ch]));
   const myCharId = me ? state.assignments[me.id] : void 0;
   const myChar = myCharId ? charById.get(myCharId) ?? null : null;
-  const assignedCharIds = new Set(Object.values(state.assignments));
+  const liveCharSet = liveChars(state);
+  let lastEjected = null;
+  if (state.phase === "wrong" && state.lastAccusedId) {
+    const ej = state.players.find((p) => state.assignments[p.id] === state.lastAccusedId);
+    const ch = ej ? charById.get(state.assignments[ej.id]) : void 0;
+    if (ej && ch) lastEjected = { playerName: ej.name, characterName: ch.name };
+  }
   const totalClues = state.criminalId ? cluesFor(c, state.criminalId).length : c.clues.length;
   const revealed = state.criminalId ? cluesFor(c, state.criminalId).slice(0, state.revealedClues) : [];
   let solution = null;
@@ -4447,6 +4474,7 @@ function viewFor(state, playerId, now) {
       criminalName: criminal.name,
       culpritPlayerName: culpritPlayer?.name ?? null,
       accusedId: state.lastAccusedId,
+      escaped: state.escaped,
       explanation: explanationFor(c, state.criminalId),
       cast: state.players.map((p) => {
         const ch = charById.get(state.assignments[p.id]);
@@ -4458,14 +4486,15 @@ function viewFor(state, playerId, now) {
     code: state.code,
     phase: state.phase,
     round: state.round,
-    you: me ? { id: me.id, name: me.name, gender: me.gender, isHost: me.isHost } : null,
+    you: me ? { id: me.id, name: me.name, gender: me.gender, isHost: me.isHost, eliminated: state.eliminated.includes(me.id) } : null,
     players: state.players.map((p) => ({
       id: p.id,
       name: p.name,
       gender: p.gender,
       isHost: p.isHost,
       connected: now - p.lastSeen < DISCONNECT_MS,
-      hasVoted: p.vote != null
+      hasVoted: p.vote != null,
+      eliminated: state.eliminated.includes(p.id)
     })),
     case: {
       id: c.id,
@@ -4476,8 +4505,8 @@ function viewFor(state, playerId, now) {
       victim: c.victim
     },
     // Suspect roster for the voting screen — public info only, no secrets.
-    // Only players who are actually in the game, and never yourself.
-    suspects: c.characters.filter((ch) => assignedCharIds.has(ch.id) && ch.id !== myCharId).map((ch) => ({
+    // Only players still in the game, and never yourself.
+    suspects: c.characters.filter((ch) => liveCharSet.has(ch.id) && ch.id !== myCharId).map((ch) => ({
       id: ch.id,
       name: ch.name,
       age: ch.age,
@@ -4488,8 +4517,10 @@ function viewFor(state, playerId, now) {
     clues: revealed,
     revealedClues: state.revealedClues,
     totalClues,
-    votesIn: state.players.filter((p) => p.vote != null).length,
+    votesIn: state.players.filter((p) => p.vote != null && !state.eliminated.includes(p.id)).length,
+    eligibleVoters: activeVoters(state, now).length,
     myVote: me?.vote ?? null,
+    lastEjected,
     solution
   };
 }
