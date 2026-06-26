@@ -3,6 +3,7 @@ import {
   createRoom,
   joinRoom,
   startGame,
+  showRoles,
   beginInvestigation,
   revealNextClue,
   openVoting,
@@ -31,7 +32,8 @@ function buildStarted(caseId: string, genders: ('male' | 'female')[]): { state: 
     const r = joinRoom(state, 'P' + i, genders[i], now + i);
     ids.push(r.playerId);
   }
-  startGame(state, ids[0], now + 100);
+  startGame(state, ids[0], now + 100); // -> story
+  showRoles(state, ids[0], now + 150); // story -> roles
   return { state, ids };
 }
 
@@ -194,9 +196,11 @@ for (const caseId of cases) {
       ok(v.solution!.cast.length === ids.length, `${caseId}: cast incomplete`);
     }
 
-    // play again -> fresh roles, secrets hidden again
+    // play again -> story first, then roles; secrets hidden again
     playAgain(state, ids[0], 3900);
-    ok(state.phase === 'roles', `${caseId}: playAgain should return to roles`);
+    ok(state.phase === 'story', `${caseId}: playAgain should return to the story`);
+    showRoles(state, ids[0], 3950);
+    ok(state.phase === 'roles', `${caseId}: showRoles after replay -> roles`);
     checkSecurity(state, ids, `${caseId}/replay-roles`);
   }
 }
@@ -262,6 +266,35 @@ console.log('voting target guards...');
   const valid = Object.values(state.assignments).find((cid) => cid !== state.assignments[ids[0]])!;
   castVote(state, ids[0], valid, 140);
   ok(state.players.find((p) => p.id === ids[0])!.vote === valid, 'valid vote should be recorded');
+}
+
+// 4b) The crime story comes before the secret roles.
+console.log('story-before-roles...');
+{
+  const now = 1;
+  const { state, playerId } = createRoom('m5', 'Host', 'male', now);
+  const ids = [playerId];
+  for (const g of ['female', 'male', 'female'] as ('male' | 'female')[]) ids.push(joinRoom(state, 'P', g, now).playerId);
+  startGame(state, ids[0], now);
+  ok(state.phase === 'story', 'start lands on the crime story, not the roles');
+  // can't jump to clues before revealing roles
+  let earlyBegin = false;
+  try {
+    beginInvestigation(state, ids[0], now);
+  } catch {
+    earlyBegin = true;
+  }
+  ok(earlyBegin, 'beginInvestigation before showRoles should throw');
+  // non-host cannot reveal roles
+  let nonHost = false;
+  try {
+    showRoles(state, ids[1], now);
+  } catch {
+    nonHost = true;
+  }
+  ok(nonHost, 'non-host showRoles should throw');
+  showRoles(state, ids[0], now);
+  ok(state.phase === 'roles', 'showRoles moves story -> roles');
 }
 
 // 4) Host can reveal the next clue during discussion without anyone voting.

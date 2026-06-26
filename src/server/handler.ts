@@ -52,6 +52,9 @@ export async function handleRoom(store: RoomStore, payload: Record<string, any>)
       case 'start':
         E.startGame(state, pid, now);
         return okView(state, pid);
+      case 'showRoles':
+        E.showRoles(state, pid, now);
+        return okView(state, pid);
       case 'begin':
         E.beginInvestigation(state, pid, now);
         return okView(state, pid);

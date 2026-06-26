@@ -11,7 +11,7 @@ import type { Character, Clue, Gender, MysteryCase } from '../types';
 import { assignCharacters } from '../game/assignment';
 import { cluesFor, explanationFor, getCaseById, pickCulprit, MIN_PLAYERS } from '../data/cases';
 
-export type RoomPhase = 'lobby' | 'roles' | 'clues' | 'voting' | 'wrong' | 'solved' | 'final';
+export type RoomPhase = 'lobby' | 'story' | 'roles' | 'clues' | 'voting' | 'wrong' | 'solved' | 'final';
 
 export interface RoomPlayer {
   id: string;
@@ -213,7 +213,8 @@ function dealRoles(state: RoomState, now: number) {
   state.assignments = {};
   for (const a of assignments) state.assignments[a.player] = a.character.id;
   state.criminalId = criminalId;
-  state.phase = 'roles';
+  // Everyone reads the crime story first, then the host reveals the secret roles.
+  state.phase = 'story';
   state.revealedClues = 0;
   state.wrongAttempts = 0;
   state.lastAccusedId = null;
@@ -221,6 +222,15 @@ function dealRoles(state: RoomState, now: number) {
   state.escaped = false;
   state.players.forEach((p) => (p.vote = null));
   state.updatedAt = now;
+}
+
+/** After the group reads the crime story, the host reveals everyone's secret role. */
+export function showRoles(state: RoomState, playerId: string, now: number): RoomState {
+  requireHost(state, playerId);
+  if (state.phase !== 'story') throw new RoomError('مش وقتها', 'BAD_PHASE');
+  state.phase = 'roles';
+  state.updatedAt = now;
+  return state;
 }
 
 export function beginInvestigation(state: RoomState, playerId: string, now: number): RoomState {

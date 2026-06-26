@@ -11,6 +11,8 @@ export function InRoom() {
   switch (view.phase) {
     case 'lobby':
       return <Lobby />;
+    case 'story':
+      return <Story />;
     case 'roles':
       return <Roles />;
     case 'clues':
@@ -116,6 +118,52 @@ function MyCharacterCard() {
         </div>
       </div>
     </>
+  );
+}
+
+function Story() {
+  const { view, showRoles, busy } = useOnline();
+  const v = view!;
+  const isHost = !!v.you?.isHost;
+  return (
+    <ScreenShell>
+      <div className="mb-3 text-center">
+        <Eyebrow>ملف القضية</Eyebrow>
+      </div>
+      <div className="relative h-40 shrink-0 overflow-hidden rounded-2xl border border-white/10">
+        <CaseArt caseId={v.case.id} />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/30 to-transparent" />
+        <h1 className="absolute inset-x-0 bottom-0 p-4 text-center font-display text-2xl gold-text leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+          {v.case.title}
+        </h1>
+      </div>
+      <div className="flex-1 space-y-3 overflow-y-auto scroll-thin py-4">
+        <div className="panel border-blood-500/30 p-4">
+          <p className="mb-1 flex items-center gap-2 text-sm font-bold text-blood-400">
+            <span className="text-lg">⚰</span> الضحية
+          </p>
+          <p className="text-[15px] leading-relaxed text-parchment">{v.case.victim}</p>
+        </div>
+        <div className="panel p-4">
+          <p className="mb-1 flex items-center gap-2 text-sm font-bold text-brass-300">
+            <span className="text-lg">📖</span> تفاصيل الجريمة
+          </p>
+          <p className="text-[15px] leading-relaxed text-parchment/95">{v.case.description}</p>
+        </div>
+        <p className="text-center font-serif text-sm italic text-muted">
+          القاتل وسطيكم دلوقتي… دوّروا على الحقيقة.
+        </p>
+      </div>
+      <div className="mt-3">
+        {isHost ? (
+          <Button full disabled={busy} onClick={showRoles}>
+            اظهر الشخصيات
+          </Button>
+        ) : (
+          <p className="text-center text-sm text-muted">اقروا القضية… مستنيين المنظّم يكشف الشخصيات.</p>
+        )}
+      </div>
+    </ScreenShell>
   );
 }
 

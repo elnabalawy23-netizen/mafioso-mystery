@@ -44,6 +44,7 @@ export const roomApi = {
     post<JoinResult>({ action: 'join', code, name, gender }),
   view: v('view'),
   start: v('start'),
+  showRoles: v('showRoles'),
   begin: v('begin'),
   revealClue: v('revealClue'),
   openVote: v('openVote'),

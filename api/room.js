@@ -4343,7 +4343,7 @@ function dealRoles(state, now) {
   state.assignments = {};
   for (const a of assignments) state.assignments[a.player] = a.character.id;
   state.criminalId = criminalId;
-  state.phase = "roles";
+  state.phase = "story";
   state.revealedClues = 0;
   state.wrongAttempts = 0;
   state.lastAccusedId = null;
@@ -4351,6 +4351,13 @@ function dealRoles(state, now) {
   state.escaped = false;
   state.players.forEach((p) => p.vote = null);
   state.updatedAt = now;
+}
+function showRoles(state, playerId, now) {
+  requireHost(state, playerId);
+  if (state.phase !== "story") throw new RoomError("\u0645\u0634 \u0648\u0642\u062A\u0647\u0627", "BAD_PHASE");
+  state.phase = "roles";
+  state.updatedAt = now;
+  return state;
 }
 function beginInvestigation(state, playerId, now) {
   requireHost(state, playerId);
@@ -4563,6 +4570,9 @@ async function handleRoom(store2, payload) {
         return { status: 200, body: { ok: true } };
       case "start":
         startGame(state, pid, now);
+        return okView(state, pid);
+      case "showRoles":
+        showRoles(state, pid, now);
         return okView(state, pid);
       case "begin":
         beginInvestigation(state, pid, now);

@@ -30,6 +30,7 @@ interface OnlineCtx extends OnlineState {
   join: (code: string, name: string, gender: Gender) => Promise<void>;
   leave: () => Promise<void>;
   start: () => Promise<void>;
+  showRoles: () => Promise<void>;
   begin: () => Promise<void>;
   revealClue: () => Promise<void>;
   openVote: () => Promise<void>;
@@ -175,6 +176,7 @@ export function OnlineProvider({ children }: { children: ReactNode }) {
     join,
     leave,
     start: act(roomApi.start),
+    showRoles: act(roomApi.showRoles),
     begin: act(roomApi.begin),
     revealClue: act(roomApi.revealClue),
     openVote: act(roomApi.openVote),
