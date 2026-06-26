@@ -45,6 +45,7 @@ export const roomApi = {
   view: v('view'),
   start: v('start'),
   begin: v('begin'),
+  revealClue: v('revealClue'),
   openVote: v('openVote'),
   vote: (code: string, playerId: string, characterId: string) =>
     post<{ view: RoomView }>({ action: 'vote', code, playerId, characterId }),

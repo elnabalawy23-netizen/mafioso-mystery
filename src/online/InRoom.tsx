@@ -147,8 +147,9 @@ function Roles() {
 }
 
 function Clues() {
-  const { view, openVote, busy } = useOnline();
+  const { view, revealClue, openVote, busy } = useOnline();
   const v = view!;
+  const moreClues = v.revealedClues < v.totalClues;
   const isHost = !!v.you?.isHost;
   const [showChar, setShowChar] = useState(false);
   useEffect(() => {
@@ -185,13 +186,22 @@ function Clues() {
           <p className="pt-1 text-center text-xs text-muted">اتناقشوا على المكالمة… مين المشتبه فيه؟</p>
         </div>
       )}
-      <div className="mt-4">
+      <div className="mt-4 space-y-2">
         {isHost ? (
-          <Button full disabled={busy} onClick={openVote}>
-            يلا نصوّت على المتهم
-          </Button>
+          <>
+            {moreClues && (
+              <Button full variant="outline" disabled={busy} onClick={revealClue}>
+                🔍 اكشف الدليل اللي بعده
+              </Button>
+            )}
+            <Button full disabled={busy} onClick={openVote}>
+              يلا نصوّت على المتهم
+            </Button>
+          </>
         ) : (
-          <p className="text-center text-sm text-muted">مستنيين المنظّم يفتح التصويت…</p>
+          <p className="text-center text-sm text-muted">
+            {moreClues ? 'مستنيين المنظّم يكشف أدلة أكتر أو يفتح التصويت…' : 'مستنيين المنظّم يفتح التصويت…'}
+          </p>
         )}
       </div>
     </ScreenShell>

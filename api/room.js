@@ -4347,6 +4347,17 @@ function beginInvestigation(state, playerId, now) {
   state.updatedAt = now;
   return state;
 }
+function revealNextClue(state, playerId, now) {
+  requireHost(state, playerId);
+  if (state.phase !== "clues") throw new RoomError("\u0645\u0634 \u0648\u0642\u062A\u0647\u0627", "BAD_PHASE");
+  const c = requireCase(state.caseId);
+  const total = cluesFor(c, state.criminalId ?? c.criminalId).length;
+  if (state.revealedClues < total) {
+    state.revealedClues += 1;
+    state.updatedAt = now;
+  }
+  return state;
+}
 function openVoting(state, playerId, now) {
   requireHost(state, playerId);
   if (state.phase !== "clues" && state.phase !== "wrong") throw new RoomError("\u0645\u0634 \u0648\u0642\u062A\u0647\u0627", "BAD_PHASE");
@@ -4522,6 +4533,9 @@ async function handleRoom(store2, payload) {
         return okView(state, pid);
       case "begin":
         beginInvestigation(state, pid, now);
+        return okView(state, pid);
+      case "revealClue":
+        revealNextClue(state, pid, now);
         return okView(state, pid);
       case "openVote":
         openVoting(state, pid, now);

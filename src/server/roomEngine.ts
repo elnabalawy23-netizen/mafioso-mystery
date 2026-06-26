@@ -210,6 +210,19 @@ export function beginInvestigation(state: RoomState, playerId: string, now: numb
   return state;
 }
 
+/** Host pulls the next clue during discussion — no need to vote first. */
+export function revealNextClue(state: RoomState, playerId: string, now: number): RoomState {
+  requireHost(state, playerId);
+  if (state.phase !== 'clues') throw new RoomError('مش وقتها', 'BAD_PHASE');
+  const c = requireCase(state.caseId);
+  const total = cluesFor(c, state.criminalId ?? c.criminalId).length;
+  if (state.revealedClues < total) {
+    state.revealedClues += 1;
+    state.updatedAt = now;
+  }
+  return state;
+}
+
 export function openVoting(state: RoomState, playerId: string, now: number): RoomState {
   requireHost(state, playerId);
   if (state.phase !== 'clues' && state.phase !== 'wrong') throw new RoomError('مش وقتها', 'BAD_PHASE');

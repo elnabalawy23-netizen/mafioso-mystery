@@ -55,6 +55,9 @@ export async function handleRoom(store: RoomStore, payload: Record<string, any>)
       case 'begin':
         E.beginInvestigation(state, pid, now);
         return okView(state, pid);
+      case 'revealClue':
+        E.revealNextClue(state, pid, now);
+        return okView(state, pid);
       case 'openVote':
         E.openVoting(state, pid, now);
         return okView(state, pid);

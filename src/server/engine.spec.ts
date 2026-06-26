@@ -4,6 +4,7 @@ import {
   joinRoom,
   startGame,
   beginInvestigation,
+  revealNextClue,
   openVoting,
   castVote,
   resolveVoting,
@@ -237,6 +238,30 @@ console.log('voting target guards...');
   const valid = Object.values(state.assignments).find((cid) => cid !== state.assignments[ids[0]])!;
   castVote(state, ids[0], valid, 140);
   ok(state.players.find((p) => p.id === ids[0])!.vote === valid, 'valid vote should be recorded');
+}
+
+// 4) Host can reveal the next clue during discussion without anyone voting.
+console.log('reveal-next-clue...');
+{
+  const { state, ids } = buildStarted('c1', ['male', 'female', 'male', 'female']);
+  beginInvestigation(state, ids[0], 100);
+  ok(state.revealedClues === 1, 'discussion starts at clue 1');
+  const cap = viewFor(state, ids[0], 105).totalClues;
+
+  revealNextClue(state, ids[0], 110);
+  ok(state.phase === 'clues' && state.revealedClues === 2, 'host revealed clue 2 without voting');
+
+  let threw = false;
+  try {
+    revealNextClue(state, ids[1], 120); // not the host
+  } catch {
+    threw = true;
+  }
+  ok(threw, 'non-host revealNextClue should throw');
+
+  for (let i = 0; i < cap + 5; i++) revealNextClue(state, ids[0], 130 + i);
+  ok(state.revealedClues === cap, 'revealNextClue caps at totalClues');
+  ok(state.phase === 'clues', 'stays in clues phase after capping');
 }
 
 console.log(failures === 0 ? '\nPASS — all engine flow + security checks green' : `\nFAIL — ${failures} check(s) failed`);
