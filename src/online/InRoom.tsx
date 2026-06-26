@@ -146,6 +146,23 @@ function Roles() {
   );
 }
 
+/** A persistent strip of who's already been voted out (all innocent). */
+function EjectedStrip() {
+  const { view } = useOnline();
+  const ejected = view?.ejected ?? [];
+  if (ejected.length === 0) return null;
+  return (
+    <div className="mb-3 flex flex-wrap items-center gap-1.5 rounded-xl border border-white/10 bg-ink-800/40 px-3 py-2">
+      <span className="text-[11px] font-semibold text-muted">طلعوا (أبرياء):</span>
+      {ejected.map((e, i) => (
+        <span key={i} className="rounded-full bg-blood-500/12 px-2 py-0.5 text-[11px] text-blood-300/90">
+          💀 {e.playerName} <span className="text-muted">({e.characterName})</span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
 function Clues() {
   const { view, revealClue, openVote, busy } = useOnline();
   const v = view!;
@@ -163,6 +180,7 @@ function Clues() {
           {showChar ? '× إخفاء' : 'افتكر شخصيتي'}
         </button>
       </div>
+      {!showChar && <EjectedStrip />}
       {showChar ? (
         <div className="flex min-h-0 flex-1 flex-col">
           <MyCharacterCard />
@@ -222,6 +240,7 @@ function Voting() {
       <p className="mb-3 text-center text-sm text-muted">
         مين المجرم؟ أكتر حد تصوّتوا عليه يطلع من اللعبة. ({v.votesIn} من {v.eligibleVoters} صوّتوا)
       </p>
+      <EjectedStrip />
       {iAmOut ? (
         <div className="flex flex-1 flex-col items-center justify-center text-center text-muted">
           <div className="mb-3 text-5xl">💀</div>

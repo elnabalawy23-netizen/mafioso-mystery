@@ -4457,6 +4457,7 @@ function viewFor(state, playerId, now) {
   const myCharId = me ? state.assignments[me.id] : void 0;
   const myChar = myCharId ? charById.get(myCharId) ?? null : null;
   const liveCharSet = liveChars(state);
+  const ejected = state.eliminated.map((pid) => state.players.find((p) => p.id === pid)).filter((p) => !!p).map((p) => ({ playerName: p.name, characterName: charById.get(state.assignments[p.id])?.name ?? "\u2014" }));
   let lastEjected = null;
   if (state.phase === "wrong" && state.lastAccusedId) {
     const ej = state.players.find((p) => state.assignments[p.id] === state.lastAccusedId);
@@ -4521,6 +4522,7 @@ function viewFor(state, playerId, now) {
     eligibleVoters: activeVoters(state, now).length,
     myVote: me?.vote ?? null,
     lastEjected,
+    ejected,
     solution
   };
 }

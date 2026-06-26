@@ -367,6 +367,8 @@ export interface RoomView {
   myVote: string | null;
   /** The player just voted out (shown on the wrong-guess screen). */
   lastEjected: { playerName: string; characterName: string } | null;
+  /** Everyone voted out so far (in order) — all innocent, with their revealed role. */
+  ejected: { playerName: string; characterName: string }[];
   /** Only present once the case is over. */
   solution: {
     criminalId: string;
@@ -390,6 +392,12 @@ export function viewFor(state: RoomState, playerId: string, now: number): RoomVi
   const myChar = myCharId ? charById.get(myCharId) ?? null : null;
   // Real suspects = players still in the game.
   const liveCharSet = liveChars(state);
+
+  // Everyone voted out so far (all innocent) — name + their now-revealed role.
+  const ejected = state.eliminated
+    .map((pid) => state.players.find((p) => p.id === pid))
+    .filter((p): p is RoomPlayer => !!p)
+    .map((p) => ({ playerName: p.name, characterName: charById.get(state.assignments[p.id])?.name ?? '—' }));
 
   // The player just voted out, surfaced on the wrong-guess screen.
   let lastEjected: RoomView['lastEjected'] = null;
@@ -465,6 +473,7 @@ export function viewFor(state: RoomState, playerId: string, now: number): RoomVi
     eligibleVoters: activeVoters(state, now).length,
     myVote: me?.vote ?? null,
     lastEjected,
+    ejected,
     solution,
   };
 }

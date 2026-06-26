@@ -154,6 +154,11 @@ for (const caseId of cases) {
     resolveVoting(state, ids[0], 3300);
     ok(state.phase === 'wrong', `${caseId}: innocent ejected should be 'wrong'`);
     ok(state.eliminated.includes(xOwner), `${caseId}: ejected player not eliminated`);
+    const xName = state.players.find((p) => p.id === xOwner)!.name;
+    ok(
+      viewFor(state, ids[1], 3310).ejected.some((e) => e.playerName === xName),
+      `${caseId}: ejected list should include the voted-out player`,
+    );
     checkSecurity(state, ids, `${caseId}/wrong`);
 
     // --- continue -> clue 2 ---
